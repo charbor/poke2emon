@@ -1,12 +1,11 @@
 import type { PokemonConcept, PipelineStep, StepStatus } from "../src/types";
-import { analyzeImage, generateTextStream, generateImage, editImage } from "./gemini";
+import { analyzeImage, generateTextStream, generateImage } from "./gemini";
 import { generateVideo } from "./veo";
 import { storeMedia } from "./media";
 import {
   ANALYZE_IMAGE_PROMPT,
   buildDesignPrompt,
   buildSpritePrompt,
-  buildMaskPrompt,
   buildVideoPrompt,
 } from "./prompts";
 
@@ -65,25 +64,14 @@ export async function runPipeline(
     write("concept", concept);
     emitStep(write, "design", "complete", `${concept.name} designed!`);
 
-    // Step 3: Generate sprite on black, then derive alpha mask from it
+    // Step 3: Generate sprite on magenta background (chroma keyed client-side)
     emitStep(write, "illustrate", "active", "Drawing sprite...");
     const spritePrompt = buildSpritePrompt(concept);
     const sprite = await generateImage(spritePrompt);
 
     if (sprite) {
-      emitStep(write, "illustrate", "active", "Generating alpha mask...");
-      const mask = await editImage(
-        "Convert this image to a pure black and white alpha mask. Make the character/subject PURE WHITE (#FFFFFF) and the background PURE BLACK (#000000). No shading, no gradients, no details — just a flat solid white silhouette on solid black. Maintain the exact same shape, pose, and proportions.",
-        sprite.base64,
-        sprite.mimeType,
-      );
-
       const spriteId = storeMedia(sprite.base64, sprite.mimeType);
-      const maskId = mask ? storeMedia(mask.base64, mask.mimeType) : null;
-      write("sprite", {
-        url: `/api/media/${spriteId}`,
-        maskUrl: maskId ? `/api/media/${maskId}` : null,
-      });
+      write("sprite", { url: `/api/media/${spriteId}` });
       emitStep(write, "illustrate", "complete", "Sprite created!");
     } else {
       emitStep(write, "illustrate", "error", "Sprite generation failed");

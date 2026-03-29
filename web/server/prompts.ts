@@ -72,12 +72,13 @@ Type(s): ${concept.types.join("/")}
 Style requirements:
 - 2D pixel art style, like classic Pokemon game sprites
 - Front-facing view, centered in frame
-- PURE BLACK (#000000) background, completely solid black, no gradients
+- SOLID BRIGHT MAGENTA (#FF00FF) background — the entire background must be exactly this color, no gradients, no variation
 - Bold outlines, vibrant colors from the palette
+- Do NOT use magenta/pink (#FF00FF) anywhere on the Pokemon itself
 - Expressive and dynamic pose
 - Pokemon should fill most of the frame
 - Style reminiscent of Pokemon Black/White era sprites
-- No shadows or glow on the background — just solid black`;
+- No shadows or glow on the background — just flat solid magenta`;
 }
 
 export function buildMaskPrompt(concept: SpritePromptConcept): string {

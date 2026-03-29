@@ -11,50 +11,48 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 }
 
 /**
- * Composite a premultiplied-alpha sprite (on black) with a mask
- * (white = opaque, black = transparent). Returns an object URL
- * of the resulting PNG with proper transparency.
+ * Chroma key magenta (#FF00FF) background to transparent.
+ * Uses color distance to handle anti-aliased edges gracefully.
  */
-export async function compositeSprite(
-  spriteUrl: string,
-  maskUrl: string,
-): Promise<string> {
-  const [sprite, mask] = await Promise.all([
-    loadImage(spriteUrl),
-    loadImage(maskUrl),
-  ]);
+export async function chromaKey(spriteUrl: string): Promise<string> {
+  const img = await loadImage(spriteUrl);
 
-  const w = sprite.width;
-  const h = sprite.height;
+  const w = img.width;
+  const h = img.height;
   const canvas = document.createElement("canvas");
   canvas.width = w;
   canvas.height = h;
   const ctx = canvas.getContext("2d")!;
 
-  // Draw sprite to read pixel data
-  ctx.drawImage(sprite, 0, 0, w, h);
-  const spriteData = ctx.getImageData(0, 0, w, h);
+  ctx.drawImage(img, 0, 0, w, h);
+  const data = ctx.getImageData(0, 0, w, h);
 
-  // Draw mask to read pixel data
-  ctx.clearRect(0, 0, w, h);
-  ctx.drawImage(mask, 0, 0, w, h);
-  const maskData = ctx.getImageData(0, 0, w, h);
+  // Magenta key color: R=255, G=0, B=255
+  const KEY_R = 255, KEY_G = 0, KEY_B = 255;
+  const THRESHOLD = 100; // max distance to count as key color
 
-  // Un-premultiply RGB and apply mask as alpha
-  const out = spriteData;
-  for (let i = 0; i < out.data.length; i += 4) {
-    const a = maskData.data[i + 1] / 255; // mask green → alpha [0,1]
-    if (a > 0) {
-      out.data[i]     = Math.min(255, out.data[i]     / a); // R
-      out.data[i + 1] = Math.min(255, out.data[i + 1] / a); // G
-      out.data[i + 2] = Math.min(255, out.data[i + 2] / a); // B
-    } else {
-      out.data[i] = out.data[i + 1] = out.data[i + 2] = 0;
+  for (let i = 0; i < data.data.length; i += 4) {
+    const r = data.data[i];
+    const g = data.data[i + 1];
+    const b = data.data[i + 2];
+
+    // Color distance from magenta
+    const dr = r - KEY_R;
+    const dg = g - KEY_G;
+    const db = b - KEY_B;
+    const dist = Math.sqrt(dr * dr + dg * dg + db * db);
+
+    if (dist < THRESHOLD) {
+      // Fully transparent for near-magenta pixels
+      data.data[i + 3] = 0;
+    } else if (dist < THRESHOLD * 2) {
+      // Smooth falloff for anti-aliased edges
+      const alpha = Math.min(255, ((dist - THRESHOLD) / THRESHOLD) * 255);
+      data.data[i + 3] = alpha;
     }
-    out.data[i + 3] = maskData.data[i + 1]; // A
   }
 
-  ctx.putImageData(out, 0, 0);
+  ctx.putImageData(data, 0, 0);
 
   return new Promise((resolve) => {
     canvas.toBlob((blob) => {

@@ -239,7 +239,7 @@ def generate_mon(mon, dep_future=None):
 
     prompt_text = (
         f"Generate a sprite sheet of a Pokemon in the style of Gen 4 (Diamond/Pearl/Platinum) pixel art. "
-        f"The image must contain EXACTLY 3 sprites — no more, no less — of the SAME Pokemon arranged in ONE SINGLE HORIZONTAL ROW (NOT a grid, NOT 2x2, NOT stacked vertically) on a plain solid bright magenta (#FF00FF) background. "
+        f"The image must contain EXACTLY 3 sprites — no more, no less — of the SAME Pokemon arranged in ONE SINGLE HORIZONTAL ROW on a plain solid bright magenta (#FF00FF) background. "
         f"The image should be wide/landscape — roughly 3x wider than it is tall. "
         f"LAYOUT: Divide the image into 3 equal-width columns side by side. Each sprite must fit entirely within its column — "
         f"no part of any sprite may cross into an adjacent column. Leave a visible vertical magenta gap between columns. "

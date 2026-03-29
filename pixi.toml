@@ -1,11 +1,18 @@
 [workspace]
 authors = ["Cyris Kissane <cyris.kissane@gmail.com>"]
-channels = ["conda-forge"]
+channels = ["conda-forge", "pytorch"]
 name = "poke2emon"
 platforms = ["linux-64"]
 version = "0.1.0"
 
 [tasks]
+generate-mesh = { cmd = "python scripts/generate_mesh.py", depends-on = [] }
 
 [dependencies]
-python = ">=3.14.3,<3.15"
+python = "3.11.*"
+pytorch = "*"
+torchvision = "*"
+cpuonly = "*"
+
+[pypi-dependencies]
+hy3dgen = { git = "https://github.com/Tencent-Hunyuan/Hunyuan3D-2.git" }

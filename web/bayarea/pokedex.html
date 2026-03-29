@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bay Area Pokedex</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'VT323',monospace;
+  background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);
+  color:#e0e0e0;
+  min-height:100vh;
+  padding:0 0 60px;
+  font-size:18px;
+}
+header{
+  text-align:center;
+  padding:40px 20px 20px;
+}
+header h1{
+  font-family:'Press Start 2P',cursive;
+  font-size:clamp(18px,4vw,36px);
+  color:#e17055;
+  text-shadow:0 0 20px rgba(253,203,110,.4);
+  margin-bottom:10px;
+  letter-spacing:2px;
+}
+header p{
+  font-size:clamp(16px,2.5vw,24px);
+  color:#a29bfe;
+  font-style:italic;
+}
+.top-bar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);
+  box-shadow:0 4px 20px rgba(0,0,0,.5);
+  padding-bottom:12px;
+}
+.top-bar header{padding:16px 20px 8px;}
+.controls{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 20px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  justify-content:center;
+}
+.controls input[type=text]{
+  font-family:'VT323',monospace;
+  font-size:20px;
+  padding:8px 16px;
+  border:2px solid #a29bfe;
+  border-radius:8px;
+  background:#16213e;
+  color:#e0e0e0;
+  outline:none;
+  width:220px;
+  transition:border-color .2s;
+}
+.controls input[type=text]:focus{border-color:#e17055;}
+.filter-btn{
+  font-family:'VT323',monospace;
+  font-size:18px;
+  padding:6px 14px;
+  border:2px solid #555;
+  border-radius:6px;
+  background:#16213e;
+  color:#b2bec3;
+  cursor:pointer;
+  transition:all .2s;
+}
+.filter-btn:hover,.filter-btn.active{
+  border-color:#e17055;
+  color:#e17055;
+  background:#1a1a2e;
+}
+.type-select{
+  font-family:'VT323',monospace;
+  font-size:18px;
+  padding:6px 12px;
+  border:2px solid #555;
+  border-radius:6px;
+  background:#16213e;
+  color:#b2bec3;
+  cursor:pointer;
+  outline:none;
+}
+.grid{
+  max-width:1200px;
+  margin:20px auto;
+  padding:0 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:24px;
+}
+.card{
+  background:linear-gradient(145deg,#16213e,#1a1a2e);
+  border:2px solid #2d3436;
+  border-radius:16px;
+  padding:20px;
+  transition:transform .25s,box-shadow .25s;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+}
+.card.flipped .pokemon-mode-content{display:none !important;}
+.card.flipped .real-mode-content{display:block !important;}
+.card:not(.flipped) .pokemon-mode-content{display:block;}
+.card:not(.flipped) .real-mode-content{display:none;}
+body.real-view .card:not(.flipped) .pokemon-mode-content{display:none;}
+body.real-view .card:not(.flipped) .real-mode-content{display:block;}
+body.real-view .card.flipped .pokemon-mode-content{display:block !important;}
+body.real-view .card.flipped .real-mode-content{display:none !important;}
+.card.hidden{display:none;}
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 8px 30px rgba(162,155,254,.25);
+  border-color:#a29bfe;
+}
+.card-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+.card-number{
+  font-family:'Press Start 2P',cursive;
+  font-size:12px;
+  color:#636e72;
+}
+.type-badges{display:flex;gap:6px;flex-wrap:wrap;}
+.type-badge{
+  font-family:'VT323',monospace;
+  font-size:14px;
+  padding:2px 8px;
+  border-radius:4px;
+  color:#fff;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.sprite-container{
+  display:flex;
+  justify-content:center;
+  margin:10px 0;
+}
+.sprite-container canvas{
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  width:192px;
+  height:192px;
+}
+.pokemon-sprite{
+  width:192px;
+  height:192px;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+}
+.pokemon-sprite-mini{
+  width:72px;
+  height:72px;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+}
+.evo-sprite-img{
+  width:64px;
+  height:64px;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+}
+.card-name{
+  font-family:'Press Start 2P',cursive;
+  font-size:14px;
+  color:#dfe6e9;
+  margin:8px 0 2px;
+}
+.card-title{
+  font-size:16px;
+  color:#636e72;
+  margin-bottom:6px;
+}
+.card-desc{
+  font-size:17px;
+  color:#b2bec3;
+  line-height:1.3;
+  margin-bottom:10px;
+  font-style:italic;
+}
+.moves-list{
+  background:#0d1b2a;
+  border-radius:8px;
+  padding:8px 10px;
+  margin-bottom:10px;
+}
+.moves-list .move-title{
+  font-size:14px;
+  color:#636e72;
+  margin-bottom:4px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.move-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:3px 0;
+  cursor:default;
+  position:relative;
+}
+.move-name{font-size:18px;color:#dfe6e9;flex:1;}
+.move-type-badge{
+  font-size:12px;
+  padding:1px 6px;
+  border-radius:3px;
+  color:#fff;
+  text-transform:uppercase;
+}
+.move-info{
+  font-size:16px;
+  color:#636e72;
+  cursor:help;
+  position:relative;
+}
+.tooltip::after{
+  content:'';
+  position:absolute;
+  top:100%;
+  right:12px;
+  border:6px solid transparent;
+  border-top-color:#555;
+}
+.move-row:hover .tooltip{display:block;}
+.evo-chain{
+  text-align:center;
+  margin:10px 0;
+  padding:10px 0;
+  border-top:1px solid #2d3436;
+}
+.evo-label{
+  font-size:13px;
+  color:#636e72;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+.evo-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+.evo-sprite{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+}
+.evo-sprite canvas{
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  width:72px;
+  height:72px;
+}
+.evo-sprite span{
+  font-size:13px;
+  color:#b2bec3;
+}
+.evo-sprite.current span{color:#e17055;font-weight:bold;}
+.evo-arrow{
+  font-size:24px;
+  color:#636e72;
+  margin:0 2px;
+}
+.real-species{
+  border-top:1px solid #2d3436;
+  margin-top:8px;
+  padding-top:8px;
+}
+.real-toggle{
+  background:none;
+  border:none;
+  color:#636e72;
+  font-family:'VT323',monospace;
+  font-size:18px;
+  cursor:pointer;
+  transition:color .2s;
+  padding:2px 0;
+}
+.real-toggle:hover{color:#a29bfe;}
+.real-content{
+  display:none;
+  margin-top:8px;
+  padding:10px;
+  background:#0d1b2a;
+  border-radius:8px;
+  border:1px solid #2d3436;
+}
+.real-content.open{display:block;}
+.real-content .rname{font-size:18px;color:#dfe6e9;font-weight:bold;}
+.real-content .rsci{font-size:16px;color:#a29bfe;font-style:italic;margin:2px 0;}
+.real-content .rfact{font-size:16px;color:#b2bec3;margin-top:4px;}
+/* === View Toggle Button === */
+.view-toggle{
+  display:inline-flex;
+  border:2px solid #a29bfe;
+  border-radius:20px;
+  overflow:hidden;
+  margin-left:10px;
+}
+.view-toggle button{
+  font-family:'VT323',monospace;
+  font-size:18px;
+  padding:6px 16px;
+  border:none;
+  cursor:pointer;
+  transition:all .25s;
+  background:#16213e;
+  color:#b2bec3;
+}
+.view-toggle button.active{
+  background:linear-gradient(135deg,#a29bfe,#6c5ce7);
+  color:#fff;
+  text-shadow:0 1px 4px rgba(0,0,0,.3);
+}
+.view-toggle button:first-child{border-radius:18px 0 0 18px;}
+.view-toggle button:last-child{border-radius:0 18px 18px 0;}
+.view-toggle button:hover:not(.active){
+  background:#1a1a2e;
+  color:#e17055;
+}
+
+/* === Wiki Image Styles === */
+.wiki-img-wrap{
+  text-align:center;
+  margin:8px 0;
+}
+.wiki-img-wrap img{
+  width:180px;
+  max-width:100%;
+  border-radius:10px;
+  border:2px solid #2d3436;
+  display:block;
+  margin:0 auto;
+  background:#0d1b2a;
+}
+.wiki-img-wrap .img-spinner{
+  width:180px;
+  height:120px;
+  margin:0 auto;
+  border-radius:10px;
+  background:#0d1b2a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px solid #2d3436;
+}
+.wiki-img-wrap .img-spinner::after{
+  content:'';
+  width:28px;height:28px;
+  border:3px solid #636e72;
+  border-top-color:#a29bfe;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.wiki-img-wrap .img-fail{
+  width:180px;
+  height:80px;
+  margin:0 auto;
+  border-radius:10px;
+  background:#0d1b2a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px dashed #2d3436;
+  color:#636e72;
+  font-size:14px;
+}
+
+/* === Enhanced Tooltip === */
+.tooltip{
+  display:none;
+  position:absolute;
+  bottom:calc(100% + 8px);
+  right:0;
+  width:280px;
+  background:#0d1b2a;
+  border:2px solid #555;
+  border-radius:8px;
+  padding:10px 12px;
+  font-size:15px;
+  color:#dfe6e9;
+  line-height:1.3;
+  z-index:100;
+  pointer-events:none;
+  box-shadow:0 4px 16px rgba(0,0,0,.5);
+}
+.tooltip .tt-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:4px;
+}
+.tooltip .tt-move-name{
+  font-family:'Press Start 2P',cursive;
+  font-size:10px;
+  color:#e17055;
+  text-transform:uppercase;
+}
+.tooltip .tt-type-badge{
+  font-size:12px;
+  padding:1px 6px;
+  border-radius:3px;
+  color:#fff;
+  text-transform:uppercase;
+}
+.tooltip .tt-stats{
+  font-size:15px;
+  color:#b2bec3;
+  margin:4px 0;
+}
+.tooltip .tt-category{
+  font-size:15px;
+  margin:2px 0;
+}
+.tooltip .tt-category.physical{color:#e17055;}
+.tooltip .tt-category.special{color:#a29bfe;}
+.tooltip .tt-category.status{color:#00b894;}
+.tooltip .tt-divider{
+  border:none;
+  border-top:1px solid #2d3436;
+  margin:6px 0;
+}
+.tooltip .tt-desc{
+  font-size:14px;
+  color:#b2bec3;
+  line-height:1.4;
+}
+
+/* === Real-Mode Card Content === */
+.real-mode-content{
+  display:none;
+}
+
+.real-mode-content .real-hero-img{
+  text-align:center;
+  margin:10px 0;
+}
+.real-mode-content .real-hero-img img{
+  width:220px;
+  max-width:100%;
+  border-radius:12px;
+  border:2px solid #a29bfe;
+  box-shadow:0 4px 20px rgba(162,155,254,.2);
+}
+.real-mode-content .real-hero-img .img-spinner{
+  width:220px;
+  height:140px;
+  margin:0 auto;
+  border-radius:12px;
+  background:#0d1b2a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px solid #a29bfe;
+}
+.real-mode-content .real-hero-img .img-spinner::after{
+  content:'';
+  width:32px;height:32px;
+  border:3px solid #636e72;
+  border-top-color:#a29bfe;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+.real-mode-content .real-hero-img .img-fail{
+  width:220px;
+  height:80px;
+  margin:0 auto;
+  border-radius:12px;
+  background:#0d1b2a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px dashed #a29bfe;
+  color:#636e72;
+  font-size:14px;
+}
+.real-mode-content .real-main-name{
+  font-family:'Press Start 2P',cursive;
+  font-size:14px;
+  color:#dfe6e9;
+  margin:8px 0 2px;
+}
+.real-mode-content .real-main-sci{
+  font-size:18px;
+  color:#a29bfe;
+  font-style:italic;
+  margin-bottom:4px;
+}
+.real-mode-content .real-main-fact{
+  font-size:17px;
+  color:#b2bec3;
+  line-height:1.3;
+  margin-bottom:10px;
+  font-style:italic;
+}
+.real-mode-content .pokemon-collapsed{
+  border-top:1px solid #2d3436;
+  margin-top:8px;
+  padding-top:8px;
+}
+.real-mode-content .pokemon-collapsed .poke-toggle{
+  background:none;
+  border:none;
+  color:#636e72;
+  font-family:'VT323',monospace;
+  font-size:18px;
+  cursor:pointer;
+  transition:color .2s;
+  padding:2px 0;
+}
+.real-mode-content .pokemon-collapsed .poke-toggle:hover{color:#a29bfe;}
+.real-mode-content .pokemon-collapsed .poke-inner{
+  display:none;
+  margin-top:8px;
+  padding:10px;
+  background:#0d1b2a;
+  border-radius:8px;
+  border:1px solid #2d3436;
+}
+.real-mode-content .pokemon-collapsed .poke-inner.open{display:block;}
+.real-mode-content .pokemon-collapsed .poke-inner .mini-sprite{
+  display:flex;
+  justify-content:center;
+  margin:6px 0;
+}
+.real-mode-content .pokemon-collapsed .poke-inner .mini-sprite canvas{
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  width:96px;
+  height:96px;
+}
+.real-mode-content .pokemon-collapsed .poke-inner .poke-name{
+  font-family:'Press Start 2P',cursive;
+  font-size:12px;
+  color:#e17055;
+  margin:4px 0 2px;
+}
+.real-mode-content .pokemon-collapsed .poke-inner .poke-title{
+  font-size:15px;
+  color:#636e72;
+}
+.real-mode-content .pokemon-collapsed .poke-inner .poke-desc{
+  font-size:15px;
+  color:#b2bec3;
+  margin-top:4px;
+  font-style:italic;
+}
+
+/* fade transition for toggle */
+.pokemon-mode-content, .real-mode-content{
+  transition:opacity .3s ease;
+}
+body.real-view .real-mode-content{
+  animation:fadeIn .35s ease;
+}
+body:not(.real-view) .pokemon-mode-content{
+  animation:fadeIn .35s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(6px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:420px){
+  .grid{grid-template-columns:1fr;padding:0 10px;}
+  .card{padding:14px;}
+  header h1{font-size:16px;}
+  .view-toggle button{padding:6px 10px;font-size:16px;}
+}
+
+/* ===== Scanner Modal ===== */
+.scan-btn:hover{background:#00b894 !important;color:#fff !important;}
+#scanModal{
+  display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,.85);z-index:9999;
+  justify-content:center;align-items:center;
+}
+#scanModal.open{display:flex;}
+.scan-box{
+  background:linear-gradient(145deg,#16213e,#1a1a2e);
+  border:2px solid #00b894;border-radius:20px;
+  padding:30px;max-width:500px;width:90%;
+  text-align:center;position:relative;
+  box-shadow:0 0 40px rgba(0,184,148,.2);
+}
+.scan-box h2{
+  font-family:'Press Start 2P',cursive;font-size:16px;
+  color:#00b894;margin-bottom:20px;
+  text-shadow:0 0 12px rgba(0,184,148,.4);
+}
+.scan-close{
+  position:absolute;top:12px;right:16px;
+  background:none;border:none;color:#636e72;
+  font-size:28px;cursor:pointer;font-family:'VT323',monospace;
+}
+.scan-close:hover{color:#e17055;}
+.scan-drop{
+  border:3px dashed #2d3436;border-radius:14px;
+  padding:40px 20px;margin:16px 0;cursor:pointer;
+  transition:border-color .2s,background .2s;
+  position:relative;
+}
+.scan-drop:hover,.scan-drop.dragover{
+  border-color:#00b894;background:rgba(0,184,148,.05);
+}
+.scan-drop-text{color:#636e72;font-size:20px;}
+.scan-drop-text span{color:#00b894;text-decoration:underline;cursor:pointer;}
+.scan-or{color:#636e72;font-size:16px;margin:10px 0;}
+.scan-cam-btn{
+  font-family:'VT323',monospace;font-size:20px;
+  padding:10px 24px;border:2px solid #a29bfe;border-radius:10px;
+  background:#16213e;color:#a29bfe;cursor:pointer;
+  transition:all .2s;
+}
+.scan-cam-btn:hover{background:#a29bfe;color:#fff;}
+.scan-preview{
+  margin:16px 0;border-radius:10px;overflow:hidden;
+  display:none;position:relative;
+}
+.scan-preview img,.scan-preview video{
+  width:100%;max-height:300px;object-fit:contain;
+  border-radius:10px;
+}
+.scan-preview canvas{display:none;}
+.scan-go{
+  font-family:'Press Start 2P',cursive;font-size:14px;
+  padding:12px 32px;border:none;border-radius:10px;
+  background:linear-gradient(135deg,#00b894,#00cec9);
+  color:#fff;cursor:pointer;display:none;
+  transition:transform .2s,box-shadow .2s;
+  margin-top:8px;
+}
+.scan-go:hover{transform:scale(1.05);box-shadow:0 4px 20px rgba(0,184,148,.4);}
+.scan-go:disabled{opacity:.5;cursor:wait;transform:none;}
+.scan-result{
+  margin-top:16px;padding:16px;
+  background:#0d1b2a;border-radius:10px;
+  border:1px solid #2d3436;display:none;
+  text-align:left;
+}
+.scan-result.show{display:block;}
+.scan-result .match-name{
+  font-family:'Press Start 2P',cursive;font-size:14px;
+  color:#e17055;margin-bottom:6px;
+}
+.scan-result .match-real{color:#00b894;font-size:18px;}
+.scan-result .match-conf{color:#a29bfe;font-size:16px;margin-top:4px;}
+.scan-result .match-reason{color:#b2bec3;font-size:16px;margin-top:8px;}
+.scan-result .match-none{color:#e17055;font-size:18px;}
+.scan-result .match-go-btn{
+  font-family:'VT323',monospace;font-size:18px;
+  padding:6px 16px;border:2px solid #e17055;border-radius:8px;
+  background:transparent;color:#e17055;cursor:pointer;
+  margin-top:10px;transition:all .2s;
+}
+.scan-result .match-go-btn:hover{background:#e17055;color:#1a1a2e;}
+.scan-api-setup{
+  margin-top:12px;padding:12px;
+  background:#0d1b2a;border-radius:8px;
+  border:1px solid #2d3436;
+}
+.scan-api-setup label{color:#b2bec3;font-size:16px;}
+.scan-api-setup input{
+  font-family:'VT323',monospace;font-size:18px;
+  padding:6px 12px;border:2px solid #2d3436;border-radius:6px;
+  background:#16213e;color:#e0e0e0;width:100%;margin-top:6px;
+  outline:none;
+}
+.scan-api-setup input:focus{border-color:#00b894;}
+.scan-api-setup .api-hint{color:#636e72;font-size:14px;margin-top:4px;}
+.scan-spinner{
+  display:inline-block;width:20px;height:20px;
+  border:3px solid #2d3436;border-top-color:#00b894;
+  border-radius:50%;animation:spin .8s linear infinite;
+  vertical-align:middle;margin-right:8px;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+</style>
+</head>
+<body>
+<div class="top-bar">
+<header>
+<h1>BAY AREA POKEDEX</h1>
+<p>Gotta Catch 'em All &mdash; Golden Gate Edition</p>
+</header>
+<div class="controls">
+<input type="text" id="search" placeholder="Search Pokemon...">
+<button class="filter-btn active" data-cat="All">All</button>
+<button class="filter-btn" data-cat="Mammals">Mammals</button>
+<button class="filter-btn" data-cat="Birds">Birds</button>
+<button class="filter-btn" data-cat="Reptiles & Insects">Reptiles &amp; Insects</button>
+<div class="view-toggle" id="viewToggle">
+<button class="active" data-view="pokemon">&#127918; Pokemon</button>
+<button data-view="real">&#128247; Real</button>
+</div>
+<button class="filter-btn scan-btn" id="scanBtn" style="border-color:#00b894;color:#00b894;font-size:20px;">&#128247; SCAN</button>
+<select class="type-select" id="typeFilter">
+<option value="All">All Types</option>
+<option value="Normal">Normal</option>
+<option value="Flying">Flying</option>
+<option value="Water">Water</option>
+<option value="Ice">Ice</option>
+<option value="Fire">Fire</option>
+<option value="Poison">Poison</option>
+<option value="Grass">Grass</option>
+<option value="Dragon">Dragon</option>
+<option value="Fairy">Fairy</option>
+</select>
+</div>
+</div>
+<div class="grid" id="grid"></div>
+
+<script>
+const TYPE_COLORS={
+Grass:'#00b894',Fire:'#e17055',Ice:'#74b9ff',Water:'#0984e3',Ground:'#b08968',
+Normal:'#b2bec3',Flying:'#a29bfe',Bug:'#a8e6cf',Dark:'#2d3436',Poison:'#6c5ce7',
+Electric:'#fdcb6e',Rock:'#636e72',Ghost:'#7d3c98',Fairy:'#fd79a8',Dragon:'#6f35fc'
+};
+
+const MOVES={
+"Razor Leaf":{type:"Grass",power:55,acc:95,cat:"Physical",desc:"Sharp-edged leaves are launched to slash at opposing Pokemon. Critical hits land more easily."},
+"Giga Drain":{type:"Grass",power:75,acc:100,cat:"Special",desc:"A nutrient-draining attack. The user's HP is restored by half the damage taken by the target."},
+"Leech Seed":{type:"Grass",power:null,acc:90,cat:"Status",desc:"A seed is planted on the target. It steals some HP from the target every turn."},
+"Seed Bomb":{type:"Grass",power:80,acc:100,cat:"Physical",desc:"The user slams a barrage of hard-shelled seeds down on the target from above."},
+"Leaf Storm":{type:"Grass",power:130,acc:90,cat:"Special",desc:"The user whips up a storm of leaves. This harshly lowers the user's Sp. Atk."},
+"Petal Dance":{type:"Grass",power:120,acc:100,cat:"Special",desc:"The user attacks by scattering petals for two to three turns, then becomes confused."},
+"Ember":{type:"Fire",power:40,acc:100,cat:"Special",desc:"The target is attacked with small flames. This may also leave the target with a burn."},
+"Fire Spin":{type:"Fire",power:35,acc:85,cat:"Special",desc:"The target becomes trapped within a fierce vortex of fire for four to five turns."},
+"Ice Beam":{type:"Ice",power:90,acc:100,cat:"Special",desc:"The target is struck with an icy-cold beam of energy. This may also freeze the target."},
+"Blizzard":{type:"Ice",power:110,acc:70,cat:"Special",desc:"A howling blizzard strikes opposing Pokemon. This may also freeze them."},
+"Powder Snow":{type:"Ice",power:40,acc:100,cat:"Special",desc:"The user attacks with a chilling gust of powdery snow. May also freeze opposing Pokemon."},
+"Ice Shard":{type:"Ice",power:40,acc:100,cat:"Physical",desc:"The user flash-freezes chunks of ice and hurls them. This move always goes first."},
+"Frost Breath":{type:"Ice",power:60,acc:90,cat:"Special",desc:"The user blows cold breath on the target. This attack always results in a critical hit."},
+"Water Gun":{type:"Water",power:40,acc:100,cat:"Special",desc:"The target is blasted with a forceful shot of water."},
+"Surf":{type:"Water",power:90,acc:100,cat:"Special",desc:"The user attacks everything around it with a giant wave."},
+"Hydro Pump":{type:"Water",power:110,acc:80,cat:"Special",desc:"The target is blasted by a huge volume of water launched under great pressure."},
+"Aqua Jet":{type:"Water",power:40,acc:100,cat:"Physical",desc:"The user lunges at the target at a speed that makes it almost invisible. Always goes first."},
+"Bubble":{type:"Water",power:40,acc:100,cat:"Special",desc:"A spray of countless bubbles is jetted at the target. May also lower their Speed."},
+"Rain Dance":{type:"Water",power:null,acc:null,cat:"Status",desc:"The user summons a heavy rain for five turns, powering up Water-type moves."},
+"Tackle":{type:"Normal",power:40,acc:100,cat:"Physical",desc:"A physical attack in which the user charges and slams into the target."},
+"Quick Attack":{type:"Normal",power:40,acc:100,cat:"Physical",desc:"The user lunges at the target at a speed that makes it almost invisible. Always goes first."},
+"Headbutt":{type:"Normal",power:70,acc:100,cat:"Physical",desc:"The user sticks out its head and charges into the target. May also make the target flinch."},
+"Body Slam":{type:"Normal",power:85,acc:100,cat:"Physical",desc:"The user drops onto the target with its full body weight. May cause paralysis."},
+"Hyper Beam":{type:"Normal",power:150,acc:90,cat:"Special",desc:"The target is attacked with a powerful beam. The user can't move on the next turn."},
+"Extreme Speed":{type:"Normal",power:80,acc:100,cat:"Physical",desc:"The user charges at blinding speed. This move always goes first."},
+"Stomp":{type:"Normal",power:65,acc:100,cat:"Physical",desc:"The target is stomped with a big foot. May also make the target flinch."},
+"Take Down":{type:"Normal",power:90,acc:85,cat:"Physical",desc:"A reckless, full-body charge attack. This also damages the user a little."},
+"Howl":{type:"Normal",power:null,acc:null,cat:"Status",desc:"The user howls loudly to raise its spirit, boosting its Attack stat."},
+"Roar":{type:"Normal",power:null,acc:null,cat:"Status",desc:"The target is scared off, and a different Pokemon is dragged out."},
+"Screech":{type:"Normal",power:null,acc:85,cat:"Status",desc:"An earsplitting screech harshly lowers the target's Defense stat."},
+"Fury Swipes":{type:"Normal",power:18,acc:80,cat:"Physical",desc:"The target is raked with sharp claws quickly two to five times in a row."},
+"Double-Edge":{type:"Normal",power:120,acc:100,cat:"Physical",desc:"A reckless, life-risking tackle. This also damages the user quite a lot."},
+"Sing":{type:"Normal",power:null,acc:55,cat:"Status",desc:"A soothing lullaby puts the target into a deep slumber."},
+"Uproar":{type:"Normal",power:90,acc:100,cat:"Special",desc:"The user attacks in an uproar for three turns. No Pokemon can fall asleep."},
+"Earthquake":{type:"Ground",power:100,acc:100,cat:"Physical",desc:"The user sets off an earthquake that strikes every Pokemon around it."},
+"Dig":{type:"Ground",power:80,acc:100,cat:"Physical",desc:"The user burrows into the ground, then attacks on the next turn."},
+"Mud Shot":{type:"Ground",power:55,acc:95,cat:"Special",desc:"The user hurls a blob of mud. This also lowers the target's Speed."},
+"Sand Attack":{type:"Ground",power:null,acc:100,cat:"Status",desc:"Sand is hurled in the target's face, reducing the target's accuracy."},
+"Earth Power":{type:"Ground",power:90,acc:100,cat:"Special",desc:"The user makes the ground erupt with power. May lower the target's Sp. Def."},
+"Bulldoze":{type:"Ground",power:60,acc:100,cat:"Physical",desc:"The user strikes by stomping on the ground. This also lowers the Speed of those hit."},
+"Wing Attack":{type:"Flying",power:60,acc:100,cat:"Physical",desc:"The target is struck with large, imposing wings spread wide."},
+"Air Slash":{type:"Flying",power:75,acc:95,cat:"Special",desc:"The user attacks with a blade of air. May cause flinching."},
+"Brave Bird":{type:"Flying",power:120,acc:100,cat:"Physical",desc:"The user charges at low altitude. This also damages the user quite a lot."},
+"Fly":{type:"Flying",power:90,acc:95,cat:"Physical",desc:"The user flies up into the sky and strikes on the next turn."},
+"Aerial Ace":{type:"Flying",power:60,acc:null,cat:"Physical",desc:"The user confounds the target with speed, then slashes. This attack never misses."},
+"Feather Dance":{type:"Flying",power:null,acc:100,cat:"Status",desc:"Covers the target with down that harshly lowers its Attack stat."},
+"Gust":{type:"Flying",power:40,acc:100,cat:"Special",desc:"A gust of wind is whipped up by wings and launched at the target."},
+"Peck":{type:"Flying",power:35,acc:100,cat:"Physical",desc:"The target is jabbed with a sharply pointed beak or horn."},
+"Bug Buzz":{type:"Bug",power:90,acc:100,cat:"Special",desc:"The user vibrates to generate a damaging sound wave. May lower Sp. Def."},
+"Signal Beam":{type:"Bug",power:75,acc:100,cat:"Special",desc:"The user attacks with a sinister beam of light. May confuse the target."},
+"Silver Wind":{type:"Bug",power:60,acc:100,cat:"Special",desc:"Powdery scales blown by wind. May raise all the user's stats."},
+"Struggle Bug":{type:"Bug",power:50,acc:100,cat:"Special",desc:"While resisting, the user attacks. This lowers the Sp. Atk of those hit."},
+"Megahorn":{type:"Bug",power:120,acc:85,cat:"Physical",desc:"Using its impressive horn, the user rams into the target with no letup."},
+"Dark Pulse":{type:"Dark",power:80,acc:100,cat:"Special",desc:"A horrible aura with dark thoughts. May cause flinching."},
+"Night Slash":{type:"Dark",power:70,acc:100,cat:"Physical",desc:"The user slashes the instant an opportunity arises. Critical hits land more easily."},
+"Crunch":{type:"Dark",power:80,acc:100,cat:"Physical",desc:"The user crunches with sharp fangs. May lower the target's Defense."},
+"Sucker Punch":{type:"Dark",power:70,acc:100,cat:"Physical",desc:"Enables the user to attack first. Fails if the target isn't readying an attack."},
+"Foul Play":{type:"Dark",power:95,acc:100,cat:"Physical",desc:"Turns the target's power against it. Higher Attack means more damage."},
+"Poison Jab":{type:"Poison",power:80,acc:100,cat:"Physical",desc:"Stabbed with a poisonous stinger. May also poison the target."},
+"Toxic":{type:"Poison",power:null,acc:90,cat:"Status",desc:"Leaves the target badly poisoned. Damage worsens every turn."},
+"Thunderbolt":{type:"Electric",power:90,acc:100,cat:"Special",desc:"A strong electric blast. May cause paralysis."},
+"Spark":{type:"Electric",power:65,acc:100,cat:"Physical",desc:"An electrically charged tackle. May cause paralysis."},
+"Discharge":{type:"Electric",power:80,acc:100,cat:"Special",desc:"A flare of electricity strikes everything around. May cause paralysis."},
+"Rock Slide":{type:"Rock",power:75,acc:90,cat:"Physical",desc:"Large boulders are hurled. May also cause flinching."},
+"Stone Edge":{type:"Rock",power:100,acc:80,cat:"Physical",desc:"Sharpened stones stab from below. Critical hits land more easily."},
+"Shadow Ball":{type:"Ghost",power:80,acc:100,cat:"Special",desc:"A shadowy blob is hurled. May lower the target's Sp. Def."},
+"Moonblast":{type:"Fairy",power:95,acc:100,cat:"Special",desc:"Borrowing the moon's power. May lower the target's Sp. Atk."},
+"Confuse Ray":{type:"Ghost",power:null,acc:100,cat:"Status",desc:"A sinister ray triggers confusion."},
+"Glare":{type:"Normal",power:null,acc:100,cat:"Status",desc:"The user intimidates the target to cause paralysis."},
+"Coil":{type:"Poison",power:null,acc:null,cat:"Status",desc:"Coils up and concentrates. Raises Attack, Defense, and accuracy."},
+"Withdraw":{type:"Water",power:null,acc:null,cat:"Status",desc:"Withdraws into its hard shell, raising its Defense stat."},
+"Shell Smash":{type:"Normal",power:null,acc:null,cat:"Status",desc:"Breaks its shell. Lowers Defense/Sp.Def but sharply raises Attack/Sp.Atk/Speed."},
+};
+
+// Add Dragon moves
+MOVES["Dragon Pulse"]={type:"Dragon",power:85,acc:100,cat:"Special",desc:"The user unleashes a shock wave generated by opening its mouth wide."};
+MOVES["Dragon Dance"]={type:"Dragon",power:null,acc:null,cat:"Status",desc:"The user vigorously performs a mystic dance to boost its Attack and Speed."};
+
+const WIKI_MAP={
+7:"California_quail",42:"Black-tailed_deer",43:"Black-tailed_deer",44:"Black-tailed_deer",67:"California_newt",68:"California_newt",89:"Banana_slug",112:"Harbor_seal",121:"Western_fence_lizard",156:"Red-tailed_hawk",178:"Great_blue_heron",195:"California_sea_lion"
+};
+
+const wikiImages={};
+
+async function fetchWikiImage(title){
+  try{
+    const resp=await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title));
+    const data=await resp.json();
+    return data.thumbnail?data.thumbnail.source:null;
+  }catch(e){return null;}
+}
+
+async function loadAllWikiImages(){
+  const promises=POKEMON.map(async p=>{
+    const wikiTitle=WIKI_MAP[p.id];
+    if(!wikiTitle)return;
+    const url=await fetchWikiImage(wikiTitle);
+    wikiImages[p.id]=url;
+    document.querySelectorAll('.wiki-img-slot-'+p.id).forEach(slot=>{
+      if(url){
+        slot.innerHTML='<img src="'+url+'" alt="'+p.real.name+'" loading="lazy">';
+      }else{
+        slot.innerHTML='<div class="img-fail">Image unavailable</div>';
+      }
+    });
+  });
+  await Promise.all(promises);
+}
+
+const POKEMON=[
+{id:7,name:"Quailcrest",title:"The Topknot Pokemon",types:["Normal","Flying"],cat:"Birds",
+desc:"Quailcrest coveys elect a sentinel who stands on the highest rock and watches for danger. If the sentinel falls asleep on duty, the covey replaces it immediately and the disgraced Quailcrest must walk at the back of the group for a full day.",
+moves:["Quick Attack","Air Slash","Feather Dance","Headbutt"],
+real:{name:"California Quail",sci:"Callipepla californica",fact:"the state bird of California, known for its forward-drooping comma-shaped head plume and communal roosting"}},
+{id:42,name:"Dawnfawn",title:"The First Light Pokemon",types:["Normal"],cat:"Mammals",
+desc:"Dawnfawn\'s spots absorb and store the first light of morning. In darkness, the spots glow faintly, creating a map of the sunrise on its coat. When frightened, it drops to the ground and becomes nearly invisible.",
+moves:["Quick Attack","Take Down","Headbutt","Stomp"],
+evo:{chain:["Dawnfawn","Velveteer","Fogstag"],current:0},
+real:{name:"Columbian Black-tailed Deer",sci:"Odocoileus hemionus columbianus",fact:"the coastal subspecies of mule deer, born with white spots for camouflage in dappled forest light"}},
+{id:43,name:"Velveteer",title:"The Undergrowth Pokemon",types:["Normal","Grass"],cat:"Mammals",
+desc:"The plants growing on Velveteer\'s antlers change with the seasons — wildflowers in spring, berries in summer, golden leaves in fall. Other Pokemon come to graze on its antler garden.",
+moves:["Razor Leaf","Headbutt","Seed Bomb","Stomp"],
+evo:{chain:["Dawnfawn","Velveteer","Fogstag"],current:1},
+real:{name:"Columbian Black-tailed Deer",sci:"Odocoileus hemionus columbianus",fact:"adolescent stage, spots faded, first antlers growing in velvet"}},
+{id:44,name:"Fogstag",title:"The Phantom Summit Pokemon",types:["Normal","Fairy"],cat:"Mammals",
+desc:"Fogstag\'s antlers grow more tines each year, and each tine collects a different frequency of light. Ancient stags with antlers spanning six feet wide have been seen refracting entire rainbows across foggy valleys.",
+moves:["Moonblast","Body Slam","Headbutt","Hyper Beam"],
+evo:{chain:["Dawnfawn","Velveteer","Fogstag"],current:2},
+real:{name:"Columbian Black-tailed Deer",sci:"Odocoileus hemionus columbianus",fact:"the full-grown stag, often glimpsed as a ghostly silhouette on foggy Bay Area ridgelines at dawn"}},
+{id:67,name:"Eftorch",title:"The Ember Belly Pokemon",types:["Fire","Poison"],cat:"Reptiles & Insects",
+desc:"Eftorch\'s belly contains enough toxin to paralyze a Pokemon ten times its size, but it doesn\'t know this yet. It wanders through forests with cheerful obliviousness, and predators give it a wide berth for reasons it hasn\'t figured out.",
+moves:["Ember","Toxic","Tackle","Poison Jab"],
+evo:{chain:["Eftorch","Pyromander"],current:0},
+real:{name:"California Newt",sci:"Taricha torosa",fact:"the juvenile land-dwelling phase, bright orange to warn predators of its lethal tetrodotoxin"}},
+{id:68,name:"Pyromander",title:"The Inferno Newt Pokemon",types:["Fire","Poison"],cat:"Reptiles & Insects",
+desc:"A single Pyromander contains enough tetrodotoxin in its skin to fell forty grown humans. It has no natural predators. When threatened, it does not flee — it simply waits, knowing that anything foolish enough to bite it will not make that mistake twice. The molten glow of its belly has been used as a lantern by night-traveling trainers for centuries.",
+moves:["Fire Spin","Poison Jab","Toxic","Ember"],
+evo:{chain:["Eftorch","Pyromander"],current:1},
+real:{name:"California Newt",sci:"Taricha torosa",fact:"the mature aquatic-terrestrial adult, one of the most toxic vertebrates in North America"}},
+{id:89,name:"Slimtrail",title:"The Forest Floor Pokemon",types:["Poison","Grass"],cat:"Reptiles & Insects",
+desc:"Slimtrail\'s mucus contains a numbing compound that makes predators lose all feeling in their mouths for hours. It is completely unbothered by this power. Researchers have observed Slimtrail taking 45 minutes to cross a single path, stopping twice to nap.",
+moves:["Toxic","Razor Leaf","Giga Drain","Poison Jab"],
+real:{name:"Pacific Banana Slug",sci:"Ariolimax columbianus",fact:"the largest slug in North America, up to 25cm, its bright yellow coloring warns predators of its bitter toxic mucus"}},
+{id:112,name:"Fogwhisk",title:"The Harbor Lounger Pokemon",types:["Water","Ice"],cat:"Mammals",
+desc:"Fogwhisk can sense approaching storms hours before they arrive by reading vibrations in the fog through its whiskers. Fishing boats follow groups of Fogwhisk to find the safest harbors. It sleeps 14 hours a day and sees no reason to change this.",
+moves:["Ice Beam","Surf","Aqua Jet","Frost Breath"],
+real:{name:"Pacific Harbor Seal",sci:"Phoca vitulina richardii",fact:"year-round residents of San Francisco Bay, famously hauling out on rocks, docks, and Pier 39"}},
+{id:121,name:"Blubelly",title:"The Push-Up Pokemon",types:["Normal","Dragon"],cat:"Reptiles & Insects",
+desc:"Blubelly performs up to 1,000 push-ups per day to maintain its territory, which is usually a single rock. It has been observed challenging Pokemon fifty times its size to push-up contests. It has never lost, because the opponent always walks away confused.",
+moves:["Quick Attack","Dragon Pulse","Body Slam","Dragon Dance"],
+real:{name:"Western Fence Lizard",sci:"Sceloporus occidentalis",fact:"the ubiquitous 'blue belly' of California, named for the males' brilliant blue ventral patches used in territorial push-up displays"}},
+{id:156,name:"Thermawk",title:"The Thermal Rider Pokemon",types:["Flying","Fire"],cat:"Birds",
+desc:"Thermawk generates its own thermal updrafts by superheating the air beneath its wings, allowing it to soar indefinitely without flapping. The red tail feathers burn at 200°F. Other Flying-types draft behind Thermawk to save energy, which it tolerates with visible annoyance.",
+moves:["Brave Bird","Fire Spin","Air Slash","Ember"],
+real:{name:"Red-tailed Hawk",sci:"Buteo jamaicensis",fact:"the most common raptor in North America, frequently seen soaring on thermals over Bay Area hills, recognizable by its brick-red tail"}},
+{id:178,name:"Heronstill",title:"The Patience Pokemon",types:["Water","Flying"],cat:"Birds",
+desc:"Heronstill has been observed standing in the same position for over six hours without moving a single muscle. Its strike, when it comes, takes one-fifteenth of a second. Fishermen consider a Heronstill at their fishing spot to be both a good omen and an insult to their technique.",
+moves:["Surf","Brave Bird","Hydro Pump","Air Slash"],
+real:{name:"Great Blue Heron",sci:"Ardea herodias",fact:"the largest heron in North America, a patient ambush predator commonly found along Bay Area marshes, shorelines, and even urban ponds"}},
+{id:195,name:"Barkbay",title:"The Dockside Pokemon",types:["Water","Normal"],cat:"Mammals",
+desc:"Barkbay colonies have been recorded at 110 decibels — louder than a chainsaw. They claim any flat surface near water as territory and will bark continuously until all rivals leave or fall asleep. Despite this, Barkbay is deeply social and becomes depressed if isolated. A happy Barkbay is a loud Barkbay.",
+moves:["Surf","Hyper Beam","Body Slam","Aqua Jet"],
+real:{name:"California Sea Lion",sci:"Zalophus californianus",fact:"the loud, social, charismatic pinnipeds that colonize Bay Area docks, piers, and buoys, famous for the Pier 39 colony in San Francisco"}}
+];
+
+function buildTooltip(m,md){
+  if(!md)return '<div class="tooltip"><div class="tt-name">'+m+'</div><div class="tt-desc">No data</div></div>';
+  let s='<div class="tooltip"><div class="tt-name">'+m+'</div>';
+  s+='<div class="tt-type"><span style="background:'+TYPE_COLORS[md.type]+'">'+md.type+'</span></div>';
+  s+='<div class="tt-stats">';
+  if(md.power!==null)s+='Pwr: '+md.power+' ';
+  if(md.acc!==null)s+='Acc: '+md.acc+'%';
+  s+='</div>';
+  s+='<div class="tt-category '+md.cat.toLowerCase()+'">'+md.cat+'</div>';
+  s+='<hr class="tt-divider"><div class="tt-desc">'+md.desc+'</div></div>';
+  return s;
+}
+
+function buildCards(){
+  const grid=document.getElementById('grid');
+  POKEMON.forEach(p=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.dataset.id=p.id;
+    card.dataset.cat=p.cat;
+    card.dataset.types=p.types.join(',');
+    card.dataset.name=p.name.toLowerCase();
+    card.dataset.realname=(p.real.name+' '+p.real.sci).toLowerCase();
+    card.dataset.wiki=WIKI_MAP[p.id]||'';
+
+    let hdr='<div class="card-header"><span class="card-number">#'+String(p.id).padStart(3,'0')+'</span><div class="type-badges">';
+    p.types.forEach(t=>{hdr+='<span class="type-badge" style="background:'+TYPE_COLORS[t]+'">'+t+'</span>';});
+    hdr+='</div></div>';
+
+    let pokContent='<div class="pokemon-mode-content">';
+    pokContent+='<div class="sprite-container"><img class="pokemon-sprite" src="sprites/'+p.name.toLowerCase()+'.png" alt="'+p.name+'"></div>';
+    pokContent+='<div class="card-name">'+p.name+'</div><div class="card-title">'+p.title+'</div><div class="card-desc">\u201C'+p.desc+'\u201D</div>';
+
+    let mvs='<div class="moves-list"><div class="move-title">Moves</div>';
+    p.moves.forEach(m=>{
+      const md=MOVES[m];
+      const tc=md?TYPE_COLORS[md.type]:'#636e72';
+      const mtype=md?md.type:'';
+      mvs+='<div class="move-row"><span class="move-name">'+m+'</span><span class="move-type-badge" style="background:'+tc+'">'+mtype+'</span><span class="move-info">\u2139'+buildTooltip(m,md)+'</span></div>';
+    });
+    mvs+='</div>';
+    pokContent+=mvs;
+
+    let evo='';
+    if(p.evo){
+      evo='<div class="evo-chain"><div class="evo-label">Evolution Chain</div><div class="evo-row">';
+      p.evo.chain.forEach((name,i)=>{
+        if(i>0) evo+='<span class="evo-arrow">\u2192</span>';
+        const cls=i===p.evo.current?'evo-sprite current':'evo-sprite';
+        evo+='<div class="'+cls+'"><img class="evo-sprite-img" src="sprites/'+name.toLowerCase()+'.png" alt="'+name+'"><span>'+name+'</span></div>';
+      });
+      evo+='</div></div>';
+    }
+    pokContent+=evo;
+    pokContent+='</div>';
+
+    let realContent='<div class="real-mode-content">';
+    realContent+='<div class="real-hero-img wiki-img-slot-'+p.id+'"><div class="img-spinner"></div></div>';
+    realContent+='<div class="real-main-name">'+p.real.name+'</div>';
+    realContent+='<div class="real-main-sci">'+p.real.sci+'</div>';
+    realContent+='<div class="real-main-fact">\u201C'+p.real.fact+'\u201D</div>';
+    realContent+='</div>';
+
+    card.innerHTML=hdr+pokContent+realContent;
+    card.addEventListener('click',function(e){
+      if(e.target.closest('.move-info,.tooltip'))return;
+      this.classList.toggle('flipped');
+    });
+    grid.appendChild(card);
+  });
+}
+
+function filterCards(){
+  const search=document.getElementById('search').value.toLowerCase();
+  const activeCat=document.querySelector('.filter-btn.active').dataset.cat;
+  const typeVal=document.getElementById('typeFilter').value;
+  document.querySelectorAll('.card').forEach(card=>{
+    let show=true;
+    if(activeCat!=='All'&&card.dataset.cat!==activeCat) show=false;
+    if(typeVal!=='All'&&!card.dataset.types.includes(typeVal)) show=false;
+    if(search){
+      const matchPoke=card.dataset.name.includes(search);
+      const matchReal=card.dataset.realname&&card.dataset.realname.includes(search);
+      if(!matchPoke&&!matchReal) show=false;
+    }
+    card.classList.toggle('hidden',!show);
+  });
+}
+
+function setViewMode(mode){
+  if(mode==='real'){
+    document.body.classList.add('real-view');
+  }else{
+    document.body.classList.remove('real-view');
+  }
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('flipped'));
+  document.querySelectorAll('#viewToggle button').forEach(btn=>{
+    btn.classList.toggle('active',btn.dataset.view===mode);
+  });
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  buildCards();
+  loadAllWikiImages();
+
+  document.querySelectorAll('.filter-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      filterCards();
+    });
+  });
+
+  document.getElementById('typeFilter').addEventListener('change',filterCards);
+  document.getElementById('search').addEventListener('input',filterCards);
+
+  document.querySelectorAll('#viewToggle button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      setViewMode(btn.dataset.view);
+    });
+  });
+});
+
+</script>
+
+<!-- Scanner Modal -->
+<div id="scanModal">
+<div class="scan-box">
+  <button class="scan-close" id="scanClose">&times;</button>
+  <h2>&#128270; SPECIES SCANNER</h2>
+  <div class="scan-api-setup" id="apiSetup">
+    <label>Anthropic API Key</label>
+    <input type="password" id="claudeKey" placeholder="Paste your API key...">
+    <div class="api-hint">Get one at <span style="color:#00b894">console.anthropic.com</span></div>
+  </div>
+  <div class="scan-drop" id="scanDrop">
+    <div class="scan-drop-text">&#128444;&#65039; Drop a photo here or <span>browse</span></div>
+    <input type="file" id="scanFile" accept="image/*" style="display:none">
+  </div>
+  <div class="scan-or">&mdash; or &mdash;</div>
+  <button class="scan-cam-btn" id="scanCamBtn">&#128247; Use Camera</button>
+  <div class="scan-preview" id="scanPreview">
+    <img id="scanImg">
+    <video id="scanVideo" autoplay playsinline></video>
+    <canvas id="scanCanvas"></canvas>
+    <button class="scan-cam-btn" id="scanCapture" style="display:none;margin-top:10px;">&#128248; Capture</button>
+  </div>
+  <button class="scan-go" id="scanGo">IDENTIFY</button>
+  <div class="scan-result" id="scanResult"></div>
+</div>
+</div>
+
+<script>
+(function(){
+  const CLAUDE_MODEL='claude-sonnet-4-20250514';
+  const KEY_STORAGE='bayarea_pokedex_claude_key';
+
+  const speciesList=POKEMON.map(p=>({
+    id:p.id,name:p.name,realName:p.real.name,sci:p.real.sci,cat:p.cat,types:p.types
+  }));
+
+  const modal=document.getElementById('scanModal');
+  const scanBtn=document.getElementById('scanBtn');
+  const scanClose=document.getElementById('scanClose');
+  const scanDrop=document.getElementById('scanDrop');
+  const scanFile=document.getElementById('scanFile');
+  const scanCamBtn=document.getElementById('scanCamBtn');
+  const scanPreview=document.getElementById('scanPreview');
+  const scanImg=document.getElementById('scanImg');
+  const scanVideo=document.getElementById('scanVideo');
+  const scanCanvas=document.getElementById('scanCanvas');
+  const scanCapture=document.getElementById('scanCapture');
+  const scanGo=document.getElementById('scanGo');
+  const scanResult=document.getElementById('scanResult');
+  const claudeKeyInput=document.getElementById('claudeKey');
+
+  let currentImageBase64=null;
+  let currentMediaType=null;
+  let cameraStream=null;
+
+  const savedKey=localStorage.getItem(KEY_STORAGE);
+  if(savedKey)claudeKeyInput.value=savedKey;
+  claudeKeyInput.addEventListener('change',()=>{localStorage.setItem(KEY_STORAGE,claudeKeyInput.value.trim());});
+
+  scanBtn.addEventListener('click',()=>{modal.classList.add('open');resetScanner();});
+  scanClose.addEventListener('click',closeModal);
+  modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+
+  function closeModal(){modal.classList.remove('open');stopCamera();resetScanner();}
+  function resetScanner(){
+    currentImageBase64=null;currentMediaType=null;
+    scanPreview.style.display='none';scanImg.style.display='none';
+    scanVideo.style.display='none';scanCapture.style.display='none';
+    scanGo.style.display='none';scanResult.classList.remove('show');scanResult.innerHTML='';
+  }
+
+  scanDrop.addEventListener('click',()=>scanFile.click());
+  scanDrop.addEventListener('dragover',e=>{e.preventDefault();scanDrop.classList.add('dragover');});
+  scanDrop.addEventListener('dragleave',()=>scanDrop.classList.remove('dragover'));
+  scanDrop.addEventListener('drop',e=>{e.preventDefault();scanDrop.classList.remove('dragover');if(e.dataTransfer.files.length)handleFile(e.dataTransfer.files[0]);});
+  scanFile.addEventListener('change',e=>{if(e.target.files.length)handleFile(e.target.files[0]);});
+
+  function handleFile(file){
+    if(!file.type.startsWith('image/'))return;stopCamera();
+    const reader=new FileReader();
+    reader.onload=e=>{
+      scanImg.src=e.target.result;scanImg.style.display='block';
+      scanVideo.style.display='none';scanCapture.style.display='none';
+      scanPreview.style.display='block';scanGo.style.display='inline-block';
+      const parts=e.target.result.split(',');
+      const mimeMatch=parts[0].match(/data:(image\/[^;]+)/);
+      currentMediaType=mimeMatch?mimeMatch[1]:'image/jpeg';
+      currentImageBase64=parts[1];
+    };
+    reader.readAsDataURL(file);
+  }
+
+  scanCamBtn.addEventListener('click',async()=>{
+    try{
+      cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment',width:{ideal:1280},height:{ideal:960}}});
+      scanVideo.srcObject=cameraStream;scanVideo.style.display='block';
+      scanImg.style.display='none';scanCapture.style.display='inline-block';
+      scanPreview.style.display='block';scanGo.style.display='none';
+    }catch(err){alert('Camera access denied.');}
+  });
+
+  scanCapture.addEventListener('click',()=>{
+    const canvas=scanCanvas;canvas.width=scanVideo.videoWidth;canvas.height=scanVideo.videoHeight;
+    canvas.getContext('2d').drawImage(scanVideo,0,0);
+    const dataUrl=canvas.toDataURL('image/jpeg',0.85);
+    scanImg.src=dataUrl;scanImg.style.display='block';scanVideo.style.display='none';
+    scanCapture.style.display='none';scanGo.style.display='inline-block';
+    currentMediaType='image/jpeg';currentImageBase64=dataUrl.split(',')[1];stopCamera();
+  });
+
+  function stopCamera(){if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;}}
+
+  scanGo.addEventListener('click',async()=>{
+    const apiKey=claudeKeyInput.value.trim();
+    if(!apiKey){claudeKeyInput.style.borderColor='#e17055';claudeKeyInput.focus();return;}
+    if(!currentImageBase64)return;
+    scanGo.disabled=true;scanGo.innerHTML='<span class="scan-spinner"></span>Scanning...';
+    scanResult.classList.remove('show');
+
+    const prompt=`You are a species identification expert for Bay Area / San Francisco Bay region wildlife.
+
+Look at this photo and determine if it matches ANY of these ${speciesList.length} local species:
+
+${speciesList.map(s=>`ID:${s.id} — ${s.realName} (${s.sci}) [${s.cat}]`).join('\n')}
+
+CRITICAL: Most photos will NOT match any of these species. Default to "no match" unless you can positively identify the EXACT species.
+
+Respond in EXACTLY this JSON format, nothing else:
+{"matched":true,"id":NUMBER,"confidence":"high|medium|low","reason":"Brief explanation"}
+
+Or if no match:
+{"matched":false,"id":null,"confidence":null,"reason":"Brief explanation"}`;
+
+    try{
+      const resp=await fetch('/api/identify',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({api_key:apiKey,model:CLAUDE_MODEL,image:currentImageBase64,media_type:currentMediaType||'image/jpeg',prompt:prompt})
+      });
+      const data=await resp.json();
+      if(data.error)throw new Error(data.error.message||'API error');
+      const text=data.content[0].text;
+      const jsonMatch=text.match(/\{[\s\S]*\}/);
+      if(!jsonMatch)throw new Error('Could not parse response');
+      showResult(JSON.parse(jsonMatch[0]));
+    }catch(err){
+      scanResult.innerHTML=`<div class="match-none">Error: ${err.message}</div>`;
+      scanResult.classList.add('show');
+    }
+    scanGo.disabled=false;scanGo.innerHTML='IDENTIFY';
+  });
+
+  function showResult(result){
+    if(result.matched&&result.id){
+      const p=POKEMON.find(x=>x.id===result.id);
+      if(p){
+        const confColor=result.confidence==='high'?'#00b894':result.confidence==='medium'?'#e17055':'#e17055';
+        scanResult.innerHTML=`
+          <div class="match-name">#${String(p.id).padStart(3,'0')} ${p.name}</div>
+          <div class="match-real">${p.real.name} <span style="color:#a29bfe;font-style:italic">(${p.real.sci})</span></div>
+          <div class="match-conf" style="color:${confColor}">Confidence: ${result.confidence.toUpperCase()}</div>
+          <div class="match-reason">${result.reason}</div>
+          <button class="match-go-btn" onclick="document.getElementById('scanModal').classList.remove('open');
+            document.querySelector('[data-id=\'${p.id}\']').scrollIntoView({behavior:'smooth',block:'center'});
+            document.querySelector('[data-id=\'${p.id}\']').style.boxShadow='0 0 30px rgba(0,184,148,.6)';
+            setTimeout(()=>document.querySelector('[data-id=\'${p.id}\']').style.boxShadow='',3000);">
+            &rarr; View in Pokedex
+          </button>`;
+      }else{
+        scanResult.innerHTML=`<div class="match-none">Matched but entry not found.</div>`;
+      }
+    }else{
+      scanResult.innerHTML=`
+        <div class="match-none">No match found in Bay Area Pokedex</div>
+        <div class="match-reason">${result.reason||'Not in the Bay Area Pokedex.'}</div>`;
+    }
+    scanResult.classList.add('show');
+  }
+})();
+</script>
+</body>
+</html>

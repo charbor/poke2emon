@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Denver Pokedex Scanner — Eval Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:#0f172a;color:#e2e8f0;line-height:1.6;padding:0 0 80px;}
+.container{max-width:960px;margin:0 auto;padding:0 24px;}
+
+/* Hero */
+.hero{padding:60px 0 40px;text-align:center;border-bottom:1px solid #1e293b;}
+.hero h1{font-size:32px;font-weight:700;color:#f8fafc;margin-bottom:8px;}
+.hero .subtitle{font-size:16px;color:#94a3b8;margin-bottom:32px;}
+
+/* Big Numbers */
+.big-numbers{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px;}
+.big-num{background:#1e293b;border-radius:12px;padding:24px 16px;text-align:center;}
+.big-num .value{font-size:42px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+.big-num .label{font-size:13px;color:#94a3b8;margin-top:4px;text-transform:uppercase;letter-spacing:1px;}
+.big-num.green .value{color:#4ade80;}
+.big-num.blue .value{color:#60a5fa;}
+.big-num.amber .value{color:#fbbf24;}
+.big-num.red .value{color:#f87171;}
+
+/* Section */
+section{margin-top:48px;}
+section h2{font-size:22px;font-weight:700;margin-bottom:16px;color:#f8fafc;}
+section h3{font-size:17px;font-weight:600;margin:24px 0 12px;color:#cbd5e1;}
+section p{color:#94a3b8;font-size:15px;margin-bottom:16px;}
+
+/* Bar Chart */
+.bar-chart{display:flex;flex-direction:column;gap:4px;}
+.bar-row{display:flex;align-items:center;gap:8px;height:28px;}
+.bar-label{width:180px;font-size:13px;color:#cbd5e1;text-align:right;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-track{flex:1;background:#1e293b;border-radius:4px;height:20px;position:relative;overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;transition:width .6s ease;}
+.bar-fill.correct{background:#4ade80;}
+.bar-fill.incorrect{background:#f87171;}
+.bar-fill.missed{background:#fbbf24;}
+.bar-fill.error{background:#6b7280;}
+.bar-pct{width:48px;font-size:13px;font-family:'JetBrains Mono',monospace;color:#94a3b8;text-align:right;flex-shrink:0;}
+
+/* Stacked bar */
+.bar-fill-stack{display:flex;height:100%;}
+.bar-fill-stack > div{height:100%;}
+
+/* Legend */
+.legend{display:flex;gap:20px;margin-bottom:16px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:13px;color:#94a3b8;}
+.legend-dot{width:12px;height:12px;border-radius:3px;}
+.legend-dot.correct{background:#4ade80;}
+.legend-dot.incorrect{background:#f87171;}
+.legend-dot.missed{background:#fbbf24;}
+.legend-dot.error{background:#6b7280;}
+.legend-dot.rejected{background:#4ade80;}
+.legend-dot.falsepos{background:#f87171;}
+
+/* Confusion table */
+.confusion-table{width:100%;border-collapse:collapse;font-size:14px;}
+.confusion-table th{text-align:left;padding:8px 12px;color:#94a3b8;font-weight:600;border-bottom:1px solid #334155;font-size:13px;text-transform:uppercase;letter-spacing:.5px;}
+.confusion-table td{padding:8px 12px;border-bottom:1px solid #1e293b;}
+.confusion-table .from{color:#f87171;}
+.confusion-table .to{color:#fbbf24;}
+.confusion-table .count{font-family:'JetBrains Mono',monospace;color:#f8fafc;font-weight:600;text-align:center;width:60px;}
+.confusion-table tr:hover{background:#1e293b;}
+
+/* Category breakdown */
+.cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px;}
+.cat-card{background:#1e293b;border-radius:10px;padding:16px;}
+.cat-card .cat-name{font-size:14px;font-weight:600;color:#cbd5e1;margin-bottom:8px;}
+.cat-card .cat-acc{font-size:28px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+
+/* Callout */
+.callout{background:#1e293b;border-left:4px solid #60a5fa;border-radius:0 8px 8px 0;padding:16px 20px;margin:24px 0;}
+.callout.warn{border-color:#fbbf24;}
+.callout.good{border-color:#4ade80;}
+.callout p{margin:0;color:#cbd5e1;}
+
+/* Methodology */
+.method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.method-item{background:#1e293b;border-radius:8px;padding:14px;text-align:center;}
+.method-item .m-val{font-size:20px;font-weight:700;color:#f8fafc;font-family:'JetBrains Mono',monospace;}
+.method-item .m-label{font-size:12px;color:#94a3b8;margin-top:4px;}
+
+@media(max-width:640px){
+  .big-numbers{grid-template-columns:repeat(2,1fr);}
+  .cat-grid{grid-template-columns:1fr;}
+  .method-grid{grid-template-columns:1fr;}
+  .bar-label{width:120px;font-size:12px;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Denver Pokedex Scanner</h1>
+  <div class="subtitle">Species Identification Eval Report — March 28, 2026</div>
+  <div class="big-numbers">
+    <div class="big-num green"><div class="value">76.2%</div><div class="label">Accuracy</div></div>
+    <div class="big-num blue"><div class="value">87.0%</div><div class="label">Precision</div></div>
+    <div class="big-num blue"><div class="value">87.9%</div><div class="label">Recall</div></div>
+    <div class="big-num amber"><div class="value">87.4%</div><div class="label">F1 Score</div></div>
+  </div>
+</div>
+
+<!-- METHODOLOGY -->
+<section>
+  <h2>Methodology</h2>
+  <p>Each species was tested with research-grade photos from iNaturalist's public observation dataset. 10 confuser species (visually similar species NOT in the Pokedex) were tested for false-positive rejection. The scanner uses Claude Sonnet with a structured prompt containing species-specific distinguishing features.</p>
+  <div class="method-grid">
+    <div class="method-item"><div class="m-val">35</div><div class="m-label">Species Tested</div></div>
+    <div class="method-item"><div class="m-val">105</div><div class="m-label">Species Images</div></div>
+    <div class="method-item"><div class="m-val">10</div><div class="m-label">Confuser Species</div></div>
+    <div class="method-item"><div class="m-val">30</div><div class="m-label">Confuser Images</div></div>
+    <div class="method-item"><div class="m-val">135</div><div class="m-label">Total API Calls</div></div>
+    <div class="method-item"><div class="m-val">Sonnet</div><div class="m-label">Model</div></div>
+  </div>
+</section>
+
+<!-- ACCURACY BY CATEGORY -->
+<section>
+  <h2>Accuracy by Category</h2>
+  <div class="cat-grid">
+    <div class="cat-card"><div class="cat-name">Flora (10 species)</div><div class="cat-acc" style="color:#4ade80">73.3%</div></div>
+    <div class="cat-card"><div class="cat-name">Mammals (9 species)</div><div class="cat-acc" style="color:#4ade80">88.9%</div></div>
+    <div class="cat-card"><div class="cat-name">Birds (8 species)</div><div class="cat-acc" style="color:#4ade80">79.2%</div></div>
+    <div class="cat-card"><div class="cat-name">Reptiles & Insects (8 species)</div><div class="cat-acc" style="color:#fbbf24">58.3%</div></div>
+  </div>
+  <div class="callout" style="margin-top:20px;">
+    <p>Mammals scored highest thanks to distinctive body shapes. Reptiles & Insects scored lowest due to snake confusion (Bull Snake vs Rattlesnake) and Miller Moth's generic appearance.</p>
+  </div>
+</section>
+
+<!-- PER-SPECIES ACCURACY -->
+<section>
+  <h2>Per-Species Results</h2>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot correct"></div>Correct</div>
+    <div class="legend-item"><div class="legend-dot incorrect"></div>Wrong Species</div>
+    <div class="legend-item"><div class="legend-dot missed"></div>Missed (said no match)</div>
+    <div class="legend-item"><div class="legend-dot error"></div>Error</div>
+  </div>
+
+  <h3>Perfect (100%)</h3>
+  <div class="bar-chart" id="perfectChart"></div>
+
+  <h3>Partial (33–67%)</h3>
+  <div class="bar-chart" id="partialChart"></div>
+
+  <h3>Failed (0%)</h3>
+  <div class="bar-chart" id="failedChart"></div>
+</section>
+
+<!-- CONFUSER REJECTION -->
+<section>
+  <h2>Confuser Rejection</h2>
+  <p>These species are NOT in the Pokedex. The scanner should reject them as "no match." A false positive means the scanner incorrectly matched them to a Pokedex species.</p>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot rejected"></div>Correctly Rejected</div>
+    <div class="legend-item"><div class="legend-dot falsepos"></div>False Positive</div>
+    <div class="legend-item"><div class="legend-dot error"></div>Error</div>
+  </div>
+  <div class="bar-chart" id="confuserChart"></div>
+  <div class="callout warn" style="margin-top:20px;">
+    <p>The scanner fails to reject species that evolved to mimic Pokedex entries: Viceroy Butterflies (mimic Monarchs), Gopher Snakes (mimic Rattlesnakes), and White-tailed Deer / Grizzly Bears that look similar to their Pokedex counterparts.</p>
+  </div>
+</section>
+
+<!-- CONFUSION PAIRS -->
+<section>
+  <h2>Confusion Pairs</h2>
+  <p>When the scanner gets it wrong, these are the species it confuses.</p>
+  <table class="confusion-table">
+    <thead><tr><th>Actual Species</th><th></th><th>Misidentified As</th><th>Count</th></tr></thead>
+    <tbody id="confusionBody"></tbody>
+  </table>
+</section>
+
+<!-- NEGATIVE CLASS -->
+<section>
+  <h2>Negative Class (Random Species)</h2>
+  <p>100 images of 10 common species NOT in the Pokedex, testing whether the scanner correctly says "not found." These are things people might casually scan — pets, garden plants, common backyard wildlife.</p>
+  <div class="big-numbers" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px;">
+    <div class="big-num amber"><div class="value">74.7%</div><div class="label">Rejection Rate</div></div>
+    <div class="big-num red"><div class="value">25</div><div class="label">False Positives</div></div>
+    <div class="big-num green"><div class="value">74</div><div class="label">Correctly Rejected</div></div>
+  </div>
+  <div class="bar-chart" id="negativeChart"></div>
+  <div class="callout warn" style="margin-top:20px;">
+    <p><strong>~1 in 4 random photos incorrectly matches a Pokedex species.</strong> The scanner is too eager to match within broad taxonomic groups: any snake triggers Bull Snake/Rattlesnake (70% false positive rate), any small frog triggers Boreal Chorus Frog (60%), and broadleaf trees trigger Quaking Aspen (30%). Prompt has been updated with stricter rejection guidance.</p>
+  </div>
+
+  <h3>Worst False Positive Patterns</h3>
+  <table class="confusion-table">
+    <thead><tr><th>Random Species</th><th></th><th>Incorrectly Matched To</th><th>Count</th></tr></thead>
+    <tbody>
+      <tr><td class="from">Common Garter Snake</td><td style="color:#475569">→</td><td class="to">Bull Snake / Rattlesnake</td><td class="count">7x</td></tr>
+      <tr><td class="from">Green Tree Frog</td><td style="color:#475569">→</td><td class="to">Boreal Chorus Frog</td><td class="count">6x</td></tr>
+      <tr><td class="from">White Oak</td><td style="color:#475569">→</td><td class="to">Quaking Aspen</td><td class="count">3x</td></tr>
+      <tr><td class="from">Domestic Dog</td><td style="color:#475569">→</td><td class="to">Coyote</td><td class="count">2x</td></tr>
+      <tr><td class="from">Eastern Bluebird</td><td style="color:#475569">→</td><td class="to">Various birds</td><td class="count">2x</td></tr>
+      <tr><td class="from">Red Rose</td><td style="color:#475569">→</td><td class="to">Various flora</td><td class="count">2x</td></tr>
+      <tr><td class="from">Dandelion</td><td style="color:#475569">→</td><td class="to">Various flora</td><td class="count">2x</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- KEY FINDINGS -->
+<section>
+  <h2>Key Findings</h2>
+  <div class="callout good">
+    <p><strong>19 of 35 species (54%) achieved 100% accuracy.</strong> The scanner is reliable for visually distinctive species: large mammals (bear, deer, pronghorn), colorful birds (eagle, meadowlark, hummingbird), and unique plants (columbine, spruce).</p>
+  </div>
+  <div class="callout warn">
+    <p><strong>Snake identification is the weakest link.</strong> Bull Snake and Prairie Rattlesnake are confused bidirectionally (33% each). Key distinguishing features (pupil shape, head width, rattle) are often not visible in field photos. The Gopher Snake confuser also gets matched as Rattlesnake.</p>
+  </div>
+  <div class="callout warn">
+    <p><strong>Mimicry defeats the scanner.</strong> Viceroy Butterfly (evolved to look like Monarch), Grizzly Bear (similar to Black Bear), and White-tailed Deer (similar to Mule Deer) all have 0% rejection rates. The distinguishing features (hindwing line, shoulder hump, antler pattern) may require higher-resolution photos than typical field shots.</p>
+  </div>
+  <div class="callout">
+    <p><strong>Miller Moth is unidentifiable at 0% accuracy.</strong> These small brown moths look too generic for reliable photo identification. Consider removing from the scanner or accepting genus-level matches.</p>
+  </div>
+</section>
+
+<!-- NEXT STEPS -->
+<section>
+  <h2>Next Steps</h2>
+  <p>1. Run full eval (10 images per species, 450 total) for statistically significant results.<br>
+     2. Add reference images to the prompt for the 5 most-confused species pairs.<br>
+     3. Test with phone camera photos (current eval uses iNaturalist research-grade images).<br>
+     4. Consider a two-pass approach: Claude for initial classification, then a specialized model for confusable pairs.<br>
+     5. Evaluate BioCLIP 2 as an alternative for offline identification.</p>
+</section>
+
+</div>
+
+<script>
+const species = {
+  "Blue Columbine":{c:3,i:0,m:0,e:0},"Indian Paintbrush":{c:2,i:0,m:0,e:1},"Prickly Pear Cactus":{c:2,i:1,m:0,e:0},
+  "Yucca":{c:2,i:1,m:0,e:0},"Blanket Flower":{c:1,i:2,m:0,e:0},"Blue Spruce":{c:3,i:0,m:0,e:0},
+  "Pasque Flower":{c:2,i:1,m:0,e:0},"Quaking Aspen":{c:2,i:0,m:0,e:1},"Narrowleaf Cottonwood":{c:2,i:1,m:0,e:0},
+  "Rocky Mtn Juniper":{c:2,i:1,m:0,e:0},"Mule Deer":{c:3,i:0,m:0,e:0},"Black Bear":{c:3,i:0,m:0,e:0},
+  "Prairie Dog":{c:3,i:0,m:0,e:0},"Mountain Lion":{c:2,i:0,m:1,e:0},"Fox Squirrel":{c:3,i:0,m:0,e:0},
+  "Coyote":{c:3,i:0,m:0,e:0},"Yel-bellied Marmot":{c:3,i:0,m:0,e:0},"Pronghorn":{c:3,i:0,m:0,e:0},
+  "Elk":{c:1,i:1,m:1,e:0},"Blk-billed Magpie":{c:2,i:0,m:1,e:0},"Red-tailed Hawk":{c:2,i:0,m:1,e:0},
+  "Great Horned Owl":{c:2,i:0,m:1,e:0},"W. Meadowlark":{c:3,i:0,m:0,e:0},"Broad-tailed Hummingbird":{c:3,i:0,m:0,e:0},
+  "Bald Eagle":{c:3,i:0,m:0,e:0},"Lark Bunting":{c:1,i:0,m:2,e:0},"American Dipper":{c:3,i:0,m:0,e:0},
+  "Bull Snake":{c:1,i:2,m:0,e:0},"Prairie Rattlesnake":{c:1,i:2,m:0,e:0},"W. Painted Turtle":{c:3,i:0,m:0,e:0},
+  "Tiger Salamander":{c:3,i:0,m:0,e:0},"Boreal Chorus Frog":{c:3,i:0,m:0,e:0},"Monarch Butterfly":{c:3,i:0,m:0,e:0},
+  "Colorado Hairstreak":{c:2,i:0,m:1,e:0},"Miller Moth":{c:0,i:0,m:3,e:0}
+};
+
+const confusers = {
+  "White-tailed Jackrabbit":{r:3,f:0,e:0},"American Robin":{r:3,f:0,e:0},"Red Fox":{r:2,f:0,e:1},
+  "Sunflower":{r:2,f:0,e:1},"Douglas Fir":{r:2,f:1,e:0},"Gray Squirrel":{r:1,f:2,e:0},
+  "Gopher Snake":{r:0,f:2,e:1},"Grizzly Bear":{r:0,f:3,e:0},"Viceroy Butterfly":{r:0,f:3,e:0},
+  "White-tailed Deer":{r:0,f:3,e:0}
+};
+
+const confusionPairs = [
+  ["Grizzly Bear*","Black Bear",3],
+  ["Viceroy Butterfly*","Monarch Butterfly",3],
+  ["White-tailed Deer*","Mule Deer",3],
+  ["Bull Snake","Prairie Rattlesnake",2],
+  ["Prairie Rattlesnake","Bull Snake",2],
+  ["Blanket Flower","Yucca",2],
+  ["Gopher Snake*","Prairie Rattlesnake",2],
+  ["Elk","Mule Deer",1],
+  ["Narrowleaf Cottonwood","Quaking Aspen",1],
+  ["Prickly Pear Cactus","Yucca",1],
+  ["Douglas Fir*","Blue Spruce",1],
+  ["Gray Squirrel*","Fox Squirrel",1]
+];
+
+function makeBar(label, segments, total, pctText) {
+  const row = document.createElement('div');
+  row.className = 'bar-row';
+  row.innerHTML = `<div class="bar-label">${label}</div>
+    <div class="bar-track"><div class="bar-fill-stack">
+      ${segments.map(s => `<div class="${s.cls}" style="width:${(s.val/total*100)}%"></div>`).join('')}
+    </div></div>
+    <div class="bar-pct">${pctText}</div>`;
+  return row;
+}
+
+// Species charts
+const perfect = [], partial = [], failed = [];
+for (const [name, d] of Object.entries(species)) {
+  const t = d.c + d.i + d.m + d.e;
+  const acc = Math.round(d.c / t * 100);
+  const segs = [
+    {val:d.c, cls:'correct'}, {val:d.i, cls:'incorrect'}, {val:d.m, cls:'missed'}, {val:d.e, cls:'error'}
+  ];
+  const bar = makeBar(name, segs, t, acc+'%');
+  if (acc === 100) perfect.push(bar);
+  else if (acc > 0) partial.push(bar);
+  else failed.push(bar);
+}
+perfect.forEach(b => document.getElementById('perfectChart').appendChild(b));
+partial.sort((a,b) => parseInt(b.querySelector('.bar-pct').textContent) - parseInt(a.querySelector('.bar-pct').textContent));
+partial.forEach(b => document.getElementById('partialChart').appendChild(b));
+failed.forEach(b => document.getElementById('failedChart').appendChild(b));
+
+// Confuser chart
+const confuserChart = document.getElementById('confuserChart');
+const confEntries = Object.entries(confusers).sort((a,b) => {
+  const ra = a[1].r/(a[1].r+a[1].f+a[1].e)*100;
+  const rb = b[1].r/(b[1].r+b[1].f+b[1].e)*100;
+  return rb - ra;
+});
+for (const [name, d] of confEntries) {
+  const t = d.r + d.f + d.e;
+  const rate = Math.round(d.r / t * 100);
+  const segs = [{val:d.r, cls:'correct'}, {val:d.f, cls:'incorrect'}, {val:d.e, cls:'error'}];
+  confuserChart.appendChild(makeBar(name, segs, t, rate+'%'));
+}
+
+// Confusion pairs
+const tbody = document.getElementById('confusionBody');
+// Negative class chart
+const negatives = {
+  "Mallard Duck":{r:10,f:0},"Domestic Cat":{r:9,f:0},"House Sparrow":{r:9,f:1},
+  "Dandelion":{r:8,f:2},"Domestic Dog":{r:8,f:2},"Eastern Bluebird":{r:8,f:2},
+  "Red Rose":{r:8,f:2},"White Oak":{r:7,f:3},"Green Tree Frog":{r:4,f:6},
+  "Common Garter Snake":{r:3,f:7}
+};
+const negChart = document.getElementById('negativeChart');
+if(negChart){
+  const negEntries = Object.entries(negatives).sort((a,b)=>(b[1].r/(b[1].r+b[1].f))-(a[1].r/(a[1].r+a[1].f)));
+  for(const [name,d] of negEntries){
+    const t=d.r+d.f;
+    const rate=Math.round(d.r/t*100);
+    negChart.appendChild(makeBar(name,[{val:d.r,cls:'correct'},{val:d.f,cls:'incorrect'}],t,rate+'%'));
+  }
+}
+
+confusionPairs.forEach(([from, to, count]) => {
+  const isConfuser = from.endsWith('*');
+  const fromClean = from.replace('*','');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td class="from">${fromClean}${isConfuser ? ' <span style="color:#6b7280;font-size:12px">(confuser)</span>' : ''}</td>
+    <td style="color:#475569">→</td>
+    <td class="to">${to}</td>
+    <td class="count">${count}x</td>`;
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>

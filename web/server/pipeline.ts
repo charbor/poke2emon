@@ -6,6 +6,7 @@ import {
   ANALYZE_IMAGE_PROMPT,
   buildDesignPrompt,
   buildSpritePrompt,
+  buildMaskPrompt,
   buildVideoPrompt,
 } from "./prompts";
 
@@ -64,14 +65,22 @@ export async function runPipeline(
     write("concept", concept);
     emitStep(write, "design", "complete", `${concept.name} designed!`);
 
-    // Step 3: Generate sprite image
-    emitStep(write, "illustrate", "active", "Drawing sprite...");
+    // Step 3: Generate sprite (on black) + alpha mask in parallel
+    emitStep(write, "illustrate", "active", "Drawing sprite & mask...");
     const spritePrompt = buildSpritePrompt(concept);
-    const sprite = await generateImage(spritePrompt);
+    const maskPrompt = buildMaskPrompt(concept);
+    const [sprite, mask] = await Promise.all([
+      generateImage(spritePrompt),
+      generateImage(maskPrompt),
+    ]);
 
     if (sprite) {
       const spriteId = storeMedia(sprite.base64, sprite.mimeType);
-      write("sprite", { url: `/api/media/${spriteId}` });
+      const maskId = mask ? storeMedia(mask.base64, mask.mimeType) : null;
+      write("sprite", {
+        url: `/api/media/${spriteId}`,
+        maskUrl: maskId ? `/api/media/${maskId}` : null,
+      });
       emitStep(write, "illustrate", "complete", "Sprite created!");
     } else {
       emitStep(write, "illustrate", "error", "Sprite generation failed");

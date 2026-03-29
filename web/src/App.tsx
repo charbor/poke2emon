@@ -7,7 +7,7 @@ import type {
   PipelineStep,
   StepState,
 } from "./types";
-import { startGeneration, fileToBase64 } from "./api";
+import { startGeneration, fileToBase64, compositeSprite } from "./api";
 import InputForm from "./components/InputForm";
 import GenerationProgress from "./components/GenerationProgress";
 import PokedexCard from "./components/PokedexCard";
@@ -89,8 +89,14 @@ export default function App() {
         break;
       }
       case "sprite": {
-        const { url } = event.data as { url: string };
-        setState((prev) => ({ ...prev, spriteUrl: url }));
+        const { url, maskUrl } = event.data as { url: string; maskUrl: string | null };
+        if (maskUrl) {
+          compositeSprite(url, maskUrl).then((composited) => {
+            setState((prev) => ({ ...prev, spriteUrl: composited }));
+          });
+        } else {
+          setState((prev) => ({ ...prev, spriteUrl: url }));
+        }
         break;
       }
       case "video": {

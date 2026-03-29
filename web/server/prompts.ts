@@ -53,13 +53,15 @@ export function buildDesignPrompt(context: string): string {
   return DESIGN_POKEMON_PROMPT.replace("{CONTEXT}", context);
 }
 
-export function buildSpritePrompt(concept: {
+interface SpritePromptConcept {
   name: string;
   spriteDescription: string;
   colorPalette: string[];
   types: string[];
   category: string;
-}): string {
+}
+
+export function buildSpritePrompt(concept: SpritePromptConcept): string {
   return `Create a pixel art sprite of a Pokemon called "${concept.name}" (${concept.category}).
 
 Visual description: ${concept.spriteDescription}
@@ -70,11 +72,28 @@ Type(s): ${concept.types.join("/")}
 Style requirements:
 - 2D pixel art style, like classic Pokemon game sprites
 - Front-facing view, centered in frame
-- Clean white or transparent background
+- PURE BLACK (#000000) background, completely solid black, no gradients
 - Bold outlines, vibrant colors from the palette
 - Expressive and dynamic pose
 - Pokemon should fill most of the frame
-- Style reminiscent of Pokemon Black/White era sprites`;
+- Style reminiscent of Pokemon Black/White era sprites
+- No shadows or glow on the background — just solid black`;
+}
+
+export function buildMaskPrompt(concept: SpritePromptConcept): string {
+  return `Create an alpha mask silhouette of a pixel art Pokemon called "${concept.name}" (${concept.category}).
+
+Shape description: ${concept.spriteDescription}
+
+Style requirements:
+- The Pokemon shape should be PURE WHITE (#FFFFFF)
+- The background should be PURE BLACK (#000000)
+- This is a flat silhouette mask — no details, no shading, no colors
+- Just the solid white shape of the Pokemon on a solid black background
+- Front-facing view, centered, same pose and proportions as a game sprite
+- Pixel art style edges
+- Pokemon should fill most of the frame
+- No anti-aliasing — hard pixel edges only`;
 }
 
 export function buildVideoPrompt(concept: {

@@ -1,5 +1,61 @@
 import type { GenerateRequest, SSEEvent } from "./types";
 
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+/**
+ * Composite a premultiplied-alpha sprite (on black) with a mask
+ * (white = opaque, black = transparent). Returns an object URL
+ * of the resulting PNG with proper transparency.
+ */
+export async function compositeSprite(
+  spriteUrl: string,
+  maskUrl: string,
+): Promise<string> {
+  const [sprite, mask] = await Promise.all([
+    loadImage(spriteUrl),
+    loadImage(maskUrl),
+  ]);
+
+  const w = sprite.width;
+  const h = sprite.height;
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d")!;
+
+  // Draw sprite to read pixel data
+  ctx.drawImage(sprite, 0, 0, w, h);
+  const spriteData = ctx.getImageData(0, 0, w, h);
+
+  // Draw mask to read pixel data
+  ctx.clearRect(0, 0, w, h);
+  ctx.drawImage(mask, 0, 0, w, h);
+  const maskData = ctx.getImageData(0, 0, w, h);
+
+  // Apply mask luminance as alpha to the sprite (already premultiplied)
+  const out = spriteData;
+  for (let i = 0; i < out.data.length; i += 4) {
+    // Mask luminance → alpha (use green channel, most perceptual weight)
+    out.data[i + 3] = maskData.data[i + 1];
+  }
+
+  ctx.putImageData(out, 0, 0);
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve(URL.createObjectURL(blob!));
+    }, "image/png");
+  });
+}
+
 export function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

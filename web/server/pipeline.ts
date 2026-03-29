@@ -1,6 +1,6 @@
 import type { PokemonConcept, PipelineStep, StepStatus } from "../src/types";
 import { analyzeImage, generateTextStream, generateImage } from "./gemini";
-import { startVideoGeneration, waitForVideo } from "./veo";
+import { generateVideo } from "./veo";
 import {
   ANALYZE_IMAGE_PROMPT,
   buildDesignPrompt,
@@ -74,12 +74,10 @@ export async function runPipeline(
     // Step 4: Generate idle animation video
     emitStep(write, "animate", "active", "Generating animation...");
     const videoPrompt = buildVideoPrompt(concept);
-    const opName = await startVideoGeneration(videoPrompt, sprite?.base64);
+    const videoResult = await generateVideo(videoPrompt, sprite?.base64);
 
-    const videoResult = await waitForVideo(opName);
     if (videoResult.video) {
       write("video", {
-        operationName: opName,
         base64: videoResult.video.base64,
         mimeType: videoResult.video.mimeType,
       });

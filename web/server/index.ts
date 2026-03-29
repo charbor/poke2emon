@@ -1,5 +1,4 @@
 import { runPipeline } from "./pipeline";
-import { pollVideoOperation, getOperation } from "./veo";
 import type { GenerateRequest } from "../src/types";
 import { join } from "path";
 import { existsSync } from "fs";
@@ -56,33 +55,6 @@ async function handleGenerate(req: Request): Promise<Response> {
   );
 }
 
-async function handleVideoStatus(operationName: string): Promise<Response> {
-  try {
-    const result = await pollVideoOperation(operationName);
-    return jsonResponse({
-      done: result.done,
-      hasVideo: !!result.video,
-    });
-  } catch {
-    return jsonResponse({ error: "Operation not found" }, 404);
-  }
-}
-
-function handleVideoDownload(operationName: string): Response {
-  const op = getOperation(operationName);
-  if (!op?.video) {
-    return jsonResponse({ error: "Video not ready or not found" }, 404);
-  }
-
-  const buffer = Buffer.from(op.video.base64, "base64");
-  return new Response(buffer, {
-    headers: {
-      "Content-Type": op.video.mimeType,
-      "Content-Disposition": `attachment; filename="pokemon-idle.mp4"`,
-    },
-  });
-}
-
 function serveStatic(path: string): Response {
   const filePath = join(DIST_DIR, path === "/" ? "index.html" : path);
   const file = Bun.file(filePath);
@@ -99,16 +71,6 @@ const server = Bun.serve({
     // API routes
     if (path === "/api/generate" && req.method === "POST") {
       return handleGenerate(req);
-    }
-
-    if (path.startsWith("/api/video/") && path.endsWith("/download")) {
-      const opName = path.slice("/api/video/".length, -"/download".length);
-      return handleVideoDownload(decodeURIComponent(opName));
-    }
-
-    if (path.startsWith("/api/video/")) {
-      const opName = path.slice("/api/video/".length);
-      return handleVideoStatus(decodeURIComponent(opName));
     }
 
     // In production, serve static files

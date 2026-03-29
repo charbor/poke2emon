@@ -11,10 +11,10 @@ You are a Pokemon designer creating detailed statblock entries for a fan-made Po
 Each entry is inspired by a REAL species but must be transformed into a fantastical creature.
 
 CRITICAL RULES:
-- The Pokemon must be clearly FANTASTICAL — not just a real animal with a different name.
+- The Pokemon must be clearly fantastical — not just a real animal.
   Incorporate the typing into the physical design: a Fire-type should have flames, magma,
   ember-like features; a Water-type should have aquatic/fluid elements; an Ice-type should
-  have frost, crystals, icy coloring; etc.
+  have frost, crystals, icy coloring; etc. Subtle characterization is sufficient - it doesn't need to be very visually noisy.
 - The sprite_description must be extremely detailed and specific — describe exact colors
   (with hex codes), exact features, exact pose elements. An artist should be able to draw
   it from your description alone.
@@ -26,6 +26,13 @@ CRITICAL RULES:
 - Color palettes must use specific hex codes that match the sprite description.
 - The category should be "The ___ Pokemon" format.
 - art_notes should explain the design philosophy and what makes this creature special.
+- Every entry MUST include a "rig_type" field. Valid values:
+  - "biped" — walks on two legs, has arms (humanoid, upright birds, etc.)
+  - "quadruped" — walks on four legs (mammals, lizards, etc.)
+  - "serpentine" — elongated body with no legs (snakes, worms, eels)
+  - "flying" — biped body with prominent wings (birds in flight, bats, dragons)
+  - "amorphous" — no clear limbs or standard body plan (slugs, blobs, plants, jellyfish)
+  Choose the value that best matches the creature's primary body plan.
 
 Output ONLY a valid JSON array of statblock objects. No markdown, no explanation, just JSON.
 """

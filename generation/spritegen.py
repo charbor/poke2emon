@@ -190,9 +190,9 @@ def generate_mon(mon, dep_future=None):
     output_sheet = f"{sprite_dir}/sheet.png"
     output_front = f"{sprite_dir}/front.png"
     output_back = f"{sprite_dir}/back.png"
-    output_tpose = f"{sprite_dir}/tpose.png"
+    output_bindpose = f"{sprite_dir}/bindpose.png"
 
-    if os.path.exists(output_front) and os.path.exists(output_back) and os.path.exists(output_tpose):
+    if os.path.exists(output_front) and os.path.exists(output_back) and os.path.exists(output_bindpose):
         print(f"Skipping {name} (already exists)")
         return
 
@@ -236,6 +236,38 @@ def generate_mon(mon, dep_future=None):
 
     sprite_desc = mon.get("sprite_description", "")
     features = ", ".join(mon.get("distinguishing_features", []))
+    rig_type = mon.get("rig_type", "biped")
+
+    # Build rig-type-specific bind pose instructions for the 3rd sprite
+    bindpose_prompts = {
+        "biped": (
+            "Right column: front-facing T-pose for rigging — the creature seen from the FRONT "
+            "(stomach-facing the viewer) with arms extended straight out to the sides horizontally. "
+            "Legs straight, feet flat. A classic T-pose."
+        ),
+        "quadruped": (
+            "Right column: SIDE orthographic view in neutral standing bind pose — the creature seen "
+            "from the SIDE in perfect profile. All four legs must be straight, evenly spaced, and clearly "
+            "separated (not overlapping). Tail extended straight outward. Head facing right in profile. "
+            "No perspective distortion — flat side view like a veterinary anatomy diagram."
+        ),
+        "flying": (
+            "Right column: front-facing spread pose for rigging — the creature seen from the FRONT "
+            "(stomach-facing the viewer) with wings fully spread out horizontally to both sides. "
+            "Legs straight down if present. Tail spread. All wing feathers/membranes clearly visible."
+        ),
+        "serpentine": (
+            "Right column: SIDE orthographic view — the creature seen from the SIDE, body extended "
+            "in a straight horizontal line (not coiled). Full length visible from head to tail tip. "
+            "Flat side view, no perspective distortion."
+        ),
+        "amorphous": (
+            "Right column: front-facing neutral pose — the creature seen from the FRONT with its full "
+            "body clearly visible and all appendages (tentacles, eyestalks, etc.) spread out and separated. "
+            "Show the complete body shape as clearly as possible."
+        ),
+    }
+    bindpose_desc = bindpose_prompts.get(rig_type, bindpose_prompts["biped"])
 
     prompt_text = (
         f"Generate a sprite sheet of a Pokemon in the style of Gen 4 (Diamond/Pearl/Platinum) pixel art. "
@@ -248,10 +280,7 @@ def generate_mon(mon, dep_future=None):
         f"they are three views of ONE design, not three different interpretations. "
         f"Left column: one front-facing battle sprite (3/4 view from the front, idle combat stance). "
         f"Center column: one back-facing battle sprite (3/4 view from behind, same combat stance as the front sprite). "
-        f"Right column: one front-facing T-pose for rigging — the creature seen from the FRONT (stomach-facing the viewer) "
-        f"with arms/limbs extended straight out to the sides horizontally. "
-        f"If the creature has no arms or limbs, show it front-facing in a neutral upright pose with its body fully visible. "
-        f"The T-pose must face the viewer. "
+        f"{bindpose_desc} "
         f"The Pokemon is called {name}, a {types}-type inspired by {species}. "
         f"{evo_context}"
         f"Description: {sprite_desc} "
@@ -295,10 +324,10 @@ def generate_mon(mon, dep_future=None):
                 splits = find_split_columns(sheet)
                 front = sheet.crop((0, 0, splits[0], h))
                 back = sheet.crop((splits[0], 0, splits[1], h))
-                tpose = sheet.crop((splits[1], 0, w, h))
+                bindpose = sheet.crop((splits[1], 0, w, h))
                 front.save(output_front)
                 back.save(output_back)
-                tpose.save(output_tpose)
+                bindpose.save(output_bindpose)
                 print(f"  Saved sheet + splits at x={splits[0]}, x={splits[1]}")
                 break
         else:

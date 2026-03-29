@@ -1,4 +1,5 @@
 import { runPipeline } from "./pipeline";
+import { getMedia } from "./media";
 import type { GenerateRequest } from "../src/types";
 import { join } from "path";
 import { existsSync } from "fs";
@@ -71,6 +72,16 @@ const server = Bun.serve({
     // API routes
     if (path === "/api/generate" && req.method === "POST") {
       return handleGenerate(req);
+    }
+
+    // Serve generated media (sprites, videos)
+    if (path.startsWith("/api/media/")) {
+      const id = path.slice("/api/media/".length);
+      const media = getMedia(id);
+      if (!media) return jsonResponse({ error: "Not found" }, 404);
+      return new Response(new Uint8Array(media.data), {
+        headers: { "Content-Type": media.mimeType },
+      });
     }
 
     // In production, serve static files

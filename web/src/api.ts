@@ -63,13 +63,3 @@ export async function startGeneration(
     }
   }
 }
-
-export function base64ToObjectUrl(base64: string, mimeType: string): string {
-  const bytes = atob(base64);
-  const array = new Uint8Array(bytes.length);
-  for (let i = 0; i < bytes.length; i++) {
-    array[i] = bytes.charCodeAt(i);
-  }
-  const blob = new Blob([array], { type: mimeType });
-  return URL.createObjectURL(blob);
-}

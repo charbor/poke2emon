@@ -1,6 +1,7 @@
 import type { PokemonConcept, PipelineStep, StepStatus } from "../src/types";
 import { analyzeImage, generateTextStream, generateImage } from "./gemini";
 import { generateVideo } from "./veo";
+import { storeMedia } from "./media";
 import {
   ANALYZE_IMAGE_PROMPT,
   buildDesignPrompt,
@@ -65,7 +66,8 @@ export async function runPipeline(
     const sprite = await generateImage(spritePrompt);
 
     if (sprite) {
-      write("sprite", { base64: sprite.base64, mimeType: sprite.mimeType });
+      const spriteId = storeMedia(sprite.base64, sprite.mimeType);
+      write("sprite", { url: `/api/media/${spriteId}` });
       emitStep(write, "illustrate", "complete", "Sprite created!");
     } else {
       emitStep(write, "illustrate", "error", "Sprite generation failed");
@@ -77,10 +79,8 @@ export async function runPipeline(
     const videoResult = await generateVideo(videoPrompt, sprite?.base64);
 
     if (videoResult.video) {
-      write("video", {
-        base64: videoResult.video.base64,
-        mimeType: videoResult.video.mimeType,
-      });
+      const videoId = storeMedia(videoResult.video.base64, videoResult.video.mimeType);
+      write("video", { url: `/api/media/${videoId}` });
       emitStep(write, "animate", "complete", "Animation ready!");
     } else {
       emitStep(write, "animate", "error", "Video generation failed");

@@ -7,7 +7,7 @@ import type {
   PipelineStep,
   StepState,
 } from "./types";
-import { startGeneration, base64ToObjectUrl, fileToBase64 } from "./api";
+import { startGeneration, fileToBase64 } from "./api";
 import InputForm from "./components/InputForm";
 import GenerationProgress from "./components/GenerationProgress";
 import PokedexCard from "./components/PokedexCard";
@@ -89,14 +89,12 @@ export default function App() {
         break;
       }
       case "sprite": {
-        const { base64, mimeType } = event.data as { base64: string; mimeType: string };
-        const url = base64ToObjectUrl(base64, mimeType);
+        const { url } = event.data as { url: string };
         setState((prev) => ({ ...prev, spriteUrl: url }));
         break;
       }
       case "video": {
-        const { base64, mimeType } = event.data as { base64: string; mimeType: string };
-        const url = base64ToObjectUrl(base64, mimeType);
+        const { url } = event.data as { url: string };
         setState((prev) => ({ ...prev, videoUrl: url }));
         break;
       }
@@ -136,9 +134,6 @@ export default function App() {
   }
 
   function handleReset() {
-    const s = state();
-    if (s.spriteUrl) URL.revokeObjectURL(s.spriteUrl);
-    if (s.videoUrl) URL.revokeObjectURL(s.videoUrl);
     setState({
       steps: initialSteps(),
       concept: null,

@@ -1,7 +1,8 @@
+import argparse
 import json
 import io
 import os
-import time
+import concurrent.futures
 from collections import deque
 
 from google import genai
@@ -176,7 +177,11 @@ for mon in pokemon_list:
     add_mon(mon)
 pokemon_list = ordered
 
-for mon in pokemon_list:
+def generate_mon(mon, dep_future=None):
+    """Generate sprites for a single pokemon. Waits on dep_future if provided."""
+    if dep_future is not None:
+        dep_future.result()  # block until pre-evolution is done
+
     name = mon["name"]
     species = mon["real_species"]
     types = ", ".join(mon["types"])
@@ -189,7 +194,7 @@ for mon in pokemon_list:
 
     if os.path.exists(output_front) and os.path.exists(output_back) and os.path.exists(output_tpose):
         print(f"Skipping {name} (already exists)")
-        continue
+        return
 
     # Build evolution context and collect previous evolution sprite
     evo_context = ""
@@ -230,10 +235,7 @@ for mon in pokemon_list:
         evo_context = "It should look serious and cool — a distinct Pokemon that occupies a clear niche and could be someone's favorite. "
 
     sprite_desc = mon.get("sprite_description", "")
-    # pose = mon.get("pose", "")
-    # expression = mon.get("expression", "")
     features = ", ".join(mon.get("distinguishing_features", []))
-    # art_notes = mon.get("art_notes", "")
 
     prompt_text = (
         f"Generate a sprite sheet of a Pokemon in the style of Gen 4 (Diamond/Pearl/Platinum) pixel art. "
@@ -302,5 +304,28 @@ for mon in pokemon_list:
             print(f"  No image returned for {name}")
     except Exception as e:
         print(f"  Error generating {name}: {e}")
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-n", "--parallel", type=int, default=4,
+                    help="number of parallel generations (default: 4)")
+args = parser.parse_args()
+
+futures = {}  # mon_id -> Future
+with concurrent.futures.ThreadPoolExecutor(max_workers=args.parallel) as pool:
+    for mon in pokemon_list:
+        chain = mon.get("evolution_chain")
+        dep = None
+        if chain and chain.get("evolves_from"):
+            dep = futures.get(chain["evolves_from"])
+        fut = pool.submit(generate_mon, mon, dep)
+        futures[mon["id"]] = fut
+
+    # Wait for all and surface any exceptions
+    for mon_id, fut in futures.items():
+        try:
+            fut.result()
+        except Exception as e:
+            print(f"  Failed {mon_id}: {e}")
 
 print("Done!")

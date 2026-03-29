@@ -40,11 +40,18 @@ export async function compositeSprite(
   ctx.drawImage(mask, 0, 0, w, h);
   const maskData = ctx.getImageData(0, 0, w, h);
 
-  // Apply mask luminance as alpha to the sprite (already premultiplied)
+  // Un-premultiply RGB and apply mask as alpha
   const out = spriteData;
   for (let i = 0; i < out.data.length; i += 4) {
-    // Mask luminance → alpha (use green channel, most perceptual weight)
-    out.data[i + 3] = maskData.data[i + 1];
+    const a = maskData.data[i + 1] / 255; // mask green → alpha [0,1]
+    if (a > 0) {
+      out.data[i]     = Math.min(255, out.data[i]     / a); // R
+      out.data[i + 1] = Math.min(255, out.data[i + 1] / a); // G
+      out.data[i + 2] = Math.min(255, out.data[i + 2] / a); // B
+    } else {
+      out.data[i] = out.data[i + 1] = out.data[i + 2] = 0;
+    }
+    out.data[i + 3] = maskData.data[i + 1]; // A
   }
 
   ctx.putImageData(out, 0, 0);

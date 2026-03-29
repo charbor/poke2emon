@@ -11,15 +11,17 @@ from google import genai
 from PIL import Image
 
 POKEMON_PROMPT = (
-    "Transform this image into a Pokemon-style character. "
-    "Apply the classic Ken Sugimori Pokemon art style: clean bold outlines, "
-    "flat cel-shaded colors with minimal gradients, soft watercolor-like "
-    "color fills, simple yet expressive design, white background. "
-    "Retain the subject's key identifying features and pose. "
-    "Output only the transformed Pokemon-style image."
+    "Redesign the subject of this image as if it were an official Pokemon creature "
+    "illustrated by Ken Sugimori for the Pokemon video games. "
+    "Draw it in Sugimori's exact style: clean black ink outlines, soft watercolor shading, "
+    "rounded friendly proportions, large shiny eyes, and a plain white background. "
+    "The creature should look like it naturally evolved in the Pokemon world — "
+    "add elemental features (fire, water, grass, electric, etc.) that suit its appearance. "
+    "Output ONLY the creature illustration on a white background. "
+    "Do NOT include any text, labels, names, Pokedex entries, cards, borders, or UI elements."
 )
 
-DEFAULT_MODEL = "gemini-2.5-flash-image"
+DEFAULT_MODEL = "gemini-3-pro-image-preview"
 
 MIME_MAP = {
     ".jpg": "image/jpeg",

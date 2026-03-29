@@ -6,7 +6,7 @@ platforms = ["linux-64", "osx-arm64"]
 version = "0.1.0"
 
 [tasks]
-generate-mesh = { cmd = "python scripts/generate_mesh.py", depends-on = [] }
+generate-mesh = { cmd = "python scripts/generate_mesh.py", env = { LD_LIBRARY_PATH = "$CONDA_PREFIX/lib:$LD_LIBRARY_PATH" } }
 pokemonify = { cmd = "python scripts/pokemonify.py" }
 
 [dependencies]
@@ -16,6 +16,7 @@ torchvision = "*"
 cpuonly = "*"
 google-genai = ">=1.69.0,<2"
 pillow = ">=12.1.1,<13"
+libgl = "*"
 
 [pypi-dependencies]
 hy3dgen = { git = "https://github.com/Tencent-Hunyuan/Hunyuan3D-2.git" }

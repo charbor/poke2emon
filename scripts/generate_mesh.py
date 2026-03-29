@@ -26,7 +26,12 @@ def main():
 
     image = Image.open(image_path)
 
-    device = torch.device("cpu")
+    if torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
+
+    print(f"Using device: {device}")
 
     # Shape generation
     from hy3dgen.shapegen import Hunyuan3DDiTFlowMatchingPipeline

@@ -32,7 +32,7 @@
     "overworld_description": "A plump little bird that scurries along the ground rather than flying, its head plume bobbing comically with each step. Moves in quick bursts then stops to look around. 16x16: round grey-brown body with a single black pixel curving forward from the head.",
     "battle_sprite_facing": "right",
     "art_notes": "The head plume is EVERYTHING — it should be exaggerated slightly, bouncy, spring-like. This Pokemon's personality is 'fussy dignity.' It acts like royalty despite being a ground-dwelling bird that would rather run than fly. The scaled flank pattern is a subtle design element that rewards close inspection. Think of a tiny, officious mayor of a small town who takes the job very seriously. The plume bobs when it walks, shakes when it's angry, droops when it's sad — it's an emotional antenna. In the wild, Quailcrest travel in coveys of 10-20 and will refuse to enter tall grass unless the lead Quailcrest goes first. Pokédex lore: 'Quailcrest coveys elect a sentinel who stands on the highest rock and watches for danger. If the sentinel falls asleep on duty, the covey replaces it immediately and the disgraced Quailcrest must walk at the back of the group for a full day.'",
-    "rig_type": "biped"
+    "rig_type": "flying"
   },
   {
     "id": "slimtrail",

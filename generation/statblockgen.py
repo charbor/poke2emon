@@ -27,12 +27,12 @@ CRITICAL RULES:
 - The category should be "The ___ Pokemon" format.
 - art_notes should explain the design philosophy and what makes this creature special.
 - Every entry MUST include a "rig_type" field. Valid values:
-  - "biped" — walks on two legs, has arms (humanoid, upright birds, etc.)
-  - "quadruped" — walks on four legs (mammals, lizards, etc.)
+  - "biped" — walks on two legs, has arms (humanoid, humanoid mammal/lizard, etc.)
+  - "quadruped" — walks on four legs (animal-like mammals or lizards, etc.)
   - "serpentine" — elongated body with no legs (snakes, worms, eels)
-  - "flying" — biped body with prominent wings (birds in flight, bats, dragons)
+  - "flying" — biped body with prominent wings (birds, bats, dragons)
   - "amorphous" — no clear limbs or standard body plan (slugs, blobs, plants, jellyfish)
-  Choose the value that best matches the creature's primary body plan.
+  Choose the value that best matches the creature's primary body plan. Note that to the fantastical nature of Pokemon, many animals that would otherwise be quadruped can instead be reimagined as bipeds.
 
 Output ONLY a valid JSON array of statblock objects. No markdown, no explanation, just JSON.
 """

@@ -122,7 +122,7 @@ def remove_background(image, interior_min_size=100):
         border_seeds.add((w - 1, y))
 
     # Remove outer magenta background
-    outer_bg = _flood_fill(pixels, w, h, border_seeds, _is_magenta)
+    outer_bg = _flood_fill(pixels, w, h, border_seeds, _is_key_color)
     for x, y in outer_bg:
         pixels[x, y] = (0, 0, 0, 0)
 
@@ -136,7 +136,7 @@ def remove_background(image, interior_min_size=100):
             if not _is_magenta(pixels[x, y]):
                 checked.add((x, y))
                 continue
-            region = _flood_fill(pixels, w, h, [(x, y)], _is_magenta)
+            region = _flood_fill(pixels, w, h, [(x, y)], _is_key_color)
             checked.update(region)
             if len(region) >= interior_min_size:
                 for rx, ry in region:
@@ -282,8 +282,8 @@ def generate_mon(mon, dep_future=None):
     body_desc = body_type_context.get(rig_type, "")
 
     prompt_text = (
-        f"Generate a sprite sheet of a Pokemon in the style of Gen 4 (Diamond/Pearl/Platinum) pixel art. "
-        f"The image must contain EXACTLY 3 sprites — no more, no less — of the SAME Pokemon arranged in ONE SINGLE HORIZONTAL ROW on a plain solid flat bright magenta (#FF00FF) background. "
+        f"Generate a sprite sheet of a Pokemon in the style of Gen 4 (Diamond/Pearl/Platinum) pixel art, in the style of Ken Sugimori "
+        f"The image must contain EXACTLY 3 sprites — no more, no less — of the SAME Ken Sugimori-style Pokemon arranged in ONE SINGLE HORIZONTAL ROW on a plain solid flat bright magenta (#FF00FF) background. "
         f"BACKGROUND: The background MUST be solid magenta #FF00FF — NOT white, NOT grey, NOT any other color. Every pixel that is not part of a sprite must be exactly magenta. "
         f"IMPORTANT: Do NOT use any transparency, semi-transparency, or alpha blending in the sprites. All pixels must be fully opaque. "
         f"Effects like fog, mist, smoke, auras, or glows must be drawn as solid opaque pixels — not as translucent layers. "

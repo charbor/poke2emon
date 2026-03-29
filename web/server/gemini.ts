@@ -41,6 +41,27 @@ export async function generateText(prompt: string): Promise<string> {
   return response.text ?? "";
 }
 
+export async function generateTextStream(
+  prompt: string,
+  onChunk: (chunk: string, accumulated: string) => void,
+): Promise<string> {
+  const client = getClient();
+  const response = await client.models.generateContentStream({
+    model: "gemini-2.5-flash",
+    contents: prompt,
+  });
+
+  let accumulated = "";
+  for await (const chunk of response) {
+    const text = chunk.text ?? "";
+    if (text) {
+      accumulated += text;
+      onChunk(text, accumulated);
+    }
+  }
+  return accumulated;
+}
+
 export async function generateImage(
   prompt: string,
 ): Promise<{ base64: string; mimeType: string } | null> {

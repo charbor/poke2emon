@@ -1,5 +1,5 @@
 import type { PokemonConcept, PipelineStep, StepStatus } from "../src/types";
-import { analyzeImage, generateText, generateImage } from "./gemini";
+import { analyzeImage, generateTextStream, generateImage } from "./gemini";
 import { startVideoGeneration, waitForVideo } from "./veo";
 import {
   ANALYZE_IMAGE_PROMPT,
@@ -41,10 +41,12 @@ export async function runPipeline(
       throw new Error("Either a prompt or an image is required");
     }
 
-    // Step 2: Design Pokemon concept
+    // Step 2: Design Pokemon concept (streamed)
     emitStep(write, "design", "active", "Designing your Pokemon...");
     const designPrompt = buildDesignPrompt(context);
-    const conceptRaw = await generateText(designPrompt);
+    const conceptRaw = await generateTextStream(designPrompt, (_chunk, accumulated) => {
+      write("stream", { step: "design", text: accumulated });
+    });
 
     let concept: PokemonConcept;
     try {

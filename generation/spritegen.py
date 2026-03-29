@@ -11,7 +11,7 @@ client = genai.Client()
 
 os.makedirs("sprites", exist_ok=True)
 
-with open("pokemon_bayarea.json") as f:
+with open("statblocks/pokemon_bayarea.json") as f:
     pokemon_list = json.load(f)
 
 
@@ -44,6 +44,63 @@ def _flood_fill(pixels, w, h, seeds, check_fn):
                     visited.add((nx, ny))
                     queue.append((nx, ny))
     return visited
+
+
+def find_split_columns(image, n_splits=2):
+    """Find the best vertical split points by locating transparent column gaps.
+
+    Scans every column and scores it by how many pixels are transparent.
+    Then finds contiguous runs of fully/mostly transparent columns (gaps),
+    and picks the n_splits best gaps closest to the ideal equal-width positions.
+    """
+    w, h = image.size
+    pixels = image.load()
+
+    # Count non-transparent pixels per column
+    col_opaque = []
+    for x in range(w):
+        count = 0
+        for y in range(h):
+            if pixels[x, y][3] > 0:
+                count += 1
+        col_opaque.append(count)
+
+    # Find contiguous gap runs (columns with 0 opaque pixels)
+    # Allow a small tolerance for anti-aliasing artifacts
+    threshold = max(1, h // 50)
+    gaps = []  # list of (start_x, end_x) inclusive
+    in_gap = False
+    gap_start = 0
+    for x in range(w):
+        if col_opaque[x] <= threshold:
+            if not in_gap:
+                gap_start = x
+                in_gap = True
+        else:
+            if in_gap:
+                gaps.append((gap_start, x - 1))
+                in_gap = False
+    if in_gap:
+        gaps.append((gap_start, w - 1))
+
+    # Filter out edge gaps (first/last 5% of image)
+    margin = w // 20
+    gaps = [(s, e) for s, e in gaps if s > margin and e < w - margin]
+
+    if len(gaps) >= n_splits:
+        # Pick the gaps closest to the ideal split positions
+        ideal_positions = [(i + 1) * w // (n_splits + 1) for i in range(n_splits)]
+        chosen = []
+        remaining = list(gaps)
+        for ideal in ideal_positions:
+            best = min(remaining, key=lambda g: abs((g[0] + g[1]) // 2 - ideal))
+            chosen.append((best[0] + best[1]) // 2)
+            remaining.remove(best)
+        return sorted(chosen)
+
+    # Fallback: equal thirds
+    print("  Warning: could not find clear gaps, falling back to equal splits")
+    return [(i + 1) * w // (n_splits + 1) for i in range(n_splits)]
 
 
 def remove_background(image, interior_min_size=100):
@@ -125,6 +182,7 @@ for mon in pokemon_list:
     types = ", ".join(mon["types"])
     sprite_dir = f"sprites/{mon['id']}"
     os.makedirs(sprite_dir, exist_ok=True)
+    output_sheet = f"{sprite_dir}/sheet.png"
     output_front = f"{sprite_dir}/front.png"
     output_back = f"{sprite_dir}/back.png"
     output_tpose = f"{sprite_dir}/tpose.png"
@@ -223,15 +281,16 @@ for mon in pokemon_list:
                 img_data = part.inline_data.data
                 sheet = Image.open(io.BytesIO(img_data))
                 sheet = remove_background(sheet)
+                sheet.save(output_sheet)
                 w, h = sheet.size
-                third = w // 3
-                front = sheet.crop((0, 0, third, h))
-                back = sheet.crop((third, 0, third * 2, h))
-                tpose = sheet.crop((third * 2, 0, w, h))
+                splits = find_split_columns(sheet)
+                front = sheet.crop((0, 0, splits[0], h))
+                back = sheet.crop((splits[0], 0, splits[1], h))
+                tpose = sheet.crop((splits[1], 0, w, h))
                 front.save(output_front)
                 back.save(output_back)
                 tpose.save(output_tpose)
-                print(f"  Saved {output_front}, {output_back}, {output_tpose}")
+                print(f"  Saved sheet + splits at x={splits[0]}, x={splits[1]}")
                 break
         else:
             print(f"  No image returned for {name}")

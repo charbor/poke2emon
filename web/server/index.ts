@@ -89,6 +89,7 @@ function serveStatic(path: string): Response {
 
 const server = Bun.serve({
   port: PORT,
+  idleTimeout: 255, // max; pipeline can take minutes for video gen
   async fetch(req) {
     const url = new URL(req.url);
     const path = url.pathname;

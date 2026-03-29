@@ -28,6 +28,8 @@ def _is_magenta_fringe(pixel):
     return r > 100 and g < 140 and b > 100 and (r + b) > (g * 3)
 
 
+
+
 def _flood_fill(pixels, w, h, seeds, check_fn):
     """BFS flood fill from seeds, returns set of all connected matching pixels."""
     visited = set()
@@ -282,6 +284,7 @@ def generate_mon(mon, dep_future=None):
     prompt_text = (
         f"Generate a sprite sheet of a Pokemon in the style of Gen 4 (Diamond/Pearl/Platinum) pixel art. "
         f"The image must contain EXACTLY 3 sprites — no more, no less — of the SAME Pokemon arranged in ONE SINGLE HORIZONTAL ROW on a plain solid flat bright magenta (#FF00FF) background. "
+        f"BACKGROUND: The background MUST be solid magenta #FF00FF — NOT white, NOT grey, NOT any other color. Every pixel that is not part of a sprite must be exactly magenta. "
         f"The image should be wide/landscape — roughly 3x wider than it is tall. "
         f"LAYOUT: Divide the image into 3 equal-width columns side by side. Each sprite must fit entirely within its column — "
         f"no part of any sprite may cross into an adjacent column. Leave a visible vertical magenta gap between columns. "
@@ -328,8 +331,9 @@ def generate_mon(mon, dep_future=None):
         for part in response.candidates[0].content.parts:
             if part.inline_data is not None:
                 img_data = part.inline_data.data
-                sheet = Image.open(io.BytesIO(img_data))
-                sheet = remove_background(sheet)
+                raw = Image.open(io.BytesIO(img_data))
+                raw.save(f"{sprite_dir}/sheet_raw.png")
+                sheet = remove_background(raw)
                 sheet.save(output_sheet)
                 w, h = sheet.size
                 splits = find_split_columns(sheet)

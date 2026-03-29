@@ -44,11 +44,15 @@ export async function generateText(prompt: string): Promise<string> {
 export async function generateTextStream(
   prompt: string,
   onChunk: (chunk: string, accumulated: string) => void,
+  options?: { useSearch?: boolean },
 ): Promise<string> {
   const client = getClient();
   const response = await client.models.generateContentStream({
     model: "gemini-2.5-flash",
     contents: prompt,
+    config: options?.useSearch
+      ? { tools: [{ googleSearch: {} }] }
+      : undefined,
   });
 
   let accumulated = "";

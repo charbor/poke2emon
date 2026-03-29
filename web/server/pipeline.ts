@@ -42,12 +42,16 @@ export async function runPipeline(
       throw new Error("Either a prompt or an image is required");
     }
 
-    // Step 2: Design Pokemon concept (streamed)
-    emitStep(write, "design", "active", "Designing your Pokemon...");
+    // Step 2: Design Pokemon concept (streamed, with web search for research)
+    emitStep(write, "design", "active", "Researching & designing your Pokemon...");
     const designPrompt = buildDesignPrompt(context);
-    const conceptRaw = await generateTextStream(designPrompt, (_chunk, accumulated) => {
-      write("stream", { step: "design", text: accumulated });
-    });
+    const conceptRaw = await generateTextStream(
+      designPrompt,
+      (_chunk, accumulated) => {
+        write("stream", { step: "design", text: accumulated });
+      },
+      { useSearch: true },
+    );
 
     let concept: PokemonConcept;
     try {

@@ -140,42 +140,6 @@
     "art_notes": "Thermawk's design concept is THERMAL UPDRAFT MADE FLESH. Red-tailed hawks are defined by two things: their red tail and their soaring behavior on thermals (columns of rising hot air). This design fuses both — the tail IS a thermal generator. It doesn't just ride heat; it creates it. The heat shimmer effect around the tail and wings is critical to the design — it should look like the air itself is bending. The belly band (a real field mark for red-tailed hawks) doubles as a design element that breaks up the silhouette. The amber eyes should feel like they're evaluating everything beneath them. Thermawk is a mid-to-high tier Pokemon with excellent Special Attack (fire moves) and good Speed. Its signature ability 'Thermal Lift' boosts Speed in Sun weather. The screaming cry of the red-tailed hawk is the sound effect used for almost every 'eagle' in Hollywood — Thermawk is the original, and it knows it. Pokédex lore: 'Thermawk generates its own thermal updrafts by superheating the air beneath its wings, allowing it to soar indefinitely without flapping. The red tail feathers burn at 200°F. Other Flying-types draft behind Thermawk to save energy, which it tolerates with visible annoyance.'"
   },
   {
-    "id": "duskote",
-    "dex_number": 203,
-    "name": "Duskote",
-    "category": "The Twilight Trickster Pokemon",
-    "types": [
-      "Dark",
-      "Normal"
-    ],
-    "real_species": "Coyote (Canis latrans) — increasingly common in Bay Area urban environments, hunting at dawn and dusk, adapting to human infrastructure with startling intelligence",
-    "evolution_chain": null,
-    "evolution_stage": null,
-    "sprite_description": "A lean, wiry coyote standing in a watchful three-quarter pose. The fur is grizzled tawny-grey (#9e9d89) with darker (#6d6a5c) guard hairs along the back and a lighter cream (#e8e0d0) underbelly and throat. The muzzle is long and narrow with a dark nose (#1a1a1a). The ears are LARGE — proportionally bigger than a wolf's, triangular, upright, and alert, with tawny-orange (#c49a6c) inner fur. The eyes are the centerpiece: bright amber-gold (#ffb300) with vertical slit pupils that catch the light — there's a reflective eyeshine effect, as if caught in headlights. A subtle dark 'mask' of darker fur around the eyes gives it a bandit look. The legs are long and slender for its body — a runner's build. The tail is bushy with a dark (#3e2723) tip, held low (not raised like a wolf — coyotes carry tails low). The overall build is LEAN, almost gaunt — angular, not fluffy. Faint shadow-wisps (#424242 with low opacity) curl around the paws, as if the coyote is stepping out of the shadows.",
-    "color_palette": {
-      "primary": "#9e9d89",
-      "secondary": "#6d6a5c",
-      "accent": "#ffb300",
-      "outline": "#222222",
-      "eye_color": "#ffb300"
-    },
-    "pose": "Three-quarter stance, one front paw raised mid-step, ears pricked forward, head slightly lowered in a stalking posture, tail low, facing right. Emerging from shadow.",
-    "expression": "Cunning and calculating — amber eyes with reflective eyeshine, head tilted slightly, mouth closed but with the faintest hint of a smirk. The look of something that has already figured out how to open your trash can.",
-    "size_class": "medium",
-    "distinguishing_features": [
-      "Large triangular ears",
-      "Bright amber eyeshine eyes",
-      "Lean angular build",
-      "Low-carried bushy tail",
-      "Shadow wisps around paws",
-      "Darker mask around eyes",
-      "Long narrow muzzle"
-    ],
-    "overworld_description": "Appears and disappears at the edges of the screen, sometimes visible only as glowing amber eyes in darker areas. Follows at a distance, never quite beside the trainer. 16x16: angular grey canine silhouette with two amber eye-glow pixels, dark tail tip.",
-    "battle_sprite_facing": "right",
-    "art_notes": "Duskote is the URBAN ADAPTER — the Pokemon that figured out cities before anyone else. The design emphasizes its liminal nature: it exists at the boundary between wild and urban, between day and night, between seen and unseen. The shadow wisps aren't ghostly — Duskote isn't Ghost-type. They represent its ability to move through shadows and urban infrastructure invisibly. The eyeshine is critical: that moment you see two glowing eyes reflected in your headlights on a Bay Area road at dusk, and they're gone before you can react. The lean build contrasts with domestic dog Pokemon — this is no pet. It's wire-tight muscle and calculation. The large ears hear everything. Duskote's ability 'Urbanite' boosts its evasion and accuracy in urban/city battle environments. It learns Thief, Nasty Plot, and a signature move 'Dusk Dash' — a priority Dark-type move that has increased power when used at the start of battle (ambush predator). Pokédex lore: 'Duskote has mapped every alley, storm drain, and fence gap in its territory. It can cross an entire city without being seen by a single human. Trainers who earn its respect find that small useful objects — keys, coins, dropped items — appear on their doorstep overnight.'"
-  },
-  {
     "id": "eftorch",
     "dex_number": 67,
     "name": "Eftorch",

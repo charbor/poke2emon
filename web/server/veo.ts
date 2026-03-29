@@ -58,10 +58,10 @@ export async function pollVideoOperation(
   const cached = activeOperations.get(operationName);
   if (cached?.done) return cached;
 
-  const op = await client.operations.get({ operation: operationName });
+  const op = await client.operations.get({ operation: operationName } as never);
 
   if (op.done) {
-    const video = (op as Record<string, unknown>).response as
+    const video = (op as unknown as Record<string, unknown>).response as
       | { generatedVideos?: Array<{ video?: { videoBytes?: string } }> }
       | undefined;
     const videoBytes = video?.generatedVideos?.[0]?.video?.videoBytes;

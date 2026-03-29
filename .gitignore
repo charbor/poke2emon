@@ -19,3 +19,8 @@ build/
 # pixi environments
 .pixi/*
 !.pixi/config.toml
+
+# Web subproject
+web/node_modules/
+web/dist/
+web/bun.lock

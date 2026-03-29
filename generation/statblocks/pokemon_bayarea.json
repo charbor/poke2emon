@@ -461,5 +461,132 @@
     "overworld_description": "Flops along behind the trainer making constant honking barks. Near water, it belly-flops in and becomes surprisingly fast and graceful. On docks, it finds a wooden platform and claims it, barking at passersby. Other Barkbay congregate. 16x16: dark brown blob shape with open red mouth pixel, on a grey dock pixel.",
     "battle_sprite_facing": "right",
     "art_notes": "Barkbay is VOLUME AND CHARISMA personified. The design contrast with Fogwhisk (the harbor seal) is intentional — where Fogwhisk is quiet, contemplative, and solitary, Barkbay is LOUD, social, and in your face. Real California sea lions are obnoxiously loud — their barking colonies can be heard blocks away at Pier 39. The sagittal crest gives adult males a distinctive bulldogish forehead that separates them visually from the smoother-headed Fogwhisk. The sonic wave rings are the Normal-type contribution — Barkbay's voice is its primary weapon. It learns Hyper Voice, Boomburst, and its signature move 'Dock Claim' — a Normal-type priority move that forces the opponent to switch out (the sea lion is claiming this spot). Its ability 'Cacophony' is a Sound-based Intimidate — upon entering battle, its deafening bark lowers opponent's Special Attack. In the water, Barkbay's Speed doubles (real sea lions are extraordinarily agile swimmers despite their bulk). The comedy is built into the design: this Pokemon is genuinely powerful but acts like a goofball — barrel-rolling on docks, stealing fish from trainers, and barking at absolutely nothing at 3 AM. Pokédex lore: 'Barkbay colonies have been recorded at 110 decibels — louder than a chainsaw. They claim any flat surface near water as territory and will bark continuously until all rivals leave or fall asleep. Despite this, Barkbay is deeply social and becomes depressed if isolated. A happy Barkbay is a loud Barkbay.'"
+  },
+  {
+    "id": "rimeflame",
+    "dex_number": 196,
+    "name": "Rimeflame",
+    "category": "The Alpine Cub Pokemon",
+    "types": [
+      "Fire",
+      "Ice"
+    ],
+    "real_species": "Sierra Nevada red fox (Vulpes vulpes necator)",
+    "evolution_chain": {
+      "chain_id": "sierra_fox_line",
+      "stage": 1,
+      "stage_name": "Baby",
+      "total_stages": 3,
+      "evolves_from": null,
+      "evolves_into": "pyrocryst",
+      "evolution_method": "Level 24"
+    },
+    "evolution_stage": "baby",
+    "sprite_description": "A small, fluffy fox cub, barely larger than a house cat. Its body is covered in soft, plush fur, primarily a warm, light orange (#ffcc80) that gradually fades to a creamy white (#fff8e1) on its belly, inner legs, and the tip of its muzzle. Tiny, barely visible crimson (#e53935) embers flicker intermittently within the fur along its spine, emitting a very faint, almost unnoticeable warmth. The tips of its small, rounded paws are coated in a delicate, shimmering layer of frost (#e0f2f7), like powdered snow. Its perked, triangular ears are small and have tiny, translucent ice crystals (#bbdefb) protruding from their tips, catching the light. Its tail is short, fluffy, and curled upwards, with the very tip gently cycling between a soft ember glow and a frosty sheen. Its large, curious eyes are a bright sapphire blue (#29b6f6), full of innocence and playfulness.",
+    "color_palette": {
+      "primary": "#ffcc80",
+      "secondary": "#e53935",
+      "accent": "#29b6f6",
+      "outline": "#333333",
+      "eye_color": "#29b6f6"
+    },
+    "pose": "Standing on all four tiny paws, head slightly tilted with an inquisitive look, tail wagging gently, facing right",
+    "expression": "Wide-eyed and curious, with a hint of playful mischief. Its sapphire eyes are bright and alert.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Flickering spine embers",
+      "Frost-tipped paws",
+      "Ice crystal ear tips",
+      "Cycling fire/ice tail tip",
+      "Soft, fluffy fur"
+    ],
+    "overworld_description": "A tiny, adorable fox cub that pounces playfully at its own shadow. Small flashes of red light (embers) and blue light (frost) can be seen from its body. 16x16: Orange-white cub shape, tiny red/blue pixels flicker.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Rimeflame embodies the delicate balance of its dual typing, showcasing both fire and ice in nascent, soft forms. Its design should emphasize its vulnerability and youth, making the elemental aspects subtle and beautiful rather than dangerous. The constant, gentle flickering and shimmering are key to its aesthetic. It should look like it could fit in your hand, a precious creature from a harsh environment. Its rarity is reflected in its delicate nature."
+  },
+  {
+    "id": "pyrocryst",
+    "dex_number": 197,
+    "name": "Pyrocryst",
+    "category": "The Glacier Fox Pokemon",
+    "types": [
+      "Fire",
+      "Ice"
+    ],
+    "real_species": "Sierra Nevada red fox (Vulpes vulpes necator)",
+    "evolution_chain": {
+      "chain_id": "sierra_fox_line",
+      "stage": 2,
+      "stage_name": "Mid",
+      "total_stages": 3,
+      "evolves_from": "rimeflame",
+      "evolves_into": "ignifrost",
+      "evolution_method": "Level 42"
+    },
+    "evolution_stage": "mid",
+    "sprite_description": "A sleek, agile fox, significantly larger than Rimeflame but still nimble. Its fur is a vibrant flame-orange (#ff7043) covering its back, head, and upper legs, sharply transitioning to a pristine, snowy white (#f5f5f5) on its underbelly, throat, and the insides of its legs. A prominent crest of sharp, semi-transparent ice crystals (#a7ffeb) runs along its spine, from the shoulders to the base of its tail. These crystals glint and refract light, constantly reforming in subtle shifts. Its long, bushy tail is tipped with a larger, more defined cluster of solid, faceted ice (#80deea) surrounded by constantly flickering, bright crimson (#d84315) flame-like fur. Its front paws are encased in thin layers of hard, transparent ice, making them appear almost glass-like, with faint internal fracture lines. From its forelegs and flanks, subtle, thin lines of glowing, magma-like orange (#ff8a65) energy pulse visibly just beneath the skin, suggesting contained power. Its pointed ears are larger than Rimeflame's, rimmed with a thin, almost invisible layer of frost. Its eyes are fierce and intelligent, glowing a deep amber (#ffb300).",
+    "color_palette": {
+      "primary": "#ff7043",
+      "secondary": "#a7ffeb",
+      "accent": "#ffb300",
+      "outline": "#333333",
+      "eye_color": "#ffb300"
+    },
+    "pose": "Standing alert, poised as if ready to spring, with one front paw slightly raised and tail held high, facing right",
+    "expression": "Focused and intense, with a calculating gaze from its amber eyes. A creature of the mountains, wary but confident.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Spinal ice crest",
+      "Flame-orange to snow-white fur transition",
+      "Ice-armored front paws",
+      "Magma-vein body markings",
+      "Flame/ice tipped bushy tail"
+    ],
+    "overworld_description": "A mid-sized, agile fox that dashes across the terrain. Glimmering ice crystals can be seen on its back, and its tail tip has a distinct fiery glow. 16x16: Orange-white fox shape, spine pixels shift between white/blue, tail tip has red glow.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Pyrocryst marks the transition from delicate cub to formidable predator. The fire and ice elements are more defined and integrated into its physiology, no longer just superficial. The ice on its spine should look sharp and defensive, while the magma veins hint at its growing internal power. Its body should suggest both the grace of a fox and the ruggedness of its high-altitude habitat. This stage should convey a sense of 'adolescent power' – not fully mature, but clearly capable."
+  },
+  {
+    "id": "ignifrost",
+    "dex_number": 198,
+    "name": "Ignifrost",
+    "category": "The Volcanic Apex Pokemon",
+    "types": [
+      "Fire",
+      "Ice"
+    ],
+    "real_species": "Sierra Nevada red fox (Vulpes vulpes necator)",
+    "evolution_chain": {
+      "chain_id": "sierra_fox_line",
+      "stage": 3,
+      "stage_name": "Final",
+      "total_stages": 3,
+      "evolves_from": "pyrocryst",
+      "evolves_into": null,
+      "evolution_method": null
+    },
+    "evolution_stage": "final",
+    "sprite_description": "A large, majestic, and imposing fox, standing powerfully on all fours. Its primary fur is a deep, smoky volcanic ash grey (#424242) along its back, head, and outer legs, transitioning sharply to a pristine, glacial white (#e0f7fa) on its underbelly, muzzle, and the insides of its legs. A magnificent, perpetually burning mane of intense scarlet (#e53935) and vibrant orange (#ff6e40) flames erupts from its neck and shoulders, constantly flickering and dancing with heat, framing its powerful head. Its tail is massive and plume-like, with a core of solid, jagged, cerulean ice crystals (#00bcd4) that constantly emit a frosty mist, while the dense outer fur burns with fiery orange (#ff8a65) energy. Its paws and lower legs are armored with thick, razor-sharp shards of obsidian-like ice (#64b5f6) that gleam darkly and provide formidable protection. Jagged, glowing cracks of molten orange (#ff6e40) lava run visibly beneath the skin on its flanks, shoulders, and along its spine, pulsating slowly with immense power. Its pointed ears are tipped with distinct, sharp ice spikes. Its eyes are piercing, incandescent yellow-orange (#ffd54f) orbs that seem to hold both the ancient wisdom of glaciers and the destructive force of volcanoes.",
+    "color_palette": {
+      "primary": "#424242",
+      "secondary": "#e53935",
+      "accent": "#00bcd4",
+      "outline": "#1a1a1a",
+      "eye_color": "#ffd54f"
+    },
+    "pose": "Standing with a regal and powerful posture, head held high, mane of fire bristling, tail fanned out behind it, surveying its territory, facing right",
+    "expression": "Fierce, dominant, and ancient, with an unyielding gaze that commands respect and embodies the dual forces it wields.",
+    "size_class": "large",
+    "distinguishing_features": [
+      "Burning flame mane",
+      "Volcanic ash grey to glacial white fur",
+      "Massive fire/ice plume tail",
+      "Obsidian-ice leg armor",
+      "Pulsing lava-vein markings",
+      "Ice spike ear tips"
+    ],
+    "overworld_description": "A majestic and formidable fox that exudes both heat and cold. Its fiery mane glows brightly, and a frosty mist can be seen around its tail. It moves with deliberate, powerful steps. 16x16: Large grey-white fox, red/orange fire mane, blue mist/ice around tail.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Ignifrost is the apex predator of its harsh environment, a true master of fire and ice. Its design should be awe-inspiring and slightly intimidating, a perfect blend of destructive and protective elements. The volcanic ash fur contrasts dramatically with the glacial white, emphasizing its dual nature. The mane of fire and plume-like tail should be dynamic and flowing, while the ice armor should look robust and unyielding. The pulsing lava cracks are crucial to showing its internal, barely contained power. This Pokemon represents the ultimate adaptation to a brutal, beautiful landscape. Its rarity is reflected in its status as a solitary, powerful creature at the top of its food chain."
   }
 ]

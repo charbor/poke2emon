@@ -49,10 +49,18 @@ def build_prompt(species, freeform, existing):
             f"Make sure the new Pokemon's id does not collide with any existing id. "
         )
 
-        # Include a couple existing entries as format reference
-        sample = existing[:2]
+        # Include format references: one with evolution chain, one without
+        sample = []
+        has_chain = next((e for e in existing if e.get("evolution_chain") and isinstance(e["evolution_chain"], dict)), None)
+        no_chain = next((e for e in existing if not e.get("evolution_chain")), None)
+        if has_chain:
+            sample.append(has_chain)
+        if no_chain:
+            sample.append(no_chain)
+        if not sample:
+            sample = existing[:2]
         examples_note += (
-            f"\nHere are the first entries for format reference:\n"
+            f"\nHere are existing entries for format reference (follow this EXACT schema):\n"
             f"{json.dumps(sample, indent=2)}\n"
         )
 

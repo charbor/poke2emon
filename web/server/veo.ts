@@ -23,7 +23,7 @@ export async function generateVideo(
   const client = getClient();
 
   let operation = await client.models.generateVideos({
-    model: "models/veo-3.1-fast-generate-preview",
+    model: "veo-3.1-fast-generate-preview",
     prompt,
     config: {
       numberOfVideos: 1,

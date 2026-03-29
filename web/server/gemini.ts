@@ -103,3 +103,36 @@ export async function generateImage(
   }
   return null;
 }
+
+export async function editImage(
+  prompt: string,
+  referenceBase64: string,
+  referenceMimeType: string,
+): Promise<{ base64: string; mimeType: string } | null> {
+  const client = getClient();
+  const response = await client.models.generateContent({
+    model: "gemini-2.0-flash-exp-image-generation",
+    contents: [
+      {
+        role: "user",
+        parts: [
+          { inlineData: { data: referenceBase64, mimeType: referenceMimeType } },
+          { text: prompt },
+        ],
+      },
+    ],
+    config: {
+      responseModalities: ["IMAGE"],
+    } as never,
+  });
+
+  const part = response.candidates?.[0]?.content?.parts?.find(
+    (p) => p.inlineData,
+  );
+  if (!part?.inlineData?.data) return null;
+
+  return {
+    base64: part.inlineData.data,
+    mimeType: part.inlineData.mimeType || "image/png",
+  };
+}

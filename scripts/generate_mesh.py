@@ -54,7 +54,6 @@ def main():
     paint_pipeline = Hunyuan3DPaintPipeline.from_pretrained(
         "tencent/Hunyuan3D-2",
         subfolder="hunyuan3d-paint-v2-0",
-        torch_dtype=torch.float32,
         device=device,
     )
 

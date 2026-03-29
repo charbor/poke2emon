@@ -1,7 +1,8 @@
+import argparse
 import json
 import io
 import os
-import time
+import concurrent.futures
 from collections import deque
 
 from google import genai
@@ -11,7 +12,7 @@ client = genai.Client()
 
 os.makedirs("sprites", exist_ok=True)
 
-with open("pokemon_bayarea.json") as f:
+with open("statblocks/pokemon_bayarea.json") as f:
     pokemon_list = json.load(f)
 
 
@@ -44,6 +45,63 @@ def _flood_fill(pixels, w, h, seeds, check_fn):
                     visited.add((nx, ny))
                     queue.append((nx, ny))
     return visited
+
+
+def find_split_columns(image, n_splits=2):
+    """Find the best vertical split points by locating transparent column gaps.
+
+    Scans every column and scores it by how many pixels are transparent.
+    Then finds contiguous runs of fully/mostly transparent columns (gaps),
+    and picks the n_splits best gaps closest to the ideal equal-width positions.
+    """
+    w, h = image.size
+    pixels = image.load()
+
+    # Count non-transparent pixels per column
+    col_opaque = []
+    for x in range(w):
+        count = 0
+        for y in range(h):
+            if pixels[x, y][3] > 0:
+                count += 1
+        col_opaque.append(count)
+
+    # Find contiguous gap runs (columns with 0 opaque pixels)
+    # Allow a small tolerance for anti-aliasing artifacts
+    threshold = max(1, h // 50)
+    gaps = []  # list of (start_x, end_x) inclusive
+    in_gap = False
+    gap_start = 0
+    for x in range(w):
+        if col_opaque[x] <= threshold:
+            if not in_gap:
+                gap_start = x
+                in_gap = True
+        else:
+            if in_gap:
+                gaps.append((gap_start, x - 1))
+                in_gap = False
+    if in_gap:
+        gaps.append((gap_start, w - 1))
+
+    # Filter out edge gaps (first/last 5% of image)
+    margin = w // 20
+    gaps = [(s, e) for s, e in gaps if s > margin and e < w - margin]
+
+    if len(gaps) >= n_splits:
+        # Pick the gaps closest to the ideal split positions
+        ideal_positions = [(i + 1) * w // (n_splits + 1) for i in range(n_splits)]
+        chosen = []
+        remaining = list(gaps)
+        for ideal in ideal_positions:
+            best = min(remaining, key=lambda g: abs((g[0] + g[1]) // 2 - ideal))
+            chosen.append((best[0] + best[1]) // 2)
+            remaining.remove(best)
+        return sorted(chosen)
+
+    # Fallback: equal thirds
+    print("  Warning: could not find clear gaps, falling back to equal splits")
+    return [(i + 1) * w // (n_splits + 1) for i in range(n_splits)]
 
 
 def remove_background(image, interior_min_size=100):
@@ -119,19 +177,24 @@ for mon in pokemon_list:
     add_mon(mon)
 pokemon_list = ordered
 
-for mon in pokemon_list:
+def generate_mon(mon, dep_future=None):
+    """Generate sprites for a single pokemon. Waits on dep_future if provided."""
+    if dep_future is not None:
+        dep_future.result()  # block until pre-evolution is done
+
     name = mon["name"]
     species = mon["real_species"]
     types = ", ".join(mon["types"])
     sprite_dir = f"sprites/{mon['id']}"
     os.makedirs(sprite_dir, exist_ok=True)
+    output_sheet = f"{sprite_dir}/sheet.png"
     output_front = f"{sprite_dir}/front.png"
     output_back = f"{sprite_dir}/back.png"
     output_tpose = f"{sprite_dir}/tpose.png"
 
     if os.path.exists(output_front) and os.path.exists(output_back) and os.path.exists(output_tpose):
         print(f"Skipping {name} (already exists)")
-        continue
+        return
 
     # Build evolution context and collect previous evolution sprite
     evo_context = ""
@@ -172,19 +235,23 @@ for mon in pokemon_list:
         evo_context = "It should look serious and cool — a distinct Pokemon that occupies a clear niche and could be someone's favorite. "
 
     sprite_desc = mon.get("sprite_description", "")
-    # pose = mon.get("pose", "")
-    # expression = mon.get("expression", "")
     features = ", ".join(mon.get("distinguishing_features", []))
-    # art_notes = mon.get("art_notes", "")
 
     prompt_text = (
         f"Generate a sprite sheet of a Pokemon in the style of Gen 4 (Diamond/Pearl/Platinum) pixel art. "
-        f"The image should contain exactly 3 sprites of the SAME Pokemon side by side in a single row, "
-        f"on a plain solid bright magenta (#FF00FF) background. "
-        f"Left: front-facing battle sprite (3/4 view, idle combat stance). "
-        f"Center: back-facing battle sprite (seen from behind, same pose). "
-        f"Right: rigging reference pose (limbs extended outward where applicable — for creatures without arms, just show the body fully spread/extended in a neutral pose suitable for rigging). "
-        f"All three sprites must be the same Pokemon with the same design, colors, and features. "
+        f"The image must contain EXACTLY 3 sprites — no more, no less — of the SAME Pokemon arranged in ONE SINGLE HORIZONTAL ROW on a plain solid bright magenta (#FF00FF) background. "
+        f"The image should be wide/landscape — roughly 3x wider than it is tall. "
+        f"LAYOUT: Divide the image into 3 equal-width columns side by side. Each sprite must fit entirely within its column — "
+        f"no part of any sprite may cross into an adjacent column. Leave a visible vertical magenta gap between columns. "
+        f"Each sprite should be roughly the same size and centered within its column. "
+        f"CONSISTENCY: All three sprites must depict the EXACT same creature with identical colors, patterns, markings, and proportions — "
+        f"they are three views of ONE design, not three different interpretations. "
+        f"Left column: one front-facing battle sprite (3/4 view from the front, idle combat stance). "
+        f"Center column: one back-facing battle sprite (3/4 view from behind, same combat stance as the front sprite). "
+        f"Right column: one front-facing T-pose for rigging — the creature seen from the FRONT (stomach-facing the viewer) "
+        f"with arms/limbs extended straight out to the sides horizontally. "
+        f"If the creature has no arms or limbs, show it front-facing in a neutral upright pose with its body fully visible. "
+        f"The T-pose must face the viewer. "
         f"The Pokemon is called {name}, a {types}-type inspired by {species}. "
         f"{evo_context}"
         f"Description: {sprite_desc} "
@@ -223,21 +290,43 @@ for mon in pokemon_list:
                 img_data = part.inline_data.data
                 sheet = Image.open(io.BytesIO(img_data))
                 sheet = remove_background(sheet)
+                sheet.save(output_sheet)
                 w, h = sheet.size
-                third = w // 3
-                front = sheet.crop((0, 0, third, h))
-                back = sheet.crop((third, 0, third * 2, h))
-                tpose = sheet.crop((third * 2, 0, w, h))
+                splits = find_split_columns(sheet)
+                front = sheet.crop((0, 0, splits[0], h))
+                back = sheet.crop((splits[0], 0, splits[1], h))
+                tpose = sheet.crop((splits[1], 0, w, h))
                 front.save(output_front)
                 back.save(output_back)
                 tpose.save(output_tpose)
-                print(f"  Saved {output_front}, {output_back}, {output_tpose}")
+                print(f"  Saved sheet + splits at x={splits[0]}, x={splits[1]}")
                 break
         else:
             print(f"  No image returned for {name}")
     except Exception as e:
         print(f"  Error generating {name}: {e}")
 
-    time.sleep(2)
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-n", "--parallel", type=int, default=4,
+                    help="number of parallel generations (default: 4)")
+args = parser.parse_args()
+
+futures = {}  # mon_id -> Future
+with concurrent.futures.ThreadPoolExecutor(max_workers=args.parallel) as pool:
+    for mon in pokemon_list:
+        chain = mon.get("evolution_chain")
+        dep = None
+        if chain and chain.get("evolves_from"):
+            dep = futures.get(chain["evolves_from"])
+        fut = pool.submit(generate_mon, mon, dep)
+        futures[mon["id"]] = fut
+
+    # Wait for all and surface any exceptions
+    for mon_id, fut in futures.items():
+        try:
+            fut.result()
+        except Exception as e:
+            print(f"  Failed {mon_id}: {e}")
 
 print("Done!")

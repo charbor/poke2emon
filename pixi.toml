@@ -14,6 +14,8 @@ python = "3.11.*"
 pytorch = "*"
 torchvision = "*"
 cpuonly = "*"
+google-genai = ">=1.69.0,<2"
+pillow = ">=12.1.1,<13"
 
 [pypi-dependencies]
 hy3dgen = { git = "https://github.com/Tencent-Hunyuan/Hunyuan3D-2.git" }

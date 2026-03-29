@@ -1,0 +1,1495 @@
+[
+  {
+    "id": "fractyl",
+    "dex_number": 891,
+    "name": "Fractyl",
+    "category": "The Iteration Pokemon",
+    "types": [
+      "Psychic",
+      "Fairy"
+    ],
+    "real_species": "Anna's Hummingbird (Calypte anna) iridescent, native to the Bay Area",
+    "evolution_chain": {
+      "chain_id": "fractal_line",
+      "stage": 2,
+      "stage_name": "Evolved",
+      "total_stages": 3,
+      "evolves_from": "glyphlet",
+      "evolves_into": "mandelbright",
+      "evolution_method": "Level up while knowing a move of every type it has learned (data efficiency evolves not from grinding, but from breadth of understanding)"
+    },
+    "evolution_stage": "middle",
+    "sprite_description": "A small hummingbird-like creature hovering in place, wings a blur of prismatic light. The body is compact and crystalline translucent lavender (#b39ddb) with faceted geometric surfaces that catch light like cut gemstone. The wings are NOT feathered they are flat, tessellated fractal structures (Sierpinski-triangle-like), glowing faintly with cycling pastel hues at the edges (#e1bee7, #80cbc4, #fff59d). The tail fans out into a branching fractal tree pattern, each fork splitting recursively into smaller forks, trailing tiny sparkle particles. Eyes are large, bright, and curious golden-amber (#ffb300) with a subtle geometric iris pattern (hexagonal). A small crystalline crest on the head shaped like a Koch snowflake. The beak is short, sharp, and prismatic. Tiny feet are tucked up beneath the body mid-hover. Faint holographic fractal spirals orbit around it like a persistent aura golden ratio curves.",
+    "color_palette": {
+      "primary": "#b39ddb",
+      "secondary": "#80cbc4",
+      "accent": "#fff59d",
+      "outline": "#4a148c",
+      "eye_color": "#ffb300"
+    },
+    "pose": "Hovering mid-air, wings a prismatic blur, tail-fractals fanning downward, head tilted with bright curious eyes, faint spiral aura orbiting the body",
+    "expression": "Intensely curious and playful bright golden eyes wide open, head cocked slightly as if studying something fascinating, a faint pleased gleam. The look of someone who just found an elegant solution.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Sierpinski-triangle fractal wings",
+      "Recursively branching tail",
+      "Koch snowflake head crest",
+      "Crystalline faceted body",
+      "Golden-ratio spiral aura",
+      "Geometric hexagonal iris pattern"
+    ],
+    "overworld_description": "A tiny prismatic blur that darts and hovers, leaving faint fractal afterimages. 16x16: lavender teardrop shape with two bright amber eye dots and tiny rainbow wing-blur on each side.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The core concept is MATHEMATICAL BEAUTY MADE ALIVE. Every surface should hint at recursive structure the wings are the star, built from visible fractal geometry rather than feathers, translucent and glowing. The body reads as a living gemstone. The aura of orbiting golden spirals should feel like code executing in real-time, like a living simulation. Despite the complexity, the overall silhouette stays compact and cute hummingbird proportions, big curious eyes, a tiny frame doing extraordinary things. Think: what if a Mandelbrot set hatched from an egg and learned to fly. Contrast with pre-evolution Glyphlet (a grounded, wide-eyed chick scratching simple patterns in the dirt) and final evolution Mandelbright (a majestic phoenix-scale entity whose entire body IS a living fractal dimension). Fractyl is the sweet spot small, fast, brilliant, playful, and already generating patterns that hint at something much larger. It learns new moves after seeing them only once (Pok\u00e9dex lore: 'Fractyl can replicate any pattern it observes, but prefers to create its own. Researchers note it needs remarkably little data to master new techniques a single demonstration suffices.'). Named for fractal + crystal."
+  },
+  {
+    "id": "confomorph",
+    "dex_number": 892,
+    "name": "Confomorph",
+    "category": "The Surface Pokemon",
+    "types": [
+      "Water",
+      "Psychic"
+    ],
+    "real_species": "Glass Octopus (Vitreledonella richardi) a nearly transparent deep-sea cephalopod",
+    "evolution_chain": {
+      "chain_id": "manifold_line",
+      "stage": 2,
+      "stage_name": "Evolved",
+      "total_stages": 3,
+      "evolves_from": "meshling",
+      "evolves_into": "moonshyne",
+      "evolution_method": "Level up while holding a Prism Scale in an area with a magnetic field (conformal mapping requires both geometric transformation and an ambient field)"
+    },
+    "evolution_stage": "middle",
+    "sprite_description": "A medium-sized glass octopus hovering elegantly, body almost entirely translucent. The mantle is a smooth, rounded bell shape rendered in crystal-clear pale blue (#b3e5fc) with visible internal geometric lattice structures triangulated mesh patterns glow faintly through the transparent flesh like a living wireframe model. Eight tentacles of varying lengths trail downward and to the sides, each one covered in tiny luminous nodes arranged in perfect geometric tessellations the nodes shift color slowly between ice blue (#81d4fa), soft violet (#ce93d8), and gold (#ffd54f), representing conformal transformations. The eyes are large and deeply intelligent dark indigo (#1a237e) with a faint golden phi-spiral pattern in the iris. On the surface of the mantle, faint M\u00f6bius-strip-like patterns trace and retrace themselves continuously, as if the creature's skin IS a manifold being actively mapped. A soft bioluminescent aura surrounds the body pale gold, suggesting moonshine (the mathematical kind). The overall impression is of living mathematics beautiful, translucent, and impossibly precise.",
+    "color_palette": {
+      "primary": "#b3e5fc",
+      "secondary": "#ce93d8",
+      "accent": "#ffd54f",
+      "outline": "#1a237e",
+      "eye_color": "#1a237e"
+    },
+    "pose": "Hovering mid-water, mantle slightly tilted, four tentacles curled elegantly beneath, four trailing outward one tentacle tip delicately touching an invisible surface, leaving a trail of glowing triangulated mesh behind it",
+    "expression": "Serene, deeply focused intelligence large dark eyes with a quiet confidence that suggests it has already solved the problem you're still formulating. The look of inherited brilliance made personal.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Fully translucent body revealing internal geometric lattice",
+      "Triangulated mesh patterns visible through skin",
+      "Tentacle nodes in tessellated arrangements",
+      "M\u00f6bius-strip surface traces on mantle",
+      "Golden moonshine bioluminescent aura",
+      "Phi-spiral iris pattern"
+    ],
+    "overworld_description": "A translucent floating form that leaves faint geometric trail patterns on every surface it passes over. 16x16: pale blue transparent bell shape with trailing tendrils and two dark indigo eye dots, faint gold shimmer.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The core concept is LIVING TOPOLOGY. Every surface of this creature should read as a mathematical manifold being actively mapped triangulated meshes visible through transparent flesh, conformal transformations playing out in real-time on its skin. The octopus body plan is perfect because octopuses can conform to ANY surface (conformal mapping made literal), are boneless (pure topology, no rigid structure), and the glass octopus species adds the transparency that lets you see the math inside. The golden 'moonshine' aura is a nod to the Borcherds family's most famous mathematical contribution the proof of the monstrous moonshine conjecture. The final evolution Moonshyne should be a massive, reality-warping entity whose body IS a portal between mathematical dimensions, covered in monster group symmetries. Confomorph is the elegant middle stage clearly brilliant, clearly powerful, but still compact and precise. Think: what if a topology textbook became sentient and chose to be beautiful. Pok\u00e9dex lore: 'Confomorph can flatten any three-dimensional surface into a two-dimensional map without distortion. Mathematicians who observe it working have been known to weep.'"
+  },
+  {
+    "id": "celeraptyx",
+    "dex_number": 893,
+    "name": "Celeraptyx",
+    "category": "The Bare Metal Pokemon",
+    "types": [
+      "Steel",
+      "Flying"
+    ],
+    "real_species": "Peregrine Falcon (Falco peregrinus) fastest animal alive at 242 mph in a stoop dive",
+    "evolution_chain": {
+      "chain_id": "latency_line",
+      "stage": 2,
+      "stage_name": "Evolved",
+      "total_stages": 3,
+      "evolves_from": "kernchick",
+      "evolves_into": "matchengyne",
+      "evolution_method": "Level up with max Speed IV/EV while knowing a priority move (you can only evolve by already being fast there are no shortcuts to low latency)"
+    },
+    "evolution_stage": "middle",
+    "sprite_description": "A sleek, compact falcon with steel-plated plumage. The body is aerodynamically perfect gunmetal gray (#455a64) with brushed-steel feather plates that overlap like heatsinks, each plate etched with faint circuit-trace patterns. The wings are swept back in a permanent stoop-dive angle, sharp and blade-like, with trailing edges that glow a faint electric amber (#ff8f00) the color of a hot signal path. The eyes are fierce, narrow, and intensely focused bright amber (#ff6f00) with a vertical slit pupil, scanning with predatory precision. The beak is short, sharp, hooked, and chrome-plated. Talons are oversized for the body tungsten-dark, with four digits each ending in needle points. On the chest, a single rectangular panel glows with a faint green (#00c853) heartbeat-like pulse the system clock. The tail feathers are rigid, blade-thin, arranged in a perfectly ordered fan that suggests a heatsink or PCB layout. No wasted material anywhere. Every line serves a function.",
+    "color_palette": {
+      "primary": "#455a64",
+      "secondary": "#78909c",
+      "accent": "#ff8f00",
+      "outline": "#263238",
+      "eye_color": "#ff6f00"
+    },
+    "pose": "Mid-stoop dive angle wings swept back, body a compressed bullet shape angled 30 degrees downward, talons extended forward, eyes locked on target. Pure velocity.",
+    "expression": "Zero ambiguity. Narrow amber eyes locked with predatory focus, beak set in a tight line. Not angry just operating with zero wasted cycles. The face of someone who has already calculated your next three moves and pre-empted all of them.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Steel heatsink-plate feathers with circuit traces",
+      "Amber-glowing wing trailing edges (hot signal paths)",
+      "Green system-clock pulse on chest",
+      "Chrome-plated beak",
+      "Tungsten needle-point talons",
+      "Rigid blade-thin tail fan (PCB/heatsink layout)"
+    ],
+    "overworld_description": "A steel blur that crosses the screen before you register it moved. 16x16: gunmetal gray angular bird silhouette with amber eye dot and a single green pixel pulse on the chest.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The design philosophy IS the person: NO WASTED CYCLES. Every element serves a purpose. The heatsink feathers dissipate heat from processing. The circuit traces carry signals. The system-clock chest pulse keeps time. The stoop-dive pose is permanent because this creature is ALWAYS in the critical path. The peregrine falcon is the perfect species: fastest animal alive (matching engine latency), precision predator (protocol parsing), and they literally calculate intercept trajectories mid-dive (branch prediction). The steel typing represents bare metal no abstraction layers, no VM overhead, direct hardware access. The amber glow on wing edges is the hot path the critical code path that must be optimized above all else. Pre-evolution Kernchick is a fluffy steel chick that boots up slowly but methodically (kernel initialization). Final evolution Matchengyne is a massive steel raptor whose wings create sonic booms on each flap it processes eight parallel attacks simultaneously (tensor parallelism) and its talons match buy/sell orders in price-time priority. Pok\u00e9dex lore: 'Celeraptyx processes information in 4 nanoseconds. By the time its opponent decides to attack, Celeraptyx has already executed, confirmed, and sent the acknowledgment.'"
+  },
+  {
+    "id": "corvindex",
+    "dex_number": 894,
+    "name": "Corvindex",
+    "category": "The Retriever Pokemon",
+    "types": [
+      "Dark",
+      "Psychic"
+    ],
+    "real_species": "New Caledonian Crow (Corvus moneduloides) the only non-primate species that manufactures and uses complex tools",
+    "evolution_chain": {
+      "chain_id": "retrieval_line",
+      "stage": 2,
+      "stage_name": "Evolved",
+      "total_stages": 3,
+      "evolves_from": "quervlet",
+      "evolves_into": "benchlord",
+      "evolution_method": "Level up after successfully using 5 different move types in a single battle (breadth of capability you evolve by demonstrating versatility, not grinding one skill)"
+    },
+    "evolution_stage": "middle",
+    "sprite_description": "A medium-sized crow standing upright on one leg, the other leg tucked but the tucked foot is deftly fanning a spread of five glowing cards between its talons like a cardist's flourish. The plumage is deep midnight blue-black (#1a1a2e) with an iridescent sheen that shifts between indigo (#283593) and teal (#00695c) depending on angle. The wings are half-spread in a showman's pose, each primary feather tipped with a faint glow the tips are colored differently, each representing a different 'type' of knowledge (amber for NLP, green for RL, blue for retrieval, violet for speech, white for benchmarking). The eyes are sharp, clever, and bright electric cyan (#00e5ff) with a distinctive rectangular pupil (like a search cursor). The beak is slightly open in a knowing half-smirk. A thin band of floating index-card-like tokens orbits the head like a halo each card covered in tiny unreadable glyphs, representing the creature's vast indexed knowledge. The tail feathers fan out in a perfect fibonacci spiral. One wing-tip is raised, mid-flourish, as if about to execute a card trick.",
+    "color_palette": {
+      "primary": "#1a1a2e",
+      "secondary": "#283593",
+      "accent": "#00e5ff",
+      "outline": "#0d0d1a",
+      "eye_color": "#00e5ff"
+    },
+    "pose": "Standing upright on one leg, other foot holding a fan of glowing cards, one wing raised in a flourish, head cocked with a knowing look half researcher presenting findings, half stage magician mid-trick",
+    "expression": "Clever and charismatic bright cyan eyes with a glint of showmanship, beak open in a half-smirk that says 'I already know the answer, but let me show you how I found it.' The look of someone who finds the shortcut in representation space AND makes it look cool.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Cardistry card-fan held in talons",
+      "Multi-colored knowledge-type feather tips",
+      "Orbiting index-card token halo",
+      "Rectangular cursor-shaped pupils",
+      "Iridescent midnight plumage",
+      "Fibonacci tail fan"
+    ],
+    "overworld_description": "A dark iridescent bird that hops methodically, occasionally flourishing glowing cards between its talons. 16x16: dark blue-black bird silhouette with bright cyan eye dots and tiny orbiting pixel-cards around the head.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The core concept is RETRIEVAL MEETS SHOWMANSHIP. The crow/corvid species is perfect: corvids are the ultimate retrievers (they cache and retrieve thousands of items from memory), tool-users (benchmarking = building tools to measure other tools), vocal mimics (Speech-N-LlaMA), and problem-solvers (USACO competitive programming). But the secret sauce is the CARDISTRY Michael's real-life interest in card flourishing transforms this from a generic smart bird into something with genuine flair. The card-fan in the talons, the flourish pose, the showman's half-smirk this creature doesn't just find information, it PRESENTS it with style. The multi-colored feather tips represent the extraordinary breadth of research (NLP, RL, retrieval, speech, benchmarking five different subfields as an undergrad). The orbiting index-card halo is the creature's external memory its personal retrieval-augmented generation system. Pre-evolution Quervlet is a tiny curious chick that compulsively collects and categorizes shiny objects. Final evolution Benchlord is a massive raven whose wings span wide enough to cast a shadow that benchmarks everything beneath it it establishes the standard by which all other Pokemon are measured. Pok\u00e9dex lore: 'Corvindex can retrieve any piece of information it has ever encountered by finding shortcuts through its mental representation space. It communicates in perfect mimicry of any voice it has heard. Trainers report that it shuffles objects between its talons when thinking a habit no one has been able to explain.'"
+  },
+  {
+    "id": "cubark",
+    "dex_number": 14,
+    "name": "Cubark",
+    "category": "The Cub Pokemon",
+    "types": [
+      "Normal"
+    ],
+    "real_species": "American Black Bear (Ursus americanus) cub",
+    "evolution_chain": {
+      "chain_id": "bear_line",
+      "stage": 1,
+      "stage_name": "Baby",
+      "total_stages": 3,
+      "evolves_from": null,
+      "evolves_into": "ursapine",
+      "evolution_method": "Level 20"
+    },
+    "evolution_stage": "baby",
+    "sprite_description": "An impossibly cute tiny bear cub sitting on its bottom with paws reaching upward. The body is round and chubby dark brown (#6d4c41) fur. HUGE round eyes taking up 35-40% of the face (black pupils with large white sparkle highlights). Tiny round ears on top of the head. A small round brown nose. The mouth is a tiny happy curve. Stubby paw-arms reaching upward as if asking to be picked up. Round belly, short stubby legs splayed out in a sitting position. The overall shape is essentially a circle with ears. MAXIMUM CUTENESS.",
+    "color_palette": {
+      "primary": "#6d4c41",
+      "secondary": "#8d6e63",
+      "accent": "#4e342e",
+      "outline": "#222222",
+      "eye_color": "#111111"
+    },
+    "pose": "Sitting on bottom, stubby paws reaching up, looking upward with huge eyes",
+    "expression": "Absolutely adorable massive sparkly eyes, tiny happy mouth, reaching up to be held. Pure baby.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "ENORMOUS sparkly eyes",
+      "Round chubby body",
+      "Stubby reaching paws",
+      "Tiny round ears",
+      "Sitting pose"
+    ],
+    "overworld_description": "Tiny round dark brown blob that waddles. 16x16: brown circle with two tiny ear bumps and two giant white eye dots.",
+    "battle_sprite_facing": "right",
+    "art_notes": "This must be the cutest thing. Think Teddiursa meets a real bear cub. The eyes should be irresistibly large. The reaching-up pose makes it look like it wants to be cuddled. Stark contrast with its final evolution Grizzmont."
+  },
+  {
+    "id": "ursapine",
+    "dex_number": 15,
+    "name": "Ursapine",
+    "category": "The Rocky Bear Pokemon",
+    "types": [
+      "Normal",
+      "Ground"
+    ],
+    "real_species": "American Black Bear (Ursus americanus) adolescent",
+    "evolution_chain": {
+      "chain_id": "bear_line",
+      "stage": 2,
+      "stage_name": "Mid",
+      "total_stages": 3,
+      "evolves_from": "cubark",
+      "evolves_into": "grizzmont",
+      "evolution_method": "Level 38"
+    },
+    "evolution_stage": "mid",
+    "sprite_description": "A teenage bear standing on hind legs, growing into its power. Dark brown (#4e342e) fur with rocky grey (#636e72) patches forming on shoulders and forearms the stone armor is beginning to develop. Bigger than Cubark but not yet massive. The face is transitioning eyes are still fairly large but more determined/focused than cute, with stronger brow lines. The mouth is set in a determined line. Growing claws are visible on the paws. The legs are thicker and more muscular. Some rocky texture on the back is starting to form.",
+    "color_palette": {
+      "primary": "#4e342e",
+      "secondary": "#636e72",
+      "accent": "#8d6e63",
+      "outline": "#222222",
+      "eye_color": "#111111"
+    },
+    "pose": "Standing on hind legs, one paw raised with claws showing, leaning forward assertively",
+    "expression": "Determined and growing focused eyes with developing brow lines, set mouth. Teenage confidence.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Rocky patches on shoulders/forearms",
+      "Standing on hind legs",
+      "Growing claws",
+      "Transitional build between cute and powerful"
+    ],
+    "overworld_description": "Medium bipedal bear shape, grey shoulder patches visible, confident walk. 16x16: dark brown biped shape with grey shoulder pixels.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The transitional design is key no longer a baby but not yet the mountain king. The rocky armor patches are starting to form. Should feel like a teenager coming into power."
+  },
+  {
+    "id": "grizzmont",
+    "dex_number": 16,
+    "name": "Grizzmont",
+    "category": "The Mountain King Pokemon",
+    "types": [
+      "Normal",
+      "Ground"
+    ],
+    "real_species": "American Black Bear (Ursus americanus)",
+    "evolution_chain": {
+      "chain_id": "bear_line",
+      "stage": 3,
+      "stage_name": "Final",
+      "total_stages": 3,
+      "evolves_from": "ursapine",
+      "evolves_into": null,
+      "evolution_method": null
+    },
+    "evolution_stage": "final",
+    "sprite_description": "A MASSIVE bear with stone armor plating. The body is powerful and broad very dark brown (#3e2723) fur with large stone/rock armor plates (#636e72 to #808080) covering the shoulders, upper back, and forearms. The stone plates have a rough, mountain-rock texture with lighter grey (#b0b0b0) edges. Standing on all fours or rearing up on hind legs in a powerful stance. The face is fierce but noble smaller proportional eyes that glow with amber (#f39c12) light, heavy brow ridge, strong jaw, visible fangs but not snarling. The claws are massive and stone-like. The overall impression is of an unstoppable mountain guardian monstrous in size but with a noble, protective bearing.",
+    "color_palette": {
+      "primary": "#3e2723",
+      "secondary": "#636e72",
+      "accent": "#f39c12",
+      "outline": "#111111",
+      "eye_color": "#f39c12"
+    },
+    "pose": "Rearing up on hind legs or in a powerful four-legged stance, shoulders forward, claws displayed",
+    "expression": "Fierce but noble glowing amber eyes, heavy brow, visible fangs but dignified. A king, not a monster.",
+    "size_class": "large",
+    "distinguishing_features": [
+      "Stone armor plates on shoulders/back/forearms",
+      "Glowing amber eyes",
+      "Massive stone claws",
+      "Heavy brow ridge",
+      "Mountain-rock texture on armor"
+    ],
+    "overworld_description": "Large imposing dark shape with grey armor patches, heavy powerful walk. 16x16: big dark brown shape with grey shoulders, amber eye dots.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The contrast with baby Cubark should be DRAMATIC. Where Cubark is round and cute, Grizzmont is angular and powerful. But keep the noble quality this is a protective mountain king, not a villain. The stone armor is the signature evolution feature."
+  },
+  {
+    "id": "muledoe",
+    "dex_number": 13,
+    "name": "Muledoe",
+    "category": "The Big Ear Pokemon",
+    "types": [
+      "Normal"
+    ],
+    "real_species": "Mule Deer (Odocoileus hemionus)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A cute deer with comically oversized floppy ears that are way too big for its head like satellite dishes. The body is medium brown (#8b6914) with a lighter tan (#d7b899) underbelly. White (#ecf0f1) spots on the back. The face is sweet and slightly dorky large round gentle brown eyes, a small dark nose, and a tiny shy smile. Small antler nubs on top of the head. The legs are slender with dark hooves. The tail is short and dark-tipped. Facing right in a slightly awkward standing pose. The ears should be the dominant feature absurdly, adorably large.",
+    "color_palette": {
+      "primary": "#8b6914",
+      "secondary": "#d7b899",
+      "accent": "#ecf0f1",
+      "outline": "#222222",
+      "eye_color": "#6d4c41"
+    },
+    "pose": "Standing facing right, ears perked up and slightly flopping, one front hoof slightly raised",
+    "expression": "Sweet, slightly dorky gentle brown eyes, small nose, shy smile. Endearingly awkward.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Comically oversized ears",
+      "White spots",
+      "Small antler nubs",
+      "Gentle dorky expression",
+      "Slender legs"
+    ],
+    "overworld_description": "Brown deer shape with huge ear outlines, bouncy walk. 16x16: brown body with two large ear triangles, dot eyes.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The ears are EVERYTHING. They should be almost as big as the body. The overall vibe is 'adorably awkward deer that's always listening.' The stotting bounce gait could be hinted at in the pose."
+  },
+  {
+    "id": "prairipal",
+    "dex_number": 17,
+    "name": "Prairipal",
+    "category": "The Gossip Pokemon",
+    "types": [
+      "Ground"
+    ],
+    "real_species": "Black-tailed Prairie Dog (Cynomys ludovicianus)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A small tan (#d7b899) rodent standing upright on hind legs with a round chubby body. Tiny paws held up at chest level as if gesticulating while talking. Big cheery round eyes with white highlights very social and friendly. The mouth is open wide as if barking or chatting excitedly. Small round ears. A short dark-tipped tail. A slightly lighter (#fad7a0) belly. The feet are small with tiny toes. Overall impression: a friendly, chatty little creature that never stops talking.",
+    "color_palette": {
+      "primary": "#d7b899",
+      "secondary": "#fad7a0",
+      "accent": "#8b6914",
+      "outline": "#222222",
+      "eye_color": "#111111"
+    },
+    "pose": "Standing upright on hind legs, paws up and gesturing, mouth open mid-bark, facing slightly right",
+    "expression": "Cheerful and chatty big round eyes, wide open mouth mid-bark/chat. Social butterfly energy.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Standing upright pose",
+      "Open mouth (always talking)",
+      "Gesturing paws",
+      "Round chubby body",
+      "Short dark-tipped tail"
+    ],
+    "overworld_description": "Tiny tan upright rodent, bounces enthusiastically. 16x16: small tan upright shape with open mouth circle.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The chatty personality is key this Pokemon never shuts up. The open mouth and gesturing paws should convey constant communication. Very social and friendly."
+  },
+  {
+    "id": "pumakitten",
+    "dex_number": 18,
+    "name": "Pumakitten",
+    "category": "The Pounce Pokemon",
+    "types": [
+      "Normal"
+    ],
+    "real_species": "Mountain Lion (Puma concolor) kitten",
+    "evolution_chain": {
+      "chain_id": "cougar_line",
+      "stage": 1,
+      "stage_name": "Baby",
+      "total_stages": 3,
+      "evolves_from": null,
+      "evolves_into": "cougarock",
+      "evolution_method": "Level 22"
+    },
+    "evolution_stage": "baby",
+    "sprite_description": "A tiny spotted cougar kitten in a playful pouncing pose. The body is tawny tan (#d7b899) with dark brown (#6d4c41) spots scattered across the back and sides (baby markings). The paws are oversized relative to the body comically large, hinting at the massive predator it will become. HUGE round playful eyes (#27ae60 green with white highlights) that sparkle with mischief. A tiny pink (#fd79a8) nose. The tail is curled up playfully. The front is lowered in a play-pounce position (butt up, front down). Tiny ears perked forward. Everything about this screams 'kitten playing.'",
+    "color_palette": {
+      "primary": "#d7b899",
+      "secondary": "#6d4c41",
+      "accent": "#fd79a8",
+      "outline": "#222222",
+      "eye_color": "#27ae60"
+    },
+    "pose": "Play-pounce position: front lowered, butt up, tail curled, oversized paws forward",
+    "expression": "Playful and mischievous HUGE green sparkly eyes, tiny pink nose, wide playful grin. Pure kitten energy.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Oversized paws",
+      "Baby spots on fur",
+      "Play-pounce pose",
+      "Curled tail",
+      "Huge green eyes"
+    ],
+    "overworld_description": "Tiny tan kitten shape with spots, bouncy playful walk. 16x16: small tan shape with dark dots, big green eye pixels.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The oversized paws are key they hint at the massive predator this will become (Peaklion). The spotted baby coat is temporary. The play-pounce pose is adorable. Think real cougar kitten but even cuter."
+  },
+  {
+    "id": "cougarock",
+    "dex_number": 19,
+    "name": "Cougarock",
+    "category": "The Cliff Runner Pokemon",
+    "types": [
+      "Normal",
+      "Rock"
+    ],
+    "real_species": "Mountain Lion (Puma concolor) adolescent",
+    "evolution_chain": {
+      "chain_id": "cougar_line",
+      "stage": 2,
+      "stage_name": "Mid",
+      "total_stages": 3,
+      "evolves_from": "pumakitten",
+      "evolves_into": "peaklion",
+      "evolution_method": "Level 40"
+    },
+    "evolution_stage": "mid",
+    "sprite_description": "A sleek adolescent cougar, losing its baby spots and developing rocky features. The fur is tawny (#c4a882) spots are fading. Rocky grey (#636e72) patches are forming on the legs and paws (like stone gauntlets). The build is leaner and more athletic than Pumakitten. The eyes are still green (#27ae60) but more focused and intense narrower, with determination. The face is more angular. A crouching/stalking pose, ready to spring. The tail is long and straight. The claws are developing rocky tips.",
+    "color_palette": {
+      "primary": "#c4a882",
+      "secondary": "#636e72",
+      "accent": "#27ae60",
+      "outline": "#222222",
+      "eye_color": "#27ae60"
+    },
+    "pose": "Low crouching stalk, body compressed like a spring, facing right, tail straight back",
+    "expression": "Focused and intense narrower green eyes, set jaw. An adolescent predator finding its edge.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Fading spots",
+      "Rocky patches on legs/paws",
+      "Crouching stalk pose",
+      "Athletic lean build",
+      "Developing stone claws"
+    ],
+    "overworld_description": "Sleek tan cat shape with grey leg patches, smooth stalking walk. 16x16: tan cat silhouette with grey feet pixels.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Transitional design losing cute kitten features, gaining predatory power. The rocky patches are developing. Should feel fast, agile, and dangerous but not yet at full power."
+  },
+  {
+    "id": "peaklion",
+    "dex_number": 20,
+    "name": "Peaklion",
+    "category": "The Summit Phantom Pokemon",
+    "types": [
+      "Normal",
+      "Rock"
+    ],
+    "real_species": "Mountain Lion (Puma concolor)",
+    "evolution_chain": {
+      "chain_id": "cougar_line",
+      "stage": 3,
+      "stage_name": "Final",
+      "total_stages": 3,
+      "evolves_from": "cougarock",
+      "evolves_into": null,
+      "evolution_method": null
+    },
+    "evolution_stage": "final",
+    "sprite_description": "A massive, powerful mountain lion with stone-armored legs and claws. The fur is rich tawny (#b08968) with a darker (#8b6914) dorsal stripe. The legs from the elbow/knee down are covered in grey stone (#636e72) armor with rocky texture, ending in massive stone claws. Mountain-peak-like rocky ridges (#808080) run along the spine. The tail is long and powerful with a dark tip. The face is fierce and noble piercing bright green (#27ae60) eyes with slit pupils, strong jaw, small scars across the muzzle from past battles. The body is muscular and sleek. Small scars on the flanks. The overall impression is of an apex predator that has earned its place at the summit.",
+    "color_palette": {
+      "primary": "#b08968",
+      "secondary": "#636e72",
+      "accent": "#27ae60",
+      "outline": "#111111",
+      "eye_color": "#27ae60"
+    },
+    "pose": "Powerful standing pose facing right, one stone-clawed paw raised, body tense and ready, tail extended",
+    "expression": "Fierce and noble piercing green slit-pupil eyes, strong jaw, battle scars. Apex predator with dignity.",
+    "size_class": "large",
+    "distinguishing_features": [
+      "Stone-armored legs and claws",
+      "Rocky spine ridges",
+      "Piercing green slit-pupil eyes",
+      "Battle scars",
+      "Powerful muscular build",
+      "Long dark-tipped tail"
+    ],
+    "overworld_description": "Large sleek tan cat with grey feet/claws, powerful confident walk. 16x16: large tan cat shape with grey legs, green eye dot.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The apex predator of the mountains. Stark contrast with cute baby Pumakitten. The stone armor on legs/spine is the key evolution feature. Should look like it could take down anything but has a noble bearing a king, not a bully. The green eyes are the through-line across all three stages."
+  },
+  {
+    "id": "nutflick",
+    "dex_number": 21,
+    "name": "Nutflick",
+    "category": "The Scatter Brain Pokemon",
+    "types": [
+      "Normal"
+    ],
+    "real_species": "Fox Squirrel (Sciurus niger)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "An energetic orange-brown (#d4760a) squirrel with an absurdly large fluffy curled tail that's BIGGER than its entire body. The tail is the dominant feature a massive plume of orange-brown fur curling up and over. The body is small by comparison. Bright excited eyes (round, wide open, sparkling with energy) and a toothy grin. Holding a round brown acorn/nut in its tiny front paws. The ears are small and perky. The belly is lighter tan (#fad7a0). Small nimble feet. The overall vibe is hyperactive, forgetful, and adorable.",
+    "color_palette": {
+      "primary": "#d4760a",
+      "secondary": "#fad7a0",
+      "accent": "#8b6914",
+      "outline": "#222222",
+      "eye_color": "#111111"
+    },
+    "pose": "Sitting up on haunches, holding a nut, tail curled massively up and over behind, facing right",
+    "expression": "Bright, excited, slightly manic wide sparkling eyes, toothy grin. ADHD energy.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "ABSURDLY large fluffy tail (bigger than body)",
+      "Holding a nut",
+      "Hyperactive expression",
+      "Small perky ears",
+      "Orange-brown coloring"
+    ],
+    "overworld_description": "Small orange body with MASSIVE fluffy tail behind it, zippy fast walk. 16x16: small orange dot with huge orange tail curve.",
+    "battle_sprite_facing": "right",
+    "art_notes": "THE TAIL IS EVERYTHING. It should be comically oversized at least 150% of the body size. The energy and enthusiasm should radiate from the pose and expression. Holding the nut is important."
+  },
+  {
+    "id": "howlpup",
+    "dex_number": 22,
+    "name": "Howlpup",
+    "category": "The Curious Pup Pokemon",
+    "types": [
+      "Normal"
+    ],
+    "real_species": "Coyote (Canis latrans) pup",
+    "evolution_chain": {
+      "chain_id": "coyote_line",
+      "stage": 1,
+      "stage_name": "Baby",
+      "total_stages": 2,
+      "evolves_from": null,
+      "evolves_into": "coyotrik",
+      "evolution_method": "Level 28"
+    },
+    "evolution_stage": "baby",
+    "sprite_description": "A tiny coyote puppy with its head tilted to one side in curiosity. The fur is light grey-tan (#c4a882) with a lighter (#fad7a0) belly and chest. The ears are oversized and floppy not yet standing up straight. HUGE round curious eyes (brown #6d4c41 with white highlights). A small black nose. The mouth is open in a tiny baby howl head tilted up. The body is small and round, puppy-plump. Short stubby legs. A small fluffy tail. Everything about this is baby-cute.",
+    "color_palette": {
+      "primary": "#c4a882",
+      "secondary": "#fad7a0",
+      "accent": "#6d4c41",
+      "outline": "#222222",
+      "eye_color": "#6d4c41"
+    },
+    "pose": "Sitting, head tilted up in tiny howl, ears flopping, facing slightly right",
+    "expression": "Curious and innocent huge round eyes, head tilt, open mouth in baby howl. Adorably clueless.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Head tilt",
+      "Floppy oversized ears",
+      "Baby howl pose",
+      "Puppy-round body",
+      "Huge curious eyes"
+    ],
+    "overworld_description": "Tiny grey-tan pup shape with floppy ears, curious bouncy walk. 16x16: small tan shape with two floppy ear lines.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The head tilt is the key cute factor. The floppy ears haven't stiffened yet. The baby howl should look endearing, not menacing. Contrast with evolved Coyotrik's sly cunning."
+  },
+  {
+    "id": "coyotrik",
+    "dex_number": 23,
+    "name": "Coyotrik",
+    "category": "The Trickster Pokemon",
+    "types": [
+      "Normal",
+      "Dark"
+    ],
+    "real_species": "Coyote (Canis latrans)",
+    "evolution_chain": {
+      "chain_id": "coyote_line",
+      "stage": 2,
+      "stage_name": "Final",
+      "total_stages": 2,
+      "evolves_from": "howlpup",
+      "evolves_into": null,
+      "evolution_method": null
+    },
+    "evolution_stage": "final",
+    "sprite_description": "A lean, clever-looking coyote with a sly grin. The fur is grey (#808080) with tan (#c4a882) markings on the muzzle, chest, and legs. The build is lean and athletic longer legs, narrower body than the puppy. The ears are now pointed and alert, standing straight up. The eyes are sharp and clever narrowed slightly with a mischievous glint, amber-brown (#d4760a) with white highlights. The mouth is curved in a sly, knowing grin. A bushy tail held up and curled. In a howling pose head tilted back, muzzle pointed up. A crescent moon behind/above would be a nice touch.",
+    "color_palette": {
+      "primary": "#808080",
+      "secondary": "#c4a882",
+      "accent": "#d4760a",
+      "outline": "#222222",
+      "eye_color": "#d4760a"
+    },
+    "pose": "Standing, head thrown back in a howl, bushy tail raised, lean body in profile facing right",
+    "expression": "Sly and clever narrowed amber eyes with mischievous glint, knowing grin. The trickster.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Sly grin",
+      "Pointed alert ears",
+      "Lean athletic build",
+      "Bushy raised tail",
+      "Howling pose",
+      "Sharp clever eyes"
+    ],
+    "overworld_description": "Lean grey canine with pointed ears and raised tail, smooth confident trot. 16x16: grey dog shape with pointed ears and tail line.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The intelligence and trickster personality must come through. This coyote is CLEVER and knows it. The sly grin is essential. Contrast with baby Howlpup's innocent curiosity."
+  },
+  {
+    "id": "marmochunk",
+    "dex_number": 24,
+    "name": "Marmochunk",
+    "category": "The Nap King Pokemon",
+    "types": [
+      "Normal",
+      "Ground"
+    ],
+    "real_species": "Yellow-bellied Marmot (Marmota flaviventris)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A very chubby, round brown (#8b6914) marmot lounging contentedly on a grey (#808080) rock. The body is almost spherical very round and pudgy. A bright yellow (#f1c40f) belly is prominently visible. The face is sleepy and content half-closed eyes with a drowsy expression, pudgy cheeks, a small satisfied smile. Short stubby legs barely visible under the round body. Small rounded ears. A short bushy tail. The overall impression is of the happiest, laziest creature alive.",
+    "color_palette": {
+      "primary": "#8b6914",
+      "secondary": "#f1c40f",
+      "accent": "#808080",
+      "outline": "#222222",
+      "eye_color": "#111111"
+    },
+    "pose": "Lounging on a rock, belly exposed, completely relaxed, facing slightly right",
+    "expression": "Sleepy and supremely content half-closed drowsy eyes, pudgy cheeks, satisfied smile. Living the dream.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Extremely round/chubby body",
+      "Bright yellow belly",
+      "Lounging on rock",
+      "Sleepy expression",
+      "Pudgy cheeks"
+    ],
+    "overworld_description": "Round brown blob on short legs, waddles slowly and contentedly. 16x16: brown circle with yellow belly stripe, tiny legs.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The roundness and laziness are key. This Pokemon hibernates 8 months a year and it shows. The yellow belly should be prominently displayed. Maximum chonk."
+  },
+  {
+    "id": "swifthorn",
+    "dex_number": 25,
+    "name": "Swifthorn",
+    "category": "The Phantom Sprint Pokemon",
+    "types": [
+      "Normal",
+      "Electric"
+    ],
+    "real_species": "American Pronghorn (Antilocapra americana)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A sleek, aerodynamic pronghorn in a dynamic running pose. The body is tan (#d7b899) with a white (#ecf0f1) rump and chest. The horns are shaped like lightning bolts (#f1c40f) forked/pronged and electric yellow. Speed lines trail behind the body. Electric sparks (#fdcb6e) crackle around the hooves. The eyes are fierce and determined narrowed, focused forward, with an amber glow. The legs are long and built for speed, stretched out in a full gallop. The build is lean and aerodynamic with no excess bulk.",
+    "color_palette": {
+      "primary": "#d7b899",
+      "secondary": "#ecf0f1",
+      "accent": "#f1c40f",
+      "outline": "#222222",
+      "eye_color": "#d4760a"
+    },
+    "pose": "Full gallop running right, legs extended, lightning-bolt horns forward, speed lines trailing",
+    "expression": "Fierce determination narrowed amber eyes focused ahead, jaw set. Pure speed.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Lightning-bolt shaped horns",
+      "Speed lines",
+      "Electric sparks around hooves",
+      "White rump patch",
+      "Aerodynamic lean build"
+    ],
+    "overworld_description": "Sleek tan antelope with yellow horn lightning bolts, very fast movement speed. 16x16: tan shape with yellow zigzag horns, moves faster than other sprites.",
+    "battle_sprite_facing": "right",
+    "art_notes": "SPEED is the concept. Everything about this design should convey velocity. The lightning-bolt horns are the key creative feature bridging pronghorn and Electric type. The sparking hooves add dynamism."
+  },
+  {
+    "id": "elkid",
+    "dex_number": 26,
+    "name": "Elkid",
+    "category": "The Wobbly Calf Pokemon",
+    "types": [
+      "Normal"
+    ],
+    "real_species": "Rocky Mountain Elk (Cervus canadensis) calf",
+    "evolution_chain": {
+      "chain_id": "elk_line",
+      "stage": 1,
+      "stage_name": "Baby",
+      "total_stages": 2,
+      "evolves_from": null,
+      "evolves_into": "buglord",
+      "evolution_method": "Level 32"
+    },
+    "evolution_stage": "baby",
+    "sprite_description": "A baby elk with gangly, wobbly long legs and tiny nub antlers. The body is light brown (#c4a882) with a lighter (#fad7a0) belly. The legs are disproportionately long and thin like a real newborn elk. Tiny antler nubs (just two small bumps) on top of the head. HUGE doe eyes (large, round, deep brown #6d4c41 with enormous white highlights). A small dark nose. The mouth is a tiny uncertain smile. The stance is slightly wobbly legs splayed a bit as if still learning to stand. Overall: precious and clumsy.",
+    "color_palette": {
+      "primary": "#c4a882",
+      "secondary": "#fad7a0",
+      "accent": "#6d4c41",
+      "outline": "#222222",
+      "eye_color": "#6d4c41"
+    },
+    "pose": "Standing on wobbly splayed legs, facing right, slightly unsteady, head up looking forward",
+    "expression": "Doe-eyed innocence huge round brown eyes with big highlights, tiny uncertain smile. New to the world.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Gangly long legs",
+      "Tiny antler nubs",
+      "Wobbly stance",
+      "Huge doe eyes",
+      "Disproportionate leg-to-body ratio"
+    ],
+    "overworld_description": "Small tan shape on long thin legs, wobbly walk animation. 16x16: tan body on four thin leg lines with two tiny dots for antler nubs.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The gangly legs are key real elk calves have absurdly long legs for their body. The tiny antler nubs should be just barely visible bumps. The contrast with massive-antlered Buglord should be dramatic."
+  },
+  {
+    "id": "buglord",
+    "dex_number": 27,
+    "name": "Buglord",
+    "category": "The Bugle Call Pokemon",
+    "types": [
+      "Normal",
+      "Ground"
+    ],
+    "real_species": "Rocky Mountain Elk (Cervus canadensis nelsoni)",
+    "evolution_chain": {
+      "chain_id": "elk_line",
+      "stage": 2,
+      "stage_name": "Final",
+      "total_stages": 2,
+      "evolves_from": "elkid",
+      "evolves_into": null,
+      "evolution_method": null
+    },
+    "evolution_stage": "final",
+    "sprite_description": "A massive bull elk with enormous branching antlers. The body is rich dark brown (#6d4c41) with a darker (#4e342e) mane on the neck. The antlers are the crowning feature massive, branching, bone-white (#fad7a0) to tan, with 6+ points on each side. They should take up significant sprite space. The build is powerful and muscular with thick legs. The face is regal and commanding deep intense dark eyes, strong squared jaw, a noble bearing. The head is raised in a bugling pose (mouth open, head thrown back). The legs end in dark hooves. A short dark tail.",
+    "color_palette": {
+      "primary": "#6d4c41",
+      "secondary": "#4e342e",
+      "accent": "#fad7a0",
+      "outline": "#222222",
+      "eye_color": "#111111"
+    },
+    "pose": "Head raised in bugling pose, mouth open, massive antlers prominent, powerful stance facing right",
+    "expression": "Regal and commanding deep intense eyes, squared jaw, noble bearing. King of the forest.",
+    "size_class": "large",
+    "distinguishing_features": [
+      "Massive branching antlers (the biggest feature)",
+      "Bugling pose",
+      "Dark neck mane",
+      "Powerful muscular build",
+      "Noble commanding expression"
+    ],
+    "overworld_description": "Large dark brown shape with massive antler rack on top, stately walk. 16x16: large brown body with prominent tan antler branches.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The antlers are EVERYTHING they should be impressively large and detailed. The bugling pose (head back, mouth open) conveys power. Contrast with wobbly baby Elkid is dramatic. This is the king of the forest."
+  },
+  {
+    "id": "shimmerpi",
+    "dex_number": 28,
+    "name": "Shimmerpi",
+    "category": "The Funeral Bird Pokemon",
+    "types": [
+      "Flying",
+      "Dark"
+    ],
+    "real_species": "Black-billed Magpie (Pica hudsonia)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A sleek black-and-white bird with a long streaming tail and iridescent coloring. The head, back, and wings are black (#111111) to deep blue-black. The belly and flanks are white (#ecf0f1). An iridescent blue-green (#2ecc71 to #3498db) patch shimmers on the wing. The tail is very long the bird's most distinctive feature black with a blue-green sheen. The beak is black and sharp. The eyes are sharp and intelligent beady and observant, with a knowing look. The head is tilted slightly as if assessing you. Perched on a branch with the long tail hanging down.",
+    "color_palette": {
+      "primary": "#111111",
+      "secondary": "#ecf0f1",
+      "accent": "#2ecc71",
+      "outline": "#000000",
+      "eye_color": "#111111"
+    },
+    "pose": "Perched on branch, head tilted assessingly, long tail hanging/trailing, facing right",
+    "expression": "Sharp and intelligent knowing beady eyes, head tilt. Sizing you up.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Very long streaming tail",
+      "Black and white plumage",
+      "Iridescent blue-green wing patch",
+      "Tilted intelligent head",
+      "Sharp observant eyes"
+    ],
+    "overworld_description": "Black and white bird with long trailing tail, hops along. 16x16: black/white bird shape with long tail line trailing behind.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The intelligence should come through in the eyes and head tilt. The long tail is the signature feature. The iridescent patch should shimmer with blue-green color."
+  },
+  {
+    "id": "redgale",
+    "dex_number": 29,
+    "name": "Redgale",
+    "category": "The Sky Scream Pokemon",
+    "types": [
+      "Flying",
+      "Normal"
+    ],
+    "real_species": "Red-tailed Hawk (Buteo jamaicensis)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A fierce brown hawk perched alertly with wings slightly spread. The back and wings are rich brown (#8b6914) with darker (#6d4c41) flight feathers. The chest is lighter buff (#fad7a0) with brown streaking. The tail is distinctive reddish-brown (#c0392b). The beak is sharp and curved, dark grey. The eyes are intense yellow (#f1c40f) with black pupils the raptor stare. The feet have visible yellow talons. Wings slightly spread as if about to take off or just landed. The overall impression is of a fierce, alert predator scanning from a high perch.",
+    "color_palette": {
+      "primary": "#8b6914",
+      "secondary": "#fad7a0",
+      "accent": "#c0392b",
+      "outline": "#222222",
+      "eye_color": "#f1c40f"
+    },
+    "pose": "Perched alertly, wings slightly spread, body angled right, head turned to face viewer",
+    "expression": "Fierce and alert intense yellow raptor eyes, sharp gaze. Scanning for prey.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Reddish-brown tail",
+      "Intense yellow eyes",
+      "Sharp curved beak",
+      "Streaked chest",
+      "Wings slightly spread"
+    ],
+    "overworld_description": "Brown bird with red tail flash, alert perched pose. 16x16: brown bird shape with red tail pixels and yellow eye dots.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The red tail and yellow eyes are the key identifiers. Should look like it's about to scream. The raptor stare is intense and iconic."
+  },
+  {
+    "id": "owlette",
+    "dex_number": 30,
+    "name": "Owlette",
+    "category": "The Fluffball Pokemon",
+    "types": [
+      "Flying"
+    ],
+    "real_species": "Great Horned Owl (Bubo virginianus) owlet",
+    "evolution_chain": {
+      "chain_id": "owl_line",
+      "stage": 1,
+      "stage_name": "Baby",
+      "total_stages": 3,
+      "evolves_from": null,
+      "evolves_into": "hornowl",
+      "evolution_method": "Level 20"
+    },
+    "evolution_stage": "baby",
+    "sprite_description": "An impossibly fluffy, round baby owl that is basically a sphere of feathers with enormous eyes. The body is a round puffball of soft grey-brown (#b0b0b0 to #8d6e63) downy feathers. The ENORMOUS round yellow (#f1c40f) eyes take up at least 40-50% of the face huge circular golden eyes with black pupils and white sparkle highlights. These eyes are the dominant feature. A tiny triangle beak (#d4760a) barely visible between the eyes. Tiny stubby wings pressed against the round body. Small fluffy ear tufts just barely starting to develop (tiny fluffs). Sitting on a branch with tiny taloned feet barely visible. The overall shape is a CIRCLE with eyes.",
+    "color_palette": {
+      "primary": "#b0b0b0",
+      "secondary": "#8d6e63",
+      "accent": "#f1c40f",
+      "outline": "#222222",
+      "eye_color": "#f1c40f"
+    },
+    "pose": "Sitting on branch, perfectly round, facing forward/slightly right, tiny wings pressed to sides",
+    "expression": "Wide-eyed amazement ENORMOUS round golden eyes, tiny beak. A fluffy sphere of wonder.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Perfectly round fluffy body",
+      "ENORMOUS golden eyes (50% of face)",
+      "Tiny triangle beak",
+      "Downy feathers",
+      "Barely-there ear tuft fluffs",
+      "Basically a sphere"
+    ],
+    "overworld_description": "Tiny round grey fluffball with two huge yellow circles, bobs along. 16x16: grey circle with two large yellow circles (eyes).",
+    "battle_sprite_facing": "right",
+    "art_notes": "This should be the CUTEST bird Pokemon possible. It's basically a perfect circle of fluff with two massive golden dinner-plate eyes. The tiny beak and barely-visible ear tufts add detail. Think real baby owl photos they're almost all eyes."
+  },
+  {
+    "id": "hornowl",
+    "dex_number": 31,
+    "name": "Hornowl",
+    "category": "The Dusk Watcher Pokemon",
+    "types": [
+      "Flying",
+      "Dark"
+    ],
+    "real_species": "Great Horned Owl (Bubo virginianus) juvenile",
+    "evolution_chain": {
+      "chain_id": "owl_line",
+      "stage": 2,
+      "stage_name": "Mid",
+      "total_stages": 3,
+      "evolves_from": "owlette",
+      "evolves_into": "dusktalon",
+      "evolution_method": "Level 38"
+    },
+    "evolution_stage": "mid",
+    "sprite_description": "A medium-sized owl with developing ear tufts and growing Dark-type features. The body is more angular than Owlette transitioning from round to angular. The plumage is darker, grey-brown (#6d4c41) with hints of purple (#7d3c98) on the wing edges. The ear tufts are now clearly visible and developing. The eyes are still large but more alert and mysterious amber-orange (#e67e22) with darker surroundings. The face has a developing facial disc pattern. Longer wings, more defined. Talons growing. Sitting on a branch in an alert upright pose. A subtle purple/dark aura.",
+    "color_palette": {
+      "primary": "#6d4c41",
+      "secondary": "#7d3c98",
+      "accent": "#e67e22",
+      "outline": "#222222",
+      "eye_color": "#e67e22"
+    },
+    "pose": "Alert upright perch, ear tufts visible, head slightly turned, facing right",
+    "expression": "Mysterious and alert amber eyes with growing intensity, developing facial disc. Growing into its power.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Developing ear tufts",
+      "Purple-tinged plumage",
+      "Amber-orange eyes",
+      "Growing facial disc",
+      "More angular body than baby"
+    ],
+    "overworld_description": "Medium dark brown owl with pointed ear tufts, smooth glide. 16x16: dark brown shape with two pointed ear triangles and orange eye dots.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Transitional design. Not as cute as Owlette, not yet as terrifying as Dusktalon. The purple tinge hints at the Dark type developing. The ear tufts are growing but not yet at full dramatic size."
+  },
+  {
+    "id": "dusktalon",
+    "dex_number": 32,
+    "name": "Dusktalon",
+    "category": "The Silent Death Pokemon",
+    "types": [
+      "Flying",
+      "Dark"
+    ],
+    "real_species": "Great Horned Owl (Bubo virginianus)",
+    "evolution_chain": {
+      "chain_id": "owl_line",
+      "stage": 3,
+      "stage_name": "Final",
+      "total_stages": 3,
+      "evolves_from": "hornowl",
+      "evolves_into": null,
+      "evolution_method": null
+    },
+    "evolution_stage": "final",
+    "sprite_description": "A large, fearsome owl with dramatic ear tufts and massive talons. The plumage is dark deep brown-black (#2d3436) with ghostly pale (#b0b0b0) markings on the chest in a pattern that looks like a skull or spectral face. The ear tufts are PROMINENT tall, sharp, dramatic, like devil horns. The eyes are piercing orange (#e67e22) to red (#c0392b), glowing intensely with dark rings around them. The facial disc is fully developed and striking. The wings are spread wide, showing dark feathers with subtle purple (#4a235a) shimmer. The talons are massive, sharp, and prominent these are the 'death' in 'Silent Death.' The beak is sharp and dark. The overall impression is terrifying but wise a creature of the night that sees everything.",
+    "color_palette": {
+      "primary": "#2d3436",
+      "secondary": "#b0b0b0",
+      "accent": "#e67e22",
+      "outline": "#111111",
+      "eye_color": "#e67e22"
+    },
+    "pose": "Wings spread wide, talons forward, ear tufts prominent, facing forward/right, dominant perch",
+    "expression": "Terrifying and wise glowing orange eyes with dark rings, intense stare. Nothing escapes this gaze.",
+    "size_class": "large",
+    "distinguishing_features": [
+      "Dramatic tall ear tufts",
+      "Glowing orange/red eyes",
+      "Massive sharp talons",
+      "Dark plumage with ghostly chest markings",
+      "Spread wings with purple shimmer",
+      "Skull-like chest pattern"
+    ],
+    "overworld_description": "Large dark bird with prominent ear tufts, silent gliding movement. 16x16: dark shape with tall ear points and glowing orange eye dots.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Stark contrast with adorable baby Owlette. This is a nocturnal apex predator. The talons should be the most prominent weapon feature. The ghostly chest markings add eerie detail. Despite being terrifying, there's wisdom in those eyes."
+  },
+  {
+    "id": "melodark",
+    "dex_number": 33,
+    "name": "Melodark",
+    "category": "The Prairie Song Pokemon",
+    "types": [
+      "Flying",
+      "Normal"
+    ],
+    "real_species": "Western Meadowlark (Sturnella neglecta)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A bright, cheerful songbird perched on a wooden fence post. The chest and belly are vivid bright yellow (#f1c40f) the most prominent feature. The back, wings, and tail are brown (#8b6914) with darker (#6d4c41) streaking. A black (#111111) V-shaped bib/necklace on the upper chest. The head is brown-striped with yellow eyebrow lines. The beak is long, pointed, and open mid-song, with small musical note symbols floating nearby. The eyes are bright and cheerful. Small feet gripping the fence post. The overall impression is of pure joy expressed through song.",
+    "color_palette": {
+      "primary": "#f1c40f",
+      "secondary": "#8b6914",
+      "accent": "#111111",
+      "outline": "#222222",
+      "eye_color": "#111111"
+    },
+    "pose": "Perched on fence post, beak open in song, body angled upward, facing right, musical notes floating",
+    "expression": "Joyful and musical bright cheerful eyes, beak wide open in song. Pure happiness.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Bright yellow chest",
+      "Black V-bib",
+      "Open beak mid-song",
+      "Floating musical notes",
+      "Perched on fence post",
+      "Brown streaked back"
+    ],
+    "overworld_description": "Small yellow-chested bird, hops along cheerfully. 16x16: brown/yellow small bird shape with open beak, tiny note pixel.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The yellow chest is the signature identifier. The singing pose with floating musical notes conveys the species' famous song. Should radiate joy and cheerfulness."
+  },
+  {
+    "id": "hummbuzz",
+    "dex_number": 34,
+    "name": "Hummbuzz",
+    "category": "The Heartbeat Pokemon",
+    "types": [
+      "Flying",
+      "Electric"
+    ],
+    "real_species": "Broad-tailed Hummingbird (Selasphorus platycercus)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A tiny, iridescent hummingbird buzzing with electric energy. The body is very small this should be the smallest bird sprite. The back and head are iridescent green (#27ae60 to #2ecc71). The throat has a brilliant ruby-red (#c0392b) gorget patch that seems to glow. The belly is white-grey (#ecf0f1). The beak is very long and thin proportionally the longest feature. The wings are a BLUR drawn as motion arcs or transparent speed lines since they beat too fast to see. Electric sparks (#fdcb6e) crackle around the wing area. The eyes are small, round, and bright. The tail is broad (broad-tailed). Hovering in mid-air, not perched.",
+    "color_palette": {
+      "primary": "#27ae60",
+      "secondary": "#c0392b",
+      "accent": "#fdcb6e",
+      "outline": "#222222",
+      "eye_color": "#111111"
+    },
+    "pose": "Hovering in mid-air, wings blurred with motion, long beak extended right, electric sparks around",
+    "expression": "Energetic and zippy bright tiny eyes, focused forward. Constant motion.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Tiny size (smallest bird)",
+      "Motion-blurred wings",
+      "Very long thin beak",
+      "Ruby-red throat gorget",
+      "Electric sparks",
+      "Iridescent green body",
+      "Hovering (not perched)"
+    ],
+    "overworld_description": "Tiny green speck that zips around erratically, very fast. 16x16: tiny green dot with red throat pixel, motion blur.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The motion is everything wings should be blurred/transparent. The electric type is represented by sparks around the wings. The ruby throat is the key color accent. Should feel impossibly fast and energetic."
+  },
+  {
+    "id": "liberion",
+    "dex_number": 35,
+    "name": "Liberion",
+    "category": "The Sovereign Sky Pokemon",
+    "types": [
+      "Flying",
+      "Water"
+    ],
+    "real_species": "Bald Eagle (Haliaeetus leucocephalus)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A majestic, large eagle with commanding presence. The body is dark brown (#4e342e) rich chocolate brown. The head and neck are bright white (#ecf0f1) the iconic bald eagle look. The beak is large, hooked, and bright yellow (#f1c40f). The feet/talons are also yellow with strong curved claws. The eyes are piercing light yellow-amber with an intense, proud stare. The wings are broad and slightly spread, showing off the massive wingspan. The tail is white. The overall pose is regal and commanding this is royalty. Largest bird sprite.",
+    "color_palette": {
+      "primary": "#4e342e",
+      "secondary": "#ecf0f1",
+      "accent": "#f1c40f",
+      "outline": "#222222",
+      "eye_color": "#f1c40f"
+    },
+    "pose": "Perched regally, wings slightly spread, chest puffed, head high, facing right. Largest bird.",
+    "expression": "Proud and commanding piercing amber eyes, noble bearing. Don't even think about challenging it.",
+    "size_class": "large",
+    "distinguishing_features": [
+      "White head and tail (bald eagle)",
+      "Large yellow hooked beak",
+      "Yellow talons",
+      "Dark brown body",
+      "Massive broad wings",
+      "Regal commanding pose"
+    ],
+    "overworld_description": "Large dark bird with distinctive white head, stately slow walk. 16x16: large brown body with white head section, yellow beak pixel.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Biggest bird sprite. Should look majestic and slightly arrogant (it steals fish from others, after all). The white head and yellow beak are instantly recognizable. Think national symbol energy."
+  },
+  {
+    "id": "obsidiwing",
+    "dex_number": 36,
+    "name": "Obsidiwing",
+    "category": "The Shadow Dancer Pokemon",
+    "types": [
+      "Flying",
+      "Dark"
+    ],
+    "real_species": "Lark Bunting (Calamospiza melanocorys)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A sleek jet-black bird with bold white wing patches in a dramatic dance pose. The body is entirely jet black (#111111) with a slight blue-black sheen. The wings have striking bright white (#ecf0f1) patches large and prominent. The eyes are dark with a subtle red (#c0392b) glint. The beak is short and conical (finch-like). In a mid-sky-dance pose: wings spread upward dramatically, body angled up as if launching into the sky. Small but dramatic. The tail is slightly fanned.",
+    "color_palette": {
+      "primary": "#111111",
+      "secondary": "#ecf0f1",
+      "accent": "#c0392b",
+      "outline": "#000000",
+      "eye_color": "#c0392b"
+    },
+    "pose": "Mid-sky-dance: wings spread upward dramatically, body angled up, launching pose, facing right",
+    "expression": "Dramatic and passionate dark eyes with red glint. A performer in mid-act.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Jet black plumage",
+      "Bold white wing patches",
+      "Sky-dance launching pose",
+      "Red eye glint",
+      "Dramatic upward angle"
+    ],
+    "overworld_description": "Small black bird with white wing flashes, dramatic hopping walk. 16x16: black bird with white wing pixels.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Colorado's state bird. The sky-dance courtship display is the key pose launching upward then fluttering down. The black and white contrast should be stark and dramatic."
+  },
+  {
+    "id": "dipplet",
+    "dex_number": 37,
+    "name": "Dipplet",
+    "category": "The Swim Singer Pokemon",
+    "types": [
+      "Flying",
+      "Water"
+    ],
+    "real_species": "American Dipper (Cinclus mexicanus)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A small, round grey bird standing in or near water with unique goggle-like eye markings. The body is uniformly dark grey (#636e72) round and compact. The key feature is a translucent blue (#74b9ff with transparency) goggle-like band across the eyes representing the nictitating membrane that acts as swim goggles. The eyes are bright behind the 'goggles'. A short thin dark beak, slightly upturned. Short rounded wings. Standing on a wet rock with water splashing around the feet. Water droplets on the feathers. The legs are sturdy. The tail is short and often held cocked upward.",
+    "color_palette": {
+      "primary": "#636e72",
+      "secondary": "#74b9ff",
+      "accent": "#0984e3",
+      "outline": "#222222",
+      "eye_color": "#111111"
+    },
+    "pose": "Standing on a wet rock, water splashing around feet, tail cocked up, facing right",
+    "expression": "Quirky and endearing bright eyes behind blue 'goggles', alert and cheerful. Oddball personality.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Translucent blue goggle-band across eyes",
+      "Round compact grey body",
+      "Standing in/near water",
+      "Water droplets",
+      "Cocked-up tail",
+      "Wet rock perch"
+    ],
+    "overworld_description": "Small grey bird with blue eye band, bobs up and down near water. 16x16: grey round bird with blue eye stripe, near blue water pixels.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The swim goggles (nictitating membrane) are the unique and quirky feature that sets this apart. The water context is important. Should look like a little adventurer about to dive into a stream."
+  },
+  {
+    "id": "bullcoil",
+    "dex_number": 38,
+    "name": "Bullcoil",
+    "category": "The Bluff Master Pokemon",
+    "types": [
+      "Ground"
+    ],
+    "real_species": "Bull Snake (Pituophis catenifer sayi)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A tan and brown patterned snake coiled up with a cheeky, winking expression. The body is tan (#d7b899) with dark brown (#6d4c41) blotch patterns along the back. Coiled in a relaxed spiral. The head is slightly raised and turned to face the viewer. One eye is open (round, friendly, tan-brown) and the OTHER eye is WINKING closed with a curved line. The mouth is curved in a sly, knowing grin. No rattle on the tail (it's a pretender). The tongue is flicking out. The overall impression is of a harmless snake that's in on the joke about impersonating a rattlesnake.",
+    "color_palette": {
+      "primary": "#d7b899",
+      "secondary": "#6d4c41",
+      "accent": "#8b6914",
+      "outline": "#222222",
+      "eye_color": "#6d4c41"
+    },
+    "pose": "Coiled relaxedly, head raised and turned toward viewer, winking, tongue out",
+    "expression": "Cheeky and mischievous one eye open, one winking, sly grin. In on the joke.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Winking eye",
+      "Sly grin",
+      "Brown blotch pattern",
+      "No rattle (important!)",
+      "Flicking tongue",
+      "Relaxed coil"
+    ],
+    "overworld_description": "Tan coiled snake shape, slithers along with a bouncy rhythm. 16x16: tan spiral shape with one brown dot eye.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The WINK is essential it tells you this snake is bluffing. The lack of a rattle (vs Venomrattle who HAS one) is an important visual distinction. The grin should be charming, not menacing."
+  },
+  {
+    "id": "venomrattle",
+    "dex_number": 39,
+    "name": "Venomrattle",
+    "category": "The Heirloom Den Pokemon",
+    "types": [
+      "Ground",
+      "Poison"
+    ],
+    "real_species": "Prairie Rattlesnake (Crotalus viridis)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "An olive-brown coiled rattlesnake with a visible rattle and more serious demeanor than Bullcoil. The body is olive-green (#6d7e3a) to brown (#8b6914) with dark (#4e342e) diamond patterns along the back. Coiled tightly in a defensive posture body tense. The head is triangular and slightly raised. The RATTLE on the tail tip is clearly visible segmented, tan/bone-colored (#fad7a0). A forked tongue flicks out. The eyes are intense slitted pupils in amber (#d4760a) irises, with a serious but not evil expression. The overall impression is dangerous but dignified a creature that warns before it strikes.",
+    "color_palette": {
+      "primary": "#6d7e3a",
+      "secondary": "#8b6914",
+      "accent": "#fad7a0",
+      "outline": "#222222",
+      "eye_color": "#d4760a"
+    },
+    "pose": "Tightly coiled defensively, head raised and alert, rattle visible and elevated, facing right",
+    "expression": "Intense but dignified slitted amber eyes, serious set of the jaw. Warns before it strikes.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Visible segmented RATTLE on tail",
+      "Diamond pattern",
+      "Triangular head",
+      "Slitted amber eyes",
+      "Defensive coil posture",
+      "Forked tongue"
+    ],
+    "overworld_description": "Olive-brown coiled snake with visible rattle segment, careful slithering movement. 16x16: green-brown spiral with tan rattle pixel at end.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Contrast with Bullcoil this is the REAL dangerous one. The rattle is the key distinguishing feature. The diamond pattern and triangular head should be clear. Dignified and dangerous, not cartoonishly evil."
+  },
+  {
+    "id": "tortaura",
+    "dex_number": 40,
+    "name": "Tortaura",
+    "category": "The Living Canvas Pokemon",
+    "types": [
+      "Water",
+      "Normal"
+    ],
+    "real_species": "Western Painted Turtle (Chrysemys picta bellii)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A cute turtle with a beautifully painted shell. The shell (carapace) is green (#27ae60) on top with vivid red (#c0392b) and yellow (#f1c40f) markings along the edges like brushstrokes on a canvas. The shell pattern is artistic and decorative. The head pokes out from the front a dark green (#1e8449) head with yellow stripes and big friendly round eyes (dark with white highlights). A tiny happy smile. The legs are dark green with yellow striping, poking out from the shell. Standing on a light brown log or lily pad. The plastron (belly) has hints of yellow. Short dark tail.",
+    "color_palette": {
+      "primary": "#27ae60",
+      "secondary": "#c0392b",
+      "accent": "#f1c40f",
+      "outline": "#222222",
+      "eye_color": "#111111"
+    },
+    "pose": "Standing on a log, head extended forward, facing right, all four legs visible",
+    "expression": "Friendly and sweet big round eyes, tiny happy smile. Gentle artistic soul.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Painted shell with red/yellow/green pattern",
+      "Yellow-striped head and legs",
+      "Standing on log",
+      "Artistic shell markings",
+      "Friendly expression"
+    ],
+    "overworld_description": "Small green shell with red/yellow edges, slow steady walk. 16x16: green dome shape with red/yellow edge pixels, head dot poking out.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The shell painting is the key feature it should look genuinely artistic, like nature's canvas. The red and yellow edge markings against the green shell create a beautiful pattern. Gentle and sweet personality."
+  },
+  {
+    "id": "tigermander",
+    "dex_number": 41,
+    "name": "Tigermander",
+    "category": "The Eternal Youth Pokemon",
+    "types": [
+      "Water",
+      "Ground"
+    ],
+    "real_species": "Tiger Salamander (Ambystoma mavortium)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A black salamander with bright yellow spots and a playful expression. The body is glossy black (#111111) to dark grey (#2d3436), smooth and shiny-looking. Bright yellow (#f1c40f) spots and irregular stripes are scattered across the body the tiger pattern. The head is rounded with a cute, slightly rounded snout. Big round friendly eyes (dark with yellow (#f1c40f) ring iris and white highlights). External gills are visible near the head feathery red-pink (#fd79a8) tufts branching out from behind the jaw (representing the neotenic larval gills some keep). A broad flat tail. Four short legs with small toes. The body has a slight sheen/wetness to it.",
+    "color_palette": {
+      "primary": "#111111",
+      "secondary": "#f1c40f",
+      "accent": "#fd79a8",
+      "outline": "#000000",
+      "eye_color": "#f1c40f"
+    },
+    "pose": "Walking forward (right), body in a gentle S-curve, gills flared, tail following",
+    "expression": "Playful and youthful big round eyes with yellow ring iris, slight smile. Perpetual youth.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Black body with bright yellow spots/stripes",
+      "Red-pink feathery external gills",
+      "Shiny/wet appearance",
+      "Rounded head",
+      "Tiger pattern",
+      "Broad flat tail"
+    ],
+    "overworld_description": "Black shape with yellow spots, wiggly walk. 16x16: black elongated shape with yellow dot pixels, pink gill tufts.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The external gills (feathery tufts near the head) are the signature feature representing the 'eternal youth' neoteny. The black-and-yellow contrast should be vivid. Should look perpetually young and playful."
+  },
+  {
+    "id": "croakini",
+    "dex_number": 42,
+    "name": "Croakini",
+    "category": "The Spring Herald Pokemon",
+    "types": [
+      "Water",
+      "Normal"
+    ],
+    "real_species": "Boreal Chorus Frog (Pseudacris maculata)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "An extremely tiny, adorable green frog. This should be the SMALLEST creature sprite in the entire set. The body is very round almost a perfect circle of bright green (#27ae60) with a lighter (#82e0aa) belly. HUGE eyes relative to body (taking up 40%+ of the face) large, round, golden (#f1c40f) with black pupils and big white highlights. An inflated vocal sac (throat pouch) visible under the chin pale (#82e0aa) and puffed out as if mid-croak. Tiny webbed feet. Sitting on a small green leaf or lily pad. The legs are tucked in a crouching position. Everything is miniature and round.",
+    "color_palette": {
+      "primary": "#27ae60",
+      "secondary": "#82e0aa",
+      "accent": "#f1c40f",
+      "outline": "#222222",
+      "eye_color": "#f1c40f"
+    },
+    "pose": "Crouching on a tiny leaf, vocal sac inflated mid-croak, facing slightly right, legs tucked",
+    "expression": "Adorable and vocal HUGE golden eyes (disproportionately large), inflated throat, mid-song. Maximum cute.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "TINIEST sprite",
+      "Disproportionately huge golden eyes",
+      "Inflated vocal sac/throat",
+      "Perfect round body",
+      "Sitting on leaf",
+      "Bright green color"
+    ],
+    "overworld_description": "Barely visible tiny green dot that hops along. 16x16: tiny 4x4 green circle with two golden eye dots on a leaf pixel.",
+    "battle_sprite_facing": "right",
+    "art_notes": "MAXIMUM CUTE, MINIMUM SIZE. This is only 1 inch in real life and that should show it should look tiny even compared to other small sprites. The huge golden eyes and inflated throat are key. A tiny frog with a huge voice."
+  },
+  {
+    "id": "monarchling",
+    "dex_number": 43,
+    "name": "Monarchling",
+    "category": "The Leaf Muncher Pokemon",
+    "types": [
+      "Bug"
+    ],
+    "real_species": "Monarch Butterfly (Danaus plexippus) caterpillar",
+    "evolution_chain": {
+      "chain_id": "butterfly_line",
+      "stage": 1,
+      "stage_name": "Baby",
+      "total_stages": 3,
+      "evolves_from": null,
+      "evolves_into": "chrysalord",
+      "evolution_method": "Level 16"
+    },
+    "evolution_stage": "baby",
+    "sprite_description": "A chubby, cute striped caterpillar munching on a leaf. The body is made of round segments alternating stripes of black (#111111), yellow (#f1c40f), and white (#ecf0f1). The body is slightly curved in a gentle C-shape. Big round eyes on the front segment large, round, black with white sparkle highlights, giving an innocent expression. A tiny mouth is chomping on the edge of a green leaf. Two pairs of small black tentacles (filaments) extend from the front and rear one pair near the head, one near the tail. Multiple tiny leg pairs visible along the body. Chubby and round overall.",
+    "color_palette": {
+      "primary": "#111111",
+      "secondary": "#f1c40f",
+      "accent": "#ecf0f1",
+      "outline": "#111111",
+      "eye_color": "#111111"
+    },
+    "pose": "Curved C-shape, front end munching a green leaf, facing right",
+    "expression": "Innocent and content big round eyes, mouth full of leaf. Happy little muncher.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Black/yellow/white striped segments",
+      "Munching on leaf",
+      "Round chubby segments",
+      "Black filament tentacles",
+      "Big innocent eyes"
+    ],
+    "overworld_description": "Small striped caterpillar, inchworm-style movement. 16x16: alternating black/yellow pixel segments in a C-curve.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Classic monarch caterpillar colors. The munching-a-leaf detail is charming. Should be chubby and cute the humble beginning of a magnificent butterfly. The stripes must be black/yellow/white to match real monarch caterpillars."
+  },
+  {
+    "id": "chrysalord",
+    "dex_number": 44,
+    "name": "Chrysalord",
+    "category": "The Dreaming Jewel Pokemon",
+    "types": [
+      "Bug"
+    ],
+    "real_species": "Monarch Butterfly (Danaus plexippus) chrysalis",
+    "evolution_chain": {
+      "chain_id": "butterfly_line",
+      "stage": 2,
+      "stage_name": "Mid",
+      "total_stages": 3,
+      "evolves_from": "monarchling",
+      "evolves_into": "emperorfly",
+      "evolution_method": "Level 32"
+    },
+    "evolution_stage": "mid",
+    "sprite_description": "A jade-green chrysalis with golden dots and a mysterious face visible in the surface. The shape is a smooth, elongated teardrop hanging from a silk thread attached to a branch above. The color is jade green (#27ae60 to #2ecc71) with a luminous quality. A line of metallic gold (#f1c40f) dots runs along the upper ridge the real monarch chrysalis has these. The surface has subtle glowing patterns (#82e0aa) that hint at the wings forming inside. A serene face is faintly visible in the surface closed eyes with long lash lines, a peaceful sleeping expression. Suspended/hanging orientation (upside down). Subtle magical sparkles around it.",
+    "color_palette": {
+      "primary": "#2ecc71",
+      "secondary": "#27ae60",
+      "accent": "#f1c40f",
+      "outline": "#1e8449",
+      "eye_color": "#1e8449"
+    },
+    "pose": "Hanging from silk thread/branch, teardrop shape, oriented point-down",
+    "expression": "Serene and dreaming closed eyes with delicate lash lines, peaceful sleeping face in the surface. Transforming.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Jade-green teardrop shape",
+      "Metallic gold dot line",
+      "Faint sleeping face in surface",
+      "Hanging from silk thread",
+      "Subtle wing pattern visible inside",
+      "Magical sparkles"
+    ],
+    "overworld_description": "Hanging green teardrop shape that sways gently. 16x16: green teardrop shape with gold pixel dots, hanging from line.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The real monarch chrysalis is genuinely beautiful jade green with a line of gold dots. The sleeping face should be subtle and ethereal. The magic is in the transformation happening inside. Elegant and mysterious."
+  },
+  {
+    "id": "emperorfly",
+    "dex_number": 45,
+    "name": "Emperorfly",
+    "category": "The Migration Monarch Pokemon",
+    "types": [
+      "Bug",
+      "Flying"
+    ],
+    "real_species": "Monarch Butterfly (Danaus plexippus)",
+    "evolution_chain": {
+      "chain_id": "butterfly_line",
+      "stage": 3,
+      "stage_name": "Final",
+      "total_stages": 3,
+      "evolves_from": "chrysalord",
+      "evolves_into": null,
+      "evolution_method": null
+    },
+    "evolution_stage": "final",
+    "sprite_description": "A magnificent butterfly with wings spread wide in a regal display. The wings are the dominant feature large and symmetrical. Upper wings are bright orange (#e67e22) with thick black (#111111) borders and veins, and white (#ecf0f1) dots along the black border edges. Lower wings are similar but with more black. The body is black with white dots along the sides. The antennae are elaborate curling upward like a crown or tiara, with small gold (#f1c40f) tips. The face has compound eyes large, wise, multifaceted dark eyes with subtle warm highlights. A delicate curled proboscis. The wings should take up most of the sprite space. The pose is symmetrical wings fully spread like a royal presentation.",
+    "color_palette": {
+      "primary": "#e67e22",
+      "secondary": "#111111",
+      "accent": "#ecf0f1",
+      "outline": "#111111",
+      "eye_color": "#4e342e"
+    },
+    "pose": "Wings fully spread symmetrically, body centered, crown-like antennae up, facing forward",
+    "expression": "Regal and wise compound eyes with warm depth, dignified bearing. A monarch in every sense.",
+    "size_class": "large",
+    "distinguishing_features": [
+      "Crown-like curled antennae",
+      "Large orange wings with black borders and white dots",
+      "Symmetrical regal spread",
+      "Compound eyes",
+      "Royal bearing"
+    ],
+    "overworld_description": "Large orange butterfly with black borders, graceful fluttering flight. 16x16: orange wings with black edges spread symmetrically.",
+    "battle_sprite_facing": "right",
+    "art_notes": "This is royalty. The crown-like antennae elevate it beyond a regular butterfly. The orange-black-white color scheme must match real monarchs. The contrast with humble caterpillar Monarchling should be dramatic. Wings should be the biggest feature."
+  },
+  {
+    "id": "purplewing",
+    "dex_number": 46,
+    "name": "Purplewing",
+    "category": "The Junk Food Gourmet Pokemon",
+    "types": [
+      "Bug",
+      "Flying"
+    ],
+    "real_species": "Colorado Hairstreak (Hypaurotis crysalus)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A pretty purple butterfly with a haughty, snobbish expression. The wings are rich purple (#8e44ad) to lavender (#bb8fce) with orange (#e67e22) accent spots near the lower wing edges. The wing shape is more delicate and angular than Emperorfly. The body is dark (#2d3436). The face has a distinctly snobbish expression half-lidded eyes looking down the nose (or equivalent), a slightly turned-up position as if judging you. The antennae are thin and elegant. Small, delicate legs. The wings are held slightly angled not fully spread, more like a fashion pose. Overall impression: a beautiful butterfly that thinks it's better than you (even though it eats dung).",
+    "color_palette": {
+      "primary": "#8e44ad",
+      "secondary": "#bb8fce",
+      "accent": "#e67e22",
+      "outline": "#222222",
+      "eye_color": "#111111"
+    },
+    "pose": "Wings at a fashionable angle (not fully spread), body slightly turned as if posing, facing right",
+    "expression": "Haughty and snobbish half-lidded eyes, slightly turned-up nose, judging you. Elegant disdain.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Purple wings with orange spots",
+      "Snobbish/haughty expression",
+      "Half-lidded judgmental eyes",
+      "Elegant angular wing shape",
+      "Fashion-pose angle"
+    ],
+    "overworld_description": "Small purple butterfly with orange spots, elegant fluttering. 16x16: purple wing pair with orange dot accent.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The comedy is in the contrast this beautiful, snobbish creature actually eats tree sap and dung. The haughty expression should be funny and endearing, not mean. Think of a fashion model who's secretly eating fast food."
+  },
+  {
+    "id": "millerva",
+    "dex_number": 47,
+    "name": "Millerva",
+    "category": "The Calorie Bomb Pokemon",
+    "types": [
+      "Bug",
+      "Flying"
+    ],
+    "real_species": "Miller Moth (Euxoa auxiliaris)",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A small grey-brown moth with a fuzzy body and a worried, nervous expression it knows it's everyone's snack. The wings are muted grey-brown (#808080 to #8d6e63) with subtle darker (#636e72) pattern markings much more subdued than the butterflies. The body is round and fuzzy/fluffy covered in powdery scales. Prominent feathery antennae. The eyes are BIG and worried/startled round, dark, with white highlights that make them look nervous. The eyebrows are arched upward in worry. The mouth is a small nervous wobble. The wings are held tent-like over the body (moth rest position). Powdery wing scales seem to be falling off. Overall impression: a sympathetic, nervous little moth that can't help being delicious.",
+    "color_palette": {
+      "primary": "#808080",
+      "secondary": "#8d6e63",
+      "accent": "#636e72",
+      "outline": "#222222",
+      "eye_color": "#111111"
+    },
+    "pose": "Wings held tent-like over body, slightly hunched, facing right, looking nervous/over-the-shoulder",
+    "expression": "Worried and nervous big startled eyes, worried arched eyebrows, wobbly mouth. Existential dread of being 70% fat.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Worried/nervous expression",
+      "Fuzzy/powdery body",
+      "Muted grey-brown coloring",
+      "Tent-like wing position",
+      "Feathery antennae",
+      "Powder scales falling off"
+    ],
+    "overworld_description": "Small grey fuzzy moth, fluttery nervous movement. 16x16: grey tent-wing shape with two big worried eye dots.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The comedy is the nervous expression this moth KNOWS bears eat 40,000 of its kind per day. The sympathy factor is key. The muted colors contrast with the flashy butterflies. Should make you feel sorry for it while also finding it adorable."
+  }
+]

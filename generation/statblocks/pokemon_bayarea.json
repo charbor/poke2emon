@@ -1,0 +1,501 @@
+[
+  {
+    "id": "quailcrest",
+    "dex_number": 7,
+    "name": "Quailcrest",
+    "category": "The Topknot Pokemon",
+    "types": [
+      "Normal",
+      "Flying"
+    ],
+    "real_species": "California Quail (Callipepla californica) — the state bird of California, known for its forward-drooping comma-shaped head plume and communal roosting",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A plump, round-bodied quail standing upright with a proud posture. The body is blue-grey (#607d8b) on the chest and back, with rich chestnut-brown (#8d6e63) flanks marked with white (#ffffff) streaks arranged in a scaled pattern. The belly is cream-yellow (#fff9c4) with a dark central patch. The signature feature is a dramatic comma-shaped head plume — a single black (#1a1a1a) feather that curls forward from the top of the head, bobbing slightly as if spring-loaded. The face has a bold black-and-white striped pattern: a white (#ffffff) stripe arcs from behind the eye down to the throat, bordered by black lines, giving it a distinguished masked look. The beak is short, stout, and dark grey. The eyes are warm brown (#5d4037) with a keen, watchful gleam. Stubby rounded wings held close to the body. Orange-brown (#e65100) legs with small scratching feet. The tail is short and fan-shaped.",
+    "color_palette": {
+      "primary": "#607d8b",
+      "secondary": "#8d6e63",
+      "accent": "#1a1a1a",
+      "outline": "#222222",
+      "eye_color": "#5d4037"
+    },
+    "pose": "Standing upright with chest puffed out, head plume bobbing forward, one foot slightly raised as if about to take a step, facing right",
+    "expression": "Alert and dignified — keen warm-brown eyes scanning the surroundings, small beak closed in a composed look. The posture of a tiny general inspecting its troops.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Comma-shaped forward-curling head plume",
+      "Bold black-and-white face stripes",
+      "Plump round body",
+      "Scaled flank pattern",
+      "Short fan tail"
+    ],
+    "overworld_description": "A plump little bird that scurries along the ground rather than flying, its head plume bobbing comically with each step. Moves in quick bursts then stops to look around. 16x16: round grey-brown body with a single black pixel curving forward from the head.",
+    "battle_sprite_facing": "right",
+    "art_notes": "The head plume is EVERYTHING — it should be exaggerated slightly, bouncy, spring-like. This Pokemon's personality is 'fussy dignity.' It acts like royalty despite being a ground-dwelling bird that would rather run than fly. The scaled flank pattern is a subtle design element that rewards close inspection. Think of a tiny, officious mayor of a small town who takes the job very seriously. The plume bobs when it walks, shakes when it's angry, droops when it's sad — it's an emotional antenna. In the wild, Quailcrest travel in coveys of 10-20 and will refuse to enter tall grass unless the lead Quailcrest goes first. Pokédex lore: 'Quailcrest coveys elect a sentinel who stands on the highest rock and watches for danger. If the sentinel falls asleep on duty, the covey replaces it immediately and the disgraced Quailcrest must walk at the back of the group for a full day.'"
+  },
+  {
+    "id": "slimtrail",
+    "dex_number": 89,
+    "name": "Slimtrail",
+    "category": "The Forest Floor Pokemon",
+    "types": [
+      "Poison",
+      "Grass"
+    ],
+    "real_species": "Pacific Banana Slug (Ariolimax columbianus) — the largest slug in North America, up to 25cm, its bright yellow coloring warns predators of its bitter toxic mucus",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A large, cheerful banana slug with a glistening body. The body is bright banana-yellow (#fdd835) with irregular dark brown (#4e342e) spots and blotches scattered across the mantle and back — the pattern is unique, like a fingerprint. The body glistens with a thick layer of translucent mucus, giving it a wet, shiny appearance with white highlight streaks. Two pairs of tentacles on the head: the upper pair are longer with tiny black eye-dots at the tips, the lower pair are shorter sensory stalks. The body tapers to a gentle point at the tail. A faint trail of shimmering slime (#c6ff00 with sparkle) extends behind it. The mantle (the smooth shield-like section behind the head) has a breathing hole (pneumostome) visible as a small dark circle. Tiny leaf fragments and bits of forest debris (#33691e) stick to the mucus on its back. The overall shape is a smooth, elongated oval — no shell, no legs, just a muscular foot leaving a glowing trail.",
+    "color_palette": {
+      "primary": "#fdd835",
+      "secondary": "#4e342e",
+      "accent": "#c6ff00",
+      "outline": "#222222",
+      "eye_color": "#111111"
+    },
+    "pose": "Sliding forward (right), body slightly curved in an S-shape, upper tentacles extended and alert, slime trail behind",
+    "expression": "Calm and unbothered — the tiny eye-dots on the tentacle tips give it a dopey, peaceful look. A creature with zero predators and zero urgency. Pure vibes.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Bright banana-yellow body",
+      "Unique brown spot pattern",
+      "Glistening mucus sheen",
+      "Four tentacles (two with eyes)",
+      "Glowing slime trail",
+      "Forest debris stuck to back",
+      "Visible pneumostome"
+    ],
+    "overworld_description": "A bright yellow slug that moves extremely slowly, leaving a faintly glowing green trail on the ground behind it. The trail fades after a few seconds. 16x16: bright yellow elongated blob with two tiny pixel antennae, green pixel trail behind.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Slimtrail is the CHILLEST Pokemon in the entire dex. Zero stress. Its mucus is both its defense (bitter, numbing poison) and its connection to the forest (Grass type — it literally recycles the forest floor). The brown spots should look organic and irregular, like a real banana slug's markings. The slime trail should have a faint bioluminescent glow — the Grass-type energy flowing through it. The bits of leaf litter stuck to its back aren't accidental; Slimtrail cultivates a tiny garden on itself, absorbing nutrients from decomposing matter as it travels. This is the anti-speed Pokemon — base Speed of maybe 5. But its Special Defense is surprisingly high (the mucus absorbs hits) and it learns some nasty Poison moves. Pokédex lore: 'Slimtrail's mucus contains a numbing compound that makes predators lose all feeling in their mouths for hours. It is completely unbothered by this power. Researchers have observed Slimtrail taking 45 minutes to cross a single path, stopping twice to nap.'"
+  },
+  {
+    "id": "fogwhisk",
+    "dex_number": 112,
+    "name": "Fogwhisk",
+    "category": "The Harbor Lounger Pokemon",
+    "types": [
+      "Water",
+      "Ice"
+    ],
+    "real_species": "Pacific Harbor Seal (Phoca vitulina richardii) — year-round residents of San Francisco Bay, famously hauling out on rocks, docks, and Pier 39",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A rotund, whiskered seal lounging in a characteristic banana-pose (head and tail both raised while the middle rests on the ground). The body is silvery-grey (#90a4ae) with darker grey (#546e7a) dappled spots across the back and sides. The belly is lighter, almost white (#cfd8dc). The face is round and doglike with enormous dark liquid eyes (#263238) that glisten with reflective highlights — the 'puppy eyes' look. Long, prominent whiskers (#eceff1) radiate from the muzzle, and each whisker has a faint icy-blue (#b3e5fc) glow at the tip, sensing vibrations in the water (and in the fog — its signature ability). The nose is small and V-shaped, dark black. The flippers are dark grey (#37474f) with visible individual finger-bones inside (anatomically correct pinniped flippers). A faint misty aura (#e1f5fe with low opacity) clings to the body, as if the seal carries its own personal fog bank. The body is sleek but chubby — clearly well-fed.",
+    "color_palette": {
+      "primary": "#90a4ae",
+      "secondary": "#546e7a",
+      "accent": "#b3e5fc",
+      "outline": "#222222",
+      "eye_color": "#263238"
+    },
+    "pose": "Classic banana-pose: lying on belly, head raised up and back, tail flippers raised behind, body curved like a banana. Facing right, whiskers splayed wide.",
+    "expression": "Soulful and content — enormous glossy dark eyes with the universal 'please love me' look. A faint smile in the curve of the mouth. Peak cozy energy.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Banana-pose resting position",
+      "Glowing ice-blue whisker tips",
+      "Enormous glossy dark eyes",
+      "Personal fog aura",
+      "Dappled grey coat",
+      "Chubby well-fed body"
+    ],
+    "overworld_description": "A round grey seal that flops along behind the trainer, occasionally stopping to do the banana pose. A faint mist follows it. On water, it's surprisingly fast and graceful. 16x16: round grey blob with tiny dark eye dots and white whisker pixels, faint blue mist pixel.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Fogwhisk's entire design concept is FOG AS WATER/ICE HYBRID. San Francisco Bay is defined by its fog, and harbor seals thrive in it. The glowing whisker tips are its sonar-in-fog — it can sense anything moving through mist, which gives it an evasion boost in Hail or Fog weather. The enormous eyes are based on real harbor seal pup eyes, which are devastatingly cute. The banana pose is a real behavior — seals do this to thermoregulate, lifting extremities out of cold water. Fogwhisk should feel COZY. This is the Pokemon equivalent of a weighted blanket. It's not aggressive, not flashy — just supremely comfortable in its environment. Its signature move 'Fog Bank' raises evasion and lowers opponent accuracy. Pokédex lore: 'Fogwhisk can sense approaching storms hours before they arrive by reading vibrations in the fog through its whiskers. Fishing boats follow groups of Fogwhisk to find the safest harbors. It sleeps 14 hours a day and sees no reason to change this.'"
+  },
+  {
+    "id": "thermawk",
+    "dex_number": 156,
+    "name": "Thermawk",
+    "category": "The Thermal Rider Pokemon",
+    "types": [
+      "Flying",
+      "Fire"
+    ],
+    "real_species": "Red-tailed Hawk (Buteo jamaicensis) — the most common raptor in North America, frequently seen soaring on thermals over Bay Area hills, recognizable by its brick-red tail",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A powerful, broad-winged hawk soaring with wings fully spread. The body is dark brown (#5d4037) on the back and upper wings. The chest is cream-white (#fff8e1) with a dark brown belly band of streaks across the midsection. The KEY FEATURE: the tail is a brilliant, almost glowing brick-red (#e53935) that fades to translucent heat-shimmer at the edges — the tail literally radiates heat, and the air around it warps and ripples like a road on a hot day. The wings are broad and rounded (buteo shape), with lighter brown (#8d6e63) flight feathers and dark (#3e2723) wing tips. The eyes are fierce amber-yellow (#ffab00) with sharp, focused pupils. The beak is hooked, dark grey with a yellow (#ffc107) cere (base). The talons are large, bright yellow (#ffc107), and powerful — currently tucked against the body in soaring position. Heat distortion lines radiate from the red tail and from beneath the wings, where it rides thermal updrafts. The wingtips have a faint ember-orange (#ff6d00) glow.",
+    "color_palette": {
+      "primary": "#5d4037",
+      "secondary": "#e53935",
+      "accent": "#ffab00",
+      "outline": "#222222",
+      "eye_color": "#ffab00"
+    },
+    "pose": "Soaring with wings fully spread, tail fanned showing the red, body angled slightly as if riding a thermal updraft, head turned to face the viewer with one fierce eye",
+    "expression": "Regal and predatory — intense amber eye locked on target, hooked beak slightly open. The look of something that can see a mouse from 500 feet and is deciding whether it's worth the dive.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Brilliant red heat-radiating tail",
+      "Broad buteo-shaped wings",
+      "Heat distortion shimmer around tail and wings",
+      "Fierce amber eyes",
+      "Dark belly band on cream chest",
+      "Ember-glowing wingtips"
+    ],
+    "overworld_description": "Soars high above the trainer in wide circles, casting a shadow on the ground below. Occasionally lets out a piercing cry. The red tail catches the sunlight. 16x16: dark bird silhouette with red tail pixels, circling above.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Thermawk's design concept is THERMAL UPDRAFT MADE FLESH. Red-tailed hawks are defined by two things: their red tail and their soaring behavior on thermals (columns of rising hot air). This design fuses both — the tail IS a thermal generator. It doesn't just ride heat; it creates it. The heat shimmer effect around the tail and wings is critical to the design — it should look like the air itself is bending. The belly band (a real field mark for red-tailed hawks) doubles as a design element that breaks up the silhouette. The amber eyes should feel like they're evaluating everything beneath them. Thermawk is a mid-to-high tier Pokemon with excellent Special Attack (fire moves) and good Speed. Its signature ability 'Thermal Lift' boosts Speed in Sun weather. The screaming cry of the red-tailed hawk is the sound effect used for almost every 'eagle' in Hollywood — Thermawk is the original, and it knows it. Pokédex lore: 'Thermawk generates its own thermal updrafts by superheating the air beneath its wings, allowing it to soar indefinitely without flapping. The red tail feathers burn at 200°F. Other Flying-types draft behind Thermawk to save energy, which it tolerates with visible annoyance.'"
+  },
+  {
+    "id": "duskote",
+    "dex_number": 203,
+    "name": "Duskote",
+    "category": "The Twilight Trickster Pokemon",
+    "types": [
+      "Dark",
+      "Normal"
+    ],
+    "real_species": "Coyote (Canis latrans) — increasingly common in Bay Area urban environments, hunting at dawn and dusk, adapting to human infrastructure with startling intelligence",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A lean, wiry coyote standing in a watchful three-quarter pose. The fur is grizzled tawny-grey (#9e9d89) with darker (#6d6a5c) guard hairs along the back and a lighter cream (#e8e0d0) underbelly and throat. The muzzle is long and narrow with a dark nose (#1a1a1a). The ears are LARGE — proportionally bigger than a wolf's, triangular, upright, and alert, with tawny-orange (#c49a6c) inner fur. The eyes are the centerpiece: bright amber-gold (#ffb300) with vertical slit pupils that catch the light — there's a reflective eyeshine effect, as if caught in headlights. A subtle dark 'mask' of darker fur around the eyes gives it a bandit look. The legs are long and slender for its body — a runner's build. The tail is bushy with a dark (#3e2723) tip, held low (not raised like a wolf — coyotes carry tails low). The overall build is LEAN, almost gaunt — angular, not fluffy. Faint shadow-wisps (#424242 with low opacity) curl around the paws, as if the coyote is stepping out of the shadows.",
+    "color_palette": {
+      "primary": "#9e9d89",
+      "secondary": "#6d6a5c",
+      "accent": "#ffb300",
+      "outline": "#222222",
+      "eye_color": "#ffb300"
+    },
+    "pose": "Three-quarter stance, one front paw raised mid-step, ears pricked forward, head slightly lowered in a stalking posture, tail low, facing right. Emerging from shadow.",
+    "expression": "Cunning and calculating — amber eyes with reflective eyeshine, head tilted slightly, mouth closed but with the faintest hint of a smirk. The look of something that has already figured out how to open your trash can.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Large triangular ears",
+      "Bright amber eyeshine eyes",
+      "Lean angular build",
+      "Low-carried bushy tail",
+      "Shadow wisps around paws",
+      "Darker mask around eyes",
+      "Long narrow muzzle"
+    ],
+    "overworld_description": "Appears and disappears at the edges of the screen, sometimes visible only as glowing amber eyes in darker areas. Follows at a distance, never quite beside the trainer. 16x16: angular grey canine silhouette with two amber eye-glow pixels, dark tail tip.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Duskote is the URBAN ADAPTER — the Pokemon that figured out cities before anyone else. The design emphasizes its liminal nature: it exists at the boundary between wild and urban, between day and night, between seen and unseen. The shadow wisps aren't ghostly — Duskote isn't Ghost-type. They represent its ability to move through shadows and urban infrastructure invisibly. The eyeshine is critical: that moment you see two glowing eyes reflected in your headlights on a Bay Area road at dusk, and they're gone before you can react. The lean build contrasts with domestic dog Pokemon — this is no pet. It's wire-tight muscle and calculation. The large ears hear everything. Duskote's ability 'Urbanite' boosts its evasion and accuracy in urban/city battle environments. It learns Thief, Nasty Plot, and a signature move 'Dusk Dash' — a priority Dark-type move that has increased power when used at the start of battle (ambush predator). Pokédex lore: 'Duskote has mapped every alley, storm drain, and fence gap in its territory. It can cross an entire city without being seen by a single human. Trainers who earn its respect find that small useful objects — keys, coins, dropped items — appear on their doorstep overnight.'"
+  },
+  {
+    "id": "eftorch",
+    "dex_number": 67,
+    "name": "Eftorch",
+    "category": "The Ember Belly Pokemon",
+    "types": [
+      "Fire",
+      "Poison"
+    ],
+    "real_species": "California Newt — juvenile eft stage (Taricha torosa) — the juvenile land-dwelling phase, bright orange to warn predators of its lethal tetrodotoxin",
+    "evolution_chain": {
+      "chain_id": "newt_line",
+      "stage": 1,
+      "stage_name": "Baby",
+      "total_stages": 2,
+      "evolves_from": null,
+      "evolves_into": "pyromander",
+      "evolution_method": "Level 30 while knowing a Poison-type move (it must have developed its toxin before it can mature)"
+    },
+    "evolution_stage": "baby",
+    "sprite_description": "A small, bright newt in a curious walking pose. The back and upper body are warm brown-orange (#bf6b30) with a slightly rough, granular skin texture. The belly and underside are VIVID orange-red (#ff5722) — this is the warning coloration, and when Eftorch feels threatened, it curls up to flash this belly color. The skin has a faint ember-like glow from within, as if the belly is lit by internal fire — tiny ember particles (#ff9800) drift upward from the belly. The eyes are large and round for its small body, bright gold (#ffc107) with round black pupils — a curious, innocent look. The body is small and salamander-shaped: four stubby legs, a long tail that tapers to a point. The toes are tiny and splayed. A faint toxic sheen (#7cb342 with very low opacity) glistens on the skin surface. The overall impression is a tiny glowing coal that walks.",
+    "color_palette": {
+      "primary": "#bf6b30",
+      "secondary": "#ff5722",
+      "accent": "#ff9800",
+      "outline": "#222222",
+      "eye_color": "#ffc107"
+    },
+    "pose": "Walking forward on all fours, head raised curiously, tail slightly curled, one front foot lifted mid-step. Facing right. Faint ember particles rising from belly.",
+    "expression": "Curious and wide-eyed — large gold eyes with an innocent 'what's that?' look. Not aggressive at all — its toxin is purely defensive. A baby explorer.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Vivid orange-red warning belly",
+      "Ember glow and rising particles from underside",
+      "Granular textured skin",
+      "Large curious gold eyes",
+      "Stubby legs and tapered tail",
+      "Faint toxic sheen"
+    ],
+    "overworld_description": "A tiny orange-brown newt that toddles along slowly, pausing to investigate everything. In rainy weather it becomes much more active and moves faster. A faint warm glow emanates from its belly. 16x16: tiny brown-orange blob with bright orange belly pixel, gold eye dots.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Eftorch is based on the JUVENILE LAND PHASE of the California newt. Real California newts are one of the most toxic animals in North America — their skin contains tetrodotoxin (the same toxin as puffer fish), enough to kill several adult humans. The bright orange belly is aposematic warning coloration — 'eat me and die.' The Fire type comes from two things: the fiery orange belly and the fact that newts are mythologically associated with fire (the word 'salamander' literally meant 'fire lizard' in medieval bestiaries, because they were found in logs thrown on fires). The ember glow is subtle — Eftorch is a baby, so the fire is more potential than power. It doesn't breathe fire yet; the heat just radiates passively from its belly. The curious expression is key — efts are wanderers, spending years on land exploring before returning to water as adults. Pokédex lore: 'Eftorch's belly contains enough toxin to paralyze a Pokemon ten times its size, but it doesn't know this yet. It wanders through forests with cheerful obliviousness, and predators give it a wide berth for reasons it hasn't figured out.'"
+  },
+  {
+    "id": "pyromander",
+    "dex_number": 68,
+    "name": "Pyromander",
+    "category": "The Inferno Newt Pokemon",
+    "types": [
+      "Fire",
+      "Poison"
+    ],
+    "real_species": "California Newt — adult stage (Taricha torosa) — the mature aquatic-terrestrial adult, one of the most toxic vertebrates in North America",
+    "evolution_chain": {
+      "chain_id": "newt_line",
+      "stage": 2,
+      "stage_name": "Final",
+      "total_stages": 2,
+      "evolves_from": "eftorch",
+      "evolves_into": null,
+      "evolution_method": null
+    },
+    "evolution_stage": "final",
+    "sprite_description": "A larger, more powerful newt with a confident, grounded stance. The back is dark chocolate-brown (#4e342e) with a leathery, rough texture. The belly is now a deep, intense molten-orange (#ff3d00) that genuinely glows — the light illuminates the ground beneath it and casts an orange uplight on the chin and body. The glow pulses faintly, like a heartbeat. Ember particles and small flames (#ff6d00) actively rise from the back and tail — more intense than Eftorch. The eyes are now narrower and more knowing — deep amber (#ff8f00) with vertical slit pupils. The expression has shifted from curious to calm authority. The body is larger and thicker, with a wide flat head (characteristic of Taricha). The skin has visible toxic glands — raised bumps along the back and behind the eyes (parotoid glands) that ooze a faint purple-green (#7b1fa2) toxin. The tail is flattened vertically (adapted for swimming) with a wavy dorsal fin ridge. The toes are longer. A ring of small flame wisps orbits the body at mid-height.",
+    "color_palette": {
+      "primary": "#4e342e",
+      "secondary": "#ff3d00",
+      "accent": "#ff6d00",
+      "outline": "#1a1a1a",
+      "eye_color": "#ff8f00"
+    },
+    "pose": "Standing broadside facing right, body low and wide, head slightly raised, tail curled with the flattened fin visible. Flames rising from back. Glowing belly illuminating the ground.",
+    "expression": "Calm and dangerous — narrow amber slit-pupil eyes that say 'I don't need to run from anything.' Not aggressive, just absolutely certain of its own lethality. A quiet confidence that comes from being the most toxic thing in the room.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Intensely glowing molten-orange belly",
+      "Active flames rising from back",
+      "Visible toxic glands (parotoid)",
+      "Flattened swimming tail with fin ridge",
+      "Narrow amber slit-pupil eyes",
+      "Purple-green toxin ooze",
+      "Orbiting flame wisps"
+    ],
+    "overworld_description": "A dark brown newt that walks with slow deliberation, its orange belly casting a warm glow on the path beneath it. Other wild Pokemon visibly avoid its path. In rain, it moves toward water with purpose. 16x16: dark brown salamander shape with bright orange-red glow beneath, amber eye pixel, tiny flame pixels above.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Pyromander is the MATURE FORM — it has gone from curious baby to quiet apex. The key design shift from Eftorch: the fire is now ACTIVE (flames, not just embers), the toxin is now VISIBLE (oozing glands, not just a sheen), and the expression has shifted from innocent curiosity to calm lethality. The flat head and parotoid glands are real Taricha anatomy — these glands are where the tetrodotoxin concentrates. The flattened tail signals the adult's return to a semi-aquatic lifestyle. The belly glow has intensified from 'faint ember' to 'actual molten light source' — Pyromander's belly is bright enough to read by. The fire mythology is fully realized: this IS the salamander of medieval legend, the creature that lives in fire. It doesn't breathe fire traditionally — instead, its signature move 'Inferno Skin' is a contact-based Fire/Poison combo that poisons and burns anything that touches it. Its ability 'Lethal Skin' damages any Pokemon that makes contact. Pokédex lore: 'A single Pyromander contains enough tetrodotoxin in its skin to fell forty grown humans. It has no natural predators. When threatened, it does not flee — it simply waits, knowing that anything foolish enough to bite it will not make that mistake twice. The molten glow of its belly has been used as a lantern by night-traveling trainers for centuries.'"
+  },
+  {
+    "id": "dawnfawn",
+    "dex_number": 42,
+    "name": "Dawnfawn",
+    "category": "The First Light Pokemon",
+    "types": [
+      "Normal"
+    ],
+    "real_species": "Columbian Black-tailed Deer — fawn (Odocoileus hemionus columbianus) — the coastal subspecies of mule deer, born with white spots for camouflage in dappled forest light",
+    "evolution_chain": {
+      "chain_id": "deer_line",
+      "stage": 1,
+      "stage_name": "Baby",
+      "total_stages": 3,
+      "evolves_from": null,
+      "evolves_into": "velveteer",
+      "evolution_method": "Level 18 (when it loses its spots)"
+    },
+    "evolution_stage": "baby",
+    "sprite_description": "A tiny, delicate fawn with impossibly long legs relative to its body. The coat is warm reddish-brown (#a1887f) dappled with rows of white (#ffffff) spots along the back and sides — the classic fawn camouflage pattern. The spots have a faint luminous quality, as if each one is a tiny point of captured morning light. The belly is white (#f5f5f5). The face is small and wedge-shaped with enormous dark brown (#3e2723) eyes that take up a disproportionate amount of the face — the classic baby-animal proportions. The ears are HUGE — fawn ears, comically oversized, standing straight up with pink (#f8bbd0) inner ear. The nose is a small black (#111111) button. The legs are long, thin, and slightly wobbly-looking — knobby knees visible. A very short tail, dark on top and white underneath. The hooves are tiny and dark. Overall impression: a baby deer made of morning sunlight and wobble.",
+    "color_palette": {
+      "primary": "#a1887f",
+      "secondary": "#ffffff",
+      "accent": "#f8bbd0",
+      "outline": "#222222",
+      "eye_color": "#3e2723"
+    },
+    "pose": "Standing on slightly splayed legs (the newborn wobble), head up with ears perked, facing right. One back leg slightly behind, as if it just stood up for the first time.",
+    "expression": "Innocent and startled — enormous dark doe-eyes, ears at full alert, tiny nose twitching. The look of a creature experiencing everything for the first time.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "White spot pattern on brown coat",
+      "Enormous dark eyes",
+      "Oversized ears",
+      "Long wobbly legs",
+      "Knobby knees",
+      "Luminous spots"
+    ],
+    "overworld_description": "A tiny spotted fawn that follows the trainer on wobbly legs, occasionally stumbling. Freezes completely when startled (real fawn behavior). In tall grass, it lies down and the spots blend with the dappled light, becoming nearly invisible. 16x16: tiny brown shape with white dot pixels, huge dark eye pixels.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Dawnfawn is pure BABY ANIMAL APPEAL dialed to 11. The spots are the core design motif — they represent both real fawn camouflage and the 'first light' theme (each spot is a point of dawn light filtering through forest canopy). The wobbly legs are critical — this Pokemon has the highest evasion stat of the three stages because predators literally can't predict its movement when it's stumbling around. Its ability 'Freeze Response' makes it immune to the first attack each battle (real fawns freeze when threatened, becoming nearly invisible). The enormous eyes and ears are standard baby proportions but exaggerated for maximum cute. Dawnfawn is defensively oriented — it doesn't fight so much as survive. Pokédex lore: 'Dawnfawn's spots absorb and store the first light of morning. In darkness, the spots glow faintly, creating a map of the sunrise on its coat. When frightened, it drops to the ground and becomes nearly invisible — even its heartbeat slows to avoid detection.'"
+  },
+  {
+    "id": "velveteer",
+    "dex_number": 43,
+    "name": "Velveteer",
+    "category": "The Undergrowth Pokemon",
+    "types": [
+      "Normal",
+      "Grass"
+    ],
+    "real_species": "Columbian Black-tailed Deer — yearling buck (Odocoileus hemionus columbianus) — adolescent stage, spots faded, first antlers growing in velvet",
+    "evolution_chain": {
+      "chain_id": "deer_line",
+      "stage": 2,
+      "stage_name": "Mid",
+      "total_stages": 3,
+      "evolves_from": "dawnfawn",
+      "evolves_into": "fogstag",
+      "evolution_method": "Level 36 while in the party during foggy or overcast weather (it must learn to navigate the fog)"
+    },
+    "evolution_stage": "mid",
+    "sprite_description": "An adolescent deer, taller and more filled out than Dawnfawn, spots completely gone. The coat is a rich grey-brown (#6d4c41) — darker than the fawn, with the characteristic black-tipped tail that gives the species its name. The underbelly is lighter (#d7ccc8). The KEY FEATURE: small developing antlers covered in soft green velvet (#4caf50) — the velvet is actual living plant matter, with tiny ferns, moss, and even small wildflowers sprouting from the antler surface. Small leaves (#66bb6a) and vine tendrils curl around the antler tines. The body is leaner and more athletic — the wobbly baby proportions are gone, replaced by an angular adolescent build. The legs are now strong and sure. The eyes are still large but more alert and less naive — warm brown (#5d4037) with more focus. The ears are still prominent but proportional now. The face is longer, more mature. The hooves are larger and sturdier. Faint green energy wisps (#a5d6a7) trail from the velvet antlers.",
+    "color_palette": {
+      "primary": "#6d4c41",
+      "secondary": "#4caf50",
+      "accent": "#66bb6a",
+      "outline": "#222222",
+      "eye_color": "#5d4037"
+    },
+    "pose": "Standing alert, body angled slightly right, head raised to show the velvet antlers prominently. One front hoof pawing the ground. Tail visible showing the black top/white underside.",
+    "expression": "Alert and cautious — watchful brown eyes, ears swiveling. The awkward confidence of adolescence — not yet the king, but no longer helpless.",
+    "size_class": "medium",
+    "distinguishing_features": [
+      "Green velvet antlers with growing plants",
+      "Spots completely gone",
+      "Black-topped tail (species identifier)",
+      "Lean athletic build",
+      "Green energy wisps from antlers",
+      "Fern/moss/flower growth on antlers"
+    ],
+    "overworld_description": "A grey-brown deer that moves carefully through underbrush, its green velvet antlers sometimes snagging on low branches. Plants seem to grow slightly faster near it. 16x16: medium brown deer shape with green pixels on head (antlers), black tail tip pixel.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Velveteer bridges the gap between helpless baby and majestic final form. The design innovation is the LIVING VELVET — real deer antlers grow in velvet (a blood-rich tissue), and here that velvet has become actual plant growth. This is where the Grass type enters the line. The plants growing on its antlers are native Bay Area species — coast buckwheat, California poppy, sword fern. The antlers are small and still growing, establishing the silhouette that will become Fogstag's massive rack. The transition from Dawnfawn is clear: spots gone, legs sturdy, eyes sharper, but not yet full power. Velveteer is a mid-tier Pokemon with balanced stats — decent Speed, decent Defense, learning the Grass moves that Fogstag will master. Its ability 'Verdant Velvet' heals a small amount of HP each turn in Sun weather (photosynthesis through its antlers). Pokédex lore: 'The plants growing on Velveteer's antlers change with the seasons — wildflowers in spring, berries in summer, golden leaves in fall. Other Pokemon come to graze on its antler garden, which Velveteer tolerates as long as they don't pull too hard.'"
+  },
+  {
+    "id": "fogstag",
+    "dex_number": 44,
+    "name": "Fogstag",
+    "category": "The Phantom Summit Pokemon",
+    "types": [
+      "Normal",
+      "Fairy"
+    ],
+    "real_species": "Columbian Black-tailed Deer — mature buck (Odocoileus hemionus columbianus) — the full-grown stag, often glimpsed as a ghostly silhouette on foggy Bay Area ridgelines at dawn",
+    "evolution_chain": {
+      "chain_id": "deer_line",
+      "stage": 3,
+      "stage_name": "Final",
+      "total_stages": 3,
+      "evolves_from": "velveteer",
+      "evolves_into": null,
+      "evolution_method": null
+    },
+    "evolution_stage": "final",
+    "sprite_description": "A magnificent, large stag standing on a misty ridge. The body is deep grey-brown (#4e342e) with a silvery (#b0bec5) sheen along the back and flanks — as if fog has permanently settled into the fur. The chest is broad and powerful. The legs are strong and dark, ending in polished dark hooves. The KEY FEATURE: massive branching antlers that are made of a pearlescent, opalescent material (#e8eaf6 with iridescent shimmer) rather than bone — they look like crystallized fog or moonstone. The antlers catch and refract light into faint rainbow prismatic glints. Strands of real fog/mist (#eceff1 with very low opacity) cling to the antler tines and trail behind as the stag moves, as if the antlers collect fog from the air. The eyes are deep and ancient — dark (#263238) with a faint inner glow of silvery-white (#e0e0e0), like moonlight behind clouds. The face is noble and weathered. A faint aura of mist (#f5f5f5 with low opacity) surrounds the entire body, especially dense around the hooves and antlers. The black-tipped tail is now longer and more prominent. The overall impression: a creature that is half-solid, half-fog — a phantom king of the coastal ridgelines.",
+    "color_palette": {
+      "primary": "#4e342e",
+      "secondary": "#b0bec5",
+      "accent": "#e8eaf6",
+      "outline": "#1a1a1a",
+      "eye_color": "#263238"
+    },
+    "pose": "Standing broadside on a ridge, head raised high with antlers fully displayed, one front hoof slightly forward. Mist curling around the hooves and trailing from antler tips. Facing right. The pose of something surveying its entire domain from the highest point.",
+    "expression": "Serene and otherworldly — deep dark eyes with a faint inner glow, an expression of timeless patience. Not fierce, not cute — ancient. The look of a creature that has watched a hundred sunrises from the same ridge.",
+    "size_class": "large",
+    "distinguishing_features": [
+      "Massive pearlescent moonstone antlers",
+      "Fog/mist clinging to antlers and hooves",
+      "Silvery sheen on fur",
+      "Deep eyes with faint inner glow",
+      "Prismatic light refracting from antlers",
+      "Mist aura around entire body",
+      "Phantom-like presence"
+    ],
+    "overworld_description": "A majestic grey-silver stag that appears and disappears with the fog. On clear days it seems almost translucent at the edges. Mist trails behind its antlers as it walks. Other wild Pokemon stop and watch it pass. 16x16: large dark deer silhouette with bright white/silver antler pixels, faint mist pixel aura.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Fogstag is the CULMINATION of the line's themes: light (Dawnfawn's spots) → growth (Velveteer's living antlers) → transcendence (Fogstag's moonstone antlers and fog-body). The Fairy type replaces Grass because Fogstag has moved beyond the physical — its antlers are no longer living plant matter but crystallized fog, something between matter and weather. The Bay Area fog is the unifying concept: Fogstag IS the fog. When Karl the Fog rolls over Twin Peaks or Mount Tam, locals know that Fogstag is walking the ridgelines. The moonstone/opal antlers should look genuinely magical — prismatic, light-catching, alien. The mist that clings to the body makes Fogstag semi-transparent at the edges, blurring the line between animal and atmosphere. The evolution from Dawnfawn is a complete arc: helpless baby hiding in spots → awkward teenager growing into power → fog-king of the mountain. Fogstag's signature move 'Phantom Ridge' is a Fairy-type priority move that raises evasion — the stag simply dissolves into mist. Its ability 'Fog Veil' raises evasion by one stage when weather is Hail or Fog. Base stats emphasize Special Defense and HP — it's a wall that refuses to be hit. Pokédex lore: 'Fogstag's antlers grow more tines each year, and each tine collects a different frequency of light. Ancient stags with antlers spanning six feet wide have been seen refracting entire rainbows across foggy valleys. No trainer has ever caught a Fogstag by chasing it — those who find one were always standing still, and the Fogstag chose to appear.'"
+  },
+  {
+    "id": "blubelly",
+    "dex_number": 121,
+    "name": "Blubelly",
+    "category": "The Push-Up Pokemon",
+    "types": [
+      "Normal",
+      "Dragon"
+    ],
+    "real_species": "Western Fence Lizard (Sceloporus occidentalis) — the ubiquitous 'blue belly' of California, named for the males' brilliant blue ventral patches used in territorial push-up displays",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A small, spiny lizard caught mid-push-up, front legs extended, body raised to display its belly. The back and upper body are textured with keeled scales in brown-grey (#795548) with darker (#4e342e) crossbands. The sides have a scattering of lighter (#a1887f) scales. The KEY FEATURE: the belly and throat are electric, vivid blue (#1565c0) — an intense, almost glowing cerulean that seems too bright for such a small creature. The blue patches are bordered by black (#111111) edges that make them pop even harder. When doing its push-up display, the body is angled to show maximum blue. The eyes are small, alert, and bright — golden-orange (#ff8f00) with round pupils. The head is angular and triangular with visible scale texture. A row of small spines runs along the sides of the body. The tail is long, segmented, and slightly curled — it can be detached (real behavior). The toes are long with tiny gripping pads. Overall: a tiny lizard with the confidence of a dragon, doing pushups on a rock to prove it.",
+    "color_palette": {
+      "primary": "#795548",
+      "secondary": "#1565c0",
+      "accent": "#ff8f00",
+      "outline": "#222222",
+      "eye_color": "#ff8f00"
+    },
+    "pose": "Mid push-up on a flat rock surface: front legs fully extended, body angled upward at 30 degrees, belly fully exposed showing the blue patches, head up and facing right with mouth slightly open. Classic territorial display.",
+    "expression": "Aggressive confidence WAY out of proportion to its size — tiny golden eyes blazing, mouth open in a micro-roar, body pumped up to maximum display. A 20-gram lizard that genuinely believes it is a dragon.",
+    "size_class": "small",
+    "distinguishing_features": [
+      "Vivid blue belly and throat patches",
+      "Push-up display pose",
+      "Keeled spiny scales",
+      "Angular triangular head",
+      "Detachable tail",
+      "Disproportionate confidence"
+    ],
+    "overworld_description": "A tiny brown lizard that sits on sunny rocks doing push-ups aggressively at anything that passes. If the trainer stops near it, it does push-ups faster. Extremely fast when it runs — a brown blur. 16x16: tiny brown lizard shape on a grey rock pixel, bright blue belly pixel visible, doing push-ups (2-frame animation).",
+    "battle_sprite_facing": "right",
+    "art_notes": "Blubelly is the SMALL DOG ENERGY Pokemon — maximum aggression in the minimum package. The Dragon typing is the joke AND the point: this lizard genuinely believes it is a dragon, and the universe has rewarded its confidence with actual Dragon-type moves. The push-up display is based on real fence lizard behavior: males do rapid push-ups to flash their blue bellies at rivals and potential mates. It's the most metal thing any Bay Area animal does on a daily basis. The blue belly patches should be VIVID — unnaturally bright for a creature this small, like someone installed LED panels on a gecko. The spiny scales give it a miniature dragon silhouette. Blubelly's stats are terrible across the board EXCEPT Attack and Speed, which are surprisingly decent — it hits fast and hard, then gets one-shot. Its ability 'Intimidate Display' has a chance to lower the opponent's Attack when Blubelly enters battle (the push-ups work). It learns Dragon Dance, which is hilarious on a lizard this small. The detachable tail is its emergency exit — it learns a move called 'Tail Shed' that removes all stat debuffs (it drops the tail and runs). Pokédex lore: 'Blubelly performs up to 1,000 push-ups per day to maintain its territory, which is usually a single rock. It has been observed challenging Pokemon fifty times its size to push-up contests. It has never lost, because the opponent always walks away confused.'"
+  },
+  {
+    "id": "heronstill",
+    "dex_number": 178,
+    "name": "Heronstill",
+    "category": "The Patience Pokemon",
+    "types": [
+      "Water",
+      "Flying"
+    ],
+    "real_species": "Great Blue Heron (Ardea herodias) — the largest heron in North America, a patient ambush predator commonly found along Bay Area marshes, shorelines, and even urban ponds",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A tall, elegant heron standing perfectly motionless in shallow water. The body is blue-grey (#546e7a) with a slate-blue (#37474f) back. The chest and neck have a column of dark streaks on white (#eceff1). The neck is long and S-curved — folded back in the classic heron resting pose, but coiled like a spring ready to strike. The head is white (#fafafa) with a bold black (#1a1a1a) stripe extending from above the eye back into two long, flowing black plume feathers that trail behind the head like streamers. The beak is LONG — dagger-shaped, bright yellow-orange (#f57c00), and looks genuinely dangerous. The eyes are bright yellow (#ffd600) with sharp, focused round pupils — the eyes of something that has been staring at the same square foot of water for forty-five minutes. The legs are extremely long and thin, dark (#37474f), standing in shallow water with ripples frozen around them. The stance is ABSOLUTE STILLNESS — every line of the body communicates patience. Faint concentric water ripples (#90caf9 with low opacity) radiate from the legs, but the heron itself is perfectly motionless.",
+    "color_palette": {
+      "primary": "#546e7a",
+      "secondary": "#37474f",
+      "accent": "#f57c00",
+      "outline": "#222222",
+      "eye_color": "#ffd600"
+    },
+    "pose": "Standing in shallow water, perfectly still. Neck folded in S-curve, head level, beak angled slightly downward at the water. One leg visible, the other tucked up beneath the body. Facing right. The pose of absolute predatory patience.",
+    "expression": "Unblinking intensity — bright yellow eyes locked on a point in the water below, completely motionless. Not angry, not calm — FOCUSED. The look of something that has achieved zen through the act of waiting to murder a fish.",
+    "size_class": "large",
+    "distinguishing_features": [
+      "Extremely long dagger beak",
+      "S-curved coiled neck",
+      "Long trailing black head plumes",
+      "Bold black eye stripe",
+      "Impossibly still stance",
+      "Long thin wading legs",
+      "Bright yellow predator eyes"
+    ],
+    "overworld_description": "Stands motionless near any body of water the trainer passes. Does not follow — it will be found already waiting at the next pond or stream. How it gets there is unclear. 16x16: tall thin grey silhouette with long yellow beak pixel, standing in water pixel.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Heronstill is the PATIENCE PREDATOR — the anti-Hummbuzz. Where Hummbuzz is constant motion and electricity, Heronstill is absolute stillness and inevitability. The S-curved neck is a loaded weapon — herons strike with their necks, and the folded position is literally a coiled spring. The dagger beak should look SHARP — this is the primary weapon, a spear that strikes at 40mph. The black head plumes give it a dramatic, almost samurai-like silhouette. The bright yellow eyes are hypnotic in their focus. The design communicates one thing: this creature will outwait anything. Heronstill's signature ability 'Patient Strike' powers up its first attack proportionally to how many turns it has waited without attacking — rewarding the player for not attacking, which is a unique mechanic. Its signature move 'Dagger Strike' is a high-crit-ratio Water/Flying move that always goes last (it waits, then strikes). Its Speed stat is very low, but its Special Attack is very high — when it finally moves, it's devastating. The overworld behavior — always already at the next body of water — is based on the uncanny real experience of hiking and finding a heron at EVERY pond you pass. Pokédex lore: 'Heronstill has been observed standing in the same position for over six hours without moving a single muscle. Its strike, when it comes, takes one-fifteenth of a second. Fishermen consider a Heronstill at their fishing spot to be both a good omen and an insult to their technique.'"
+  },
+  {
+    "id": "barkbay",
+    "dex_number": 195,
+    "name": "Barkbay",
+    "category": "The Dockside Pokemon",
+    "types": [
+      "Water",
+      "Normal"
+    ],
+    "real_species": "California Sea Lion (Zalophus californianus) — the loud, social, charismatic pinnipeds that colonize Bay Area docks, piers, and buoys, famous for the Pier 39 colony in San Francisco",
+    "evolution_chain": null,
+    "evolution_stage": null,
+    "sprite_description": "A boisterous, barrel-chested sea lion reared up on its front flippers in a classic barking pose, mouth wide open. The body is dark brown (#5d4037) — sleek and glossy when wet, with a lighter (#8d6e63) chest. The body is THICK — barrel-shaped torso, powerfully muscled neck and shoulders. The head has a distinctive sagittal crest (raised forehead bump, characteristic of adult male sea lions), giving it a bulldogish profile. The mouth is wide open (#e53935 interior) in a full-throated bark, showing rows of conical teeth. The whiskers are thick, long, and bristly (#d7ccc8). The eyes are large, round, dark brown (#3e2723) and shining — expressive and comically earnest despite the aggressive bark. The front flippers are large and paddle-shaped, used to prop the body upright. The hind flippers are visible behind, turned forward (unlike seals, sea lions can rotate their hind flippers). Droplets of water (#90caf9) spray from the whiskers and mouth during the bark. A visible sonic wave ring (#bbdefb with low opacity) emanates from the open mouth, representing the incredible volume.",
+    "color_palette": {
+      "primary": "#5d4037",
+      "secondary": "#8d6e63",
+      "accent": "#e53935",
+      "outline": "#222222",
+      "eye_color": "#3e2723"
+    },
+    "pose": "Reared up on front flippers, chest puffed out, head thrown back, mouth wide open in a bark. Facing right. Sonic wave rings emanating from mouth. Water droplets spraying. Maximum volume.",
+    "expression": "LOUD — mouth fully open, eyes squeezed to happy crescents from the force of its own bark. Not angry at all — it's having the time of its life. The energy of someone who just found out the party is at their house.",
+    "size_class": "large",
+    "distinguishing_features": [
+      "Barrel-chested powerful build",
+      "Sagittal crest (forehead bump)",
+      "Wide-open barking mouth",
+      "Sonic wave rings from bark",
+      "Thick bristly whiskers",
+      "Rotatable hind flippers (sea lion, not seal)",
+      "Water spray during bark"
+    ],
+    "overworld_description": "Flops along behind the trainer making constant honking barks. Near water, it belly-flops in and becomes surprisingly fast and graceful. On docks, it finds a wooden platform and claims it, barking at passersby. Other Barkbay congregate. 16x16: dark brown blob shape with open red mouth pixel, on a grey dock pixel.",
+    "battle_sprite_facing": "right",
+    "art_notes": "Barkbay is VOLUME AND CHARISMA personified. The design contrast with Fogwhisk (the harbor seal) is intentional — where Fogwhisk is quiet, contemplative, and solitary, Barkbay is LOUD, social, and in your face. Real California sea lions are obnoxiously loud — their barking colonies can be heard blocks away at Pier 39. The sagittal crest gives adult males a distinctive bulldogish forehead that separates them visually from the smoother-headed Fogwhisk. The sonic wave rings are the Normal-type contribution — Barkbay's voice is its primary weapon. It learns Hyper Voice, Boomburst, and its signature move 'Dock Claim' — a Normal-type priority move that forces the opponent to switch out (the sea lion is claiming this spot). Its ability 'Cacophony' is a Sound-based Intimidate — upon entering battle, its deafening bark lowers opponent's Special Attack. In the water, Barkbay's Speed doubles (real sea lions are extraordinarily agile swimmers despite their bulk). The comedy is built into the design: this Pokemon is genuinely powerful but acts like a goofball — barrel-rolling on docks, stealing fish from trainers, and barking at absolutely nothing at 3 AM. Pokédex lore: 'Barkbay colonies have been recorded at 110 decibels — louder than a chainsaw. They claim any flat surface near water as territory and will bark continuously until all rivals leave or fall asleep. Despite this, Barkbay is deeply social and becomes depressed if isolated. A happy Barkbay is a loud Barkbay.'"
+  }
+]

@@ -7,7 +7,7 @@ import type {
   PipelineStep,
   StepState,
 } from "./types";
-import { startGeneration, base64ToObjectUrl, fileToBase64 } from "./api";
+import { startGeneration, fileToBase64 } from "./api";
 import InputForm from "./components/InputForm";
 import GenerationProgress from "./components/GenerationProgress";
 import PokedexCard from "./components/PokedexCard";
@@ -18,10 +18,45 @@ function initialSteps(): StepState[] {
   return ALL_STEPS.map((step) => ({ step, status: "pending" }));
 }
 
+function tryParsePartial(text: string): Partial<PokemonConcept> | null {
+  try {
+    const cleaned = text.replace(/```json?\n?/g, "").replace(/```\n?/g, "").trim();
+    const obj = JSON.parse(cleaned);
+    return obj;
+  } catch {
+    // Try to repair incomplete JSON by closing open braces/brackets
+    let cleaned = text.replace(/```json?\n?/g, "").replace(/```\n?/g, "").trim();
+    // Remove trailing comma
+    cleaned = cleaned.replace(/,\s*$/, "");
+    // Count open braces/brackets and close them
+    const opens = (cleaned.match(/[{[]/g) || []).length;
+    const closes = (cleaned.match(/[}\]]/g) || []).length;
+    const chars = [];
+    for (const ch of cleaned) {
+      if (ch === "{" || ch === "[") chars.push(ch);
+      if (ch === "}" || ch === "]") chars.pop();
+    }
+    let suffix = "";
+    for (let i = chars.length - 1; i >= 0; i--) {
+      suffix += chars[i] === "{" ? "}" : "]";
+    }
+    if (opens > closes) {
+      try {
+        return JSON.parse(cleaned + suffix);
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  }
+}
+
 export default function App() {
   const [state, setState] = createSignal<GenerationState>({
     steps: initialSteps(),
     concept: null,
+    partialConcept: null,
+    streamText: null,
     spriteUrl: null,
     videoUrl: null,
     error: null,
@@ -42,20 +77,24 @@ export default function App() {
         updateStep(data.step, { status: data.status, message: data.message });
         break;
       }
+      case "stream": {
+        const { text } = event.data as { step: string; text: string };
+        const partial = tryParsePartial(text);
+        setState((prev) => ({ ...prev, streamText: text, partialConcept: partial }));
+        break;
+      }
       case "concept": {
         const concept = event.data as PokemonConcept;
-        setState((prev) => ({ ...prev, concept }));
+        setState((prev) => ({ ...prev, concept, partialConcept: null, streamText: null }));
         break;
       }
       case "sprite": {
-        const { base64, mimeType } = event.data as { base64: string; mimeType: string };
-        const url = base64ToObjectUrl(base64, mimeType);
+        const { url } = event.data as { url: string };
         setState((prev) => ({ ...prev, spriteUrl: url }));
         break;
       }
       case "video": {
-        const { base64, mimeType } = event.data as { base64: string; mimeType: string };
-        const url = base64ToObjectUrl(base64, mimeType);
+        const { url } = event.data as { url: string };
         setState((prev) => ({ ...prev, videoUrl: url }));
         break;
       }
@@ -76,6 +115,8 @@ export default function App() {
     setState({
       steps: initialSteps(),
       concept: null,
+      partialConcept: null,
+      streamText: null,
       spriteUrl: null,
       videoUrl: null,
       error: null,
@@ -93,12 +134,11 @@ export default function App() {
   }
 
   function handleReset() {
-    const s = state();
-    if (s.spriteUrl) URL.revokeObjectURL(s.spriteUrl);
-    if (s.videoUrl) URL.revokeObjectURL(s.videoUrl);
     setState({
       steps: initialSteps(),
       concept: null,
+      partialConcept: null,
+      streamText: null,
       spriteUrl: null,
       videoUrl: null,
       error: null,
@@ -107,6 +147,7 @@ export default function App() {
   }
 
   const hasResult = () => state().concept !== null;
+  const hasPartial = () => state().partialConcept !== null;
   const showProgress = () => isGenerating() || hasResult();
 
   return (
@@ -131,6 +172,15 @@ export default function App() {
           <div class="border-4 border-poke-red bg-poke-red/20 p-4 text-xs text-poke-red">
             {state().error}
           </div>
+        </Show>
+
+        <Show when={hasPartial() && !hasResult()}>
+          <PokedexCard
+            concept={state().partialConcept as PokemonConcept}
+            spriteUrl={null}
+            videoUrl={null}
+            partial
+          />
         </Show>
 
         <Show when={hasResult()}>

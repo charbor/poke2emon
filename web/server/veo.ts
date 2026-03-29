@@ -11,88 +11,56 @@ function getClient(): GoogleGenAI {
   return _client;
 }
 
-export interface VideoOperation {
-  operationName: string;
+export interface VideoResult {
   done: boolean;
   video?: { base64: string; mimeType: string };
 }
 
-const activeOperations = new Map<string, VideoOperation>();
-
-export async function startVideoGeneration(
+export async function generateVideo(
   prompt: string,
-  referenceImageBase64?: string,
-): Promise<string> {
+  _referenceImageBase64?: string,
+): Promise<VideoResult> {
   const client = getClient();
 
-  const config: Record<string, unknown> = {
-    numberOfVideos: 1,
-    durationSeconds: 4,
-    fps: 24,
-    personGeneration: "allow_all" as const,
-  };
-
-  if (referenceImageBase64) {
-    config.image = {
-      image: { imageBytes: referenceImageBase64 },
-      mimeType: "image/png",
-    };
-  }
-
-  const operation = await client.models.generateVideos({
+  let operation = await client.models.generateVideos({
     model: "veo-3.1-fast-generate-preview",
     prompt,
-    config: config as never,
+    config: {
+      numberOfVideos: 1,
+      durationSeconds: 4,
+      personGeneration: "allow_all",
+    } as never,
   });
 
-  const opName = operation.name ?? `op-${Date.now()}`;
-  activeOperations.set(opName, { operationName: opName, done: false });
-  return opName;
-}
-
-export async function pollVideoOperation(
-  operationName: string,
-): Promise<VideoOperation> {
-  const client = getClient();
-
-  const cached = activeOperations.get(operationName);
-  if (cached?.done) return cached;
-
-  const op = await client.operations.get({ operation: operationName } as never);
-
-  if (op.done) {
-    const video = (op as unknown as Record<string, unknown>).response as
-      | { generatedVideos?: Array<{ video?: { videoBytes?: string } }> }
-      | undefined;
-    const videoBytes = video?.generatedVideos?.[0]?.video?.videoBytes;
-
-    const result: VideoOperation = {
-      operationName,
-      done: true,
-      video: videoBytes
-        ? { base64: videoBytes, mimeType: "video/mp4" }
-        : undefined,
-    };
-    activeOperations.set(operationName, result);
-    return result;
+  // Poll until done
+  while (!operation.done) {
+    await new Promise((r) => setTimeout(r, 10000));
+    operation = await client.operations.getVideosOperation({
+      operation: operation,
+    });
   }
 
-  return { operationName, done: false };
-}
+  const generatedVideo = operation.response?.generatedVideos?.[0];
+  const video = generatedVideo?.video;
+  console.log("[veo] operation response keys:", Object.keys(operation.response ?? {}));
+  console.log("[veo] generatedVideo keys:", Object.keys(generatedVideo ?? {}));
+  console.log("[veo] video object:", JSON.stringify(video, null, 2)?.slice(0, 500));
 
-export async function waitForVideo(
-  operationName: string,
-  intervalMs = 5000,
-  maxAttempts = 60,
-): Promise<VideoOperation> {
-  for (let i = 0; i < maxAttempts; i++) {
-    const result = await pollVideoOperation(operationName);
-    if (result.done) return result;
-    await new Promise((r) => setTimeout(r, intervalMs));
+  const uri = video?.uri;
+  if (!uri) {
+    console.log("[veo] no video URI found, returning empty result");
+    return { done: true };
   }
-  throw new Error(`Video generation timed out after ${maxAttempts} attempts`);
-}
 
-export function getOperation(name: string): VideoOperation | undefined {
-  return activeOperations.get(name);
+  console.log("[veo] fetching video from URI:", uri.slice(0, 100));
+  const resp = await fetch(uri);
+  console.log("[veo] fetch status:", resp.status, "content-type:", resp.headers.get("content-type"));
+  const arrayBuf = await resp.arrayBuffer();
+  console.log("[veo] video size:", arrayBuf.byteLength, "bytes");
+  const base64 = Buffer.from(arrayBuf).toString("base64");
+
+  return {
+    done: true,
+    video: { base64, mimeType: resp.headers.get("content-type") || "video/mp4" },
+  };
 }

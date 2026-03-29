@@ -13,6 +13,8 @@ export const DESIGN_POKEMON_PROMPT = `You are a world-class Pokemon designer cre
 
 {CONTEXT}
 
+IMPORTANT: If the input mentions a real person, character, place, brand, or any specific noun — use Google Search to research them first. Learn about their appearance, personality, accomplishments, signature traits, and quirks. Incorporate what you find into the Pokemon design (name pun, types, abilities, stats, lore, and visual design should all reference the real subject cleverly).
+
 Design a completely original Pokemon inspired by this input. Return ONLY valid JSON (no markdown, no code fences) with this exact structure:
 
 {

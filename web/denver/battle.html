@@ -1,0 +1,2259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Denver Pokemon Battle Arena</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'VT323',monospace;
+  background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);
+  color:#e0e0e0;
+  min-height:100vh;
+  font-size:18px;
+  overflow-x:hidden;
+}
+header{
+  text-align:center;
+  padding:20px 20px 10px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+header h1{
+  font-family:'Press Start 2P',cursive;
+  font-size:clamp(14px,3vw,28px);
+  color:#fdcb6e;
+  text-shadow:0 0 20px rgba(253,203,110,.4);
+  letter-spacing:2px;
+}
+.header-link{
+  font-family:'VT323',monospace;
+  font-size:18px;
+  color:#a29bfe;
+  text-decoration:none;
+  border:2px solid #a29bfe;
+  padding:4px 12px;
+  border-radius:6px;
+  transition:all .2s;
+}
+.header-link:hover{color:#fdcb6e;border-color:#fdcb6e;}
+.turn-counter{
+  font-family:'Press Start 2P',cursive;
+  font-size:12px;
+  color:#a29bfe;
+  padding:4px 12px;
+  border:2px solid #a29bfe;
+  border-radius:6px;
+}
+
+/* TYPE COLORS */
+.type-Grass{background:#00b894;}
+.type-Fire{background:#e17055;}
+.type-Ice{background:#74b9ff;}
+.type-Water{background:#0984e3;}
+.type-Ground{background:#b08968;}
+.type-Normal{background:#b2bec3;}
+.type-Flying{background:#a29bfe;}
+.type-Bug{background:#a8e6cf;}
+.type-Dark{background:#2d3436;}
+.type-Poison{background:#6c5ce7;}
+.type-Electric{background:#fdcb6e;}
+.type-Rock{background:#636e72;}
+.type-Ghost{background:#7d3c98;}
+.type-Fairy{background:#fd79a8;}
+
+/* ============ SELECT SCREEN ============ */
+#selectScreen{padding:20px;}
+.select-subtitle{
+  text-align:center;
+  font-size:clamp(20px,3vw,32px);
+  color:#a29bfe;
+  margin-bottom:20px;
+}
+.select-grid{
+  max-width:1200px;
+  margin:0 auto 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:12px;
+  padding:0 20px;
+}
+.select-card{
+  background:linear-gradient(145deg,#16213e,#1a1a2e);
+  border:2px solid #2d3436;
+  border-radius:10px;
+  padding:10px;
+  cursor:pointer;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+  text-align:center;
+  position:relative;
+}
+.select-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 6px 20px rgba(162,155,254,.3);
+  border-color:#a29bfe;
+}
+.select-card.selected{
+  border-color:#fdcb6e;
+  box-shadow:0 0 20px rgba(253,203,110,.5),0 0 40px rgba(253,203,110,.2);
+}
+.select-card canvas,.select-card .poke-img{
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  width:96px;
+  height:96px;
+}
+.poke-img{image-rendering:pixelated;image-rendering:crisp-edges;}
+.poke-img.mirror{transform:scaleX(-1);}
+.select-card .sc-name{
+  font-family:'Press Start 2P',cursive;
+  font-size:9px;
+  color:#dfe6e9;
+  margin:4px 0 2px;
+}
+.select-card .sc-types{display:flex;gap:4px;justify-content:center;margin:4px 0;}
+.select-card .sc-types span{
+  font-size:12px;
+  padding:1px 6px;
+  border-radius:3px;
+  color:#fff;
+  text-transform:uppercase;
+}
+.select-card .sc-bst{font-size:14px;color:#636e72;}
+.stat-preview{
+  display:none;
+  position:absolute;
+  bottom:calc(100% + 8px);
+  left:50%;
+  transform:translateX(-50%);
+  background:#0d1b2a;
+  border:2px solid #a29bfe;
+  border-radius:8px;
+  padding:10px;
+  z-index:100;
+  width:200px;
+  pointer-events:none;
+}
+.select-card:hover .stat-preview{display:block;}
+.stat-preview .sp-row{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin:2px 0;
+  font-size:14px;
+}
+.stat-preview .sp-label{width:40px;color:#636e72;text-align:right;}
+.stat-preview .sp-bar{flex:1;height:8px;background:#2d3436;border-radius:4px;overflow:hidden;}
+.stat-preview .sp-fill{height:100%;border-radius:4px;transition:width .3s;}
+.stat-preview .sp-val{width:30px;color:#dfe6e9;text-align:right;}
+.battle-btn-wrap{text-align:center;margin:20px 0;min-height:60px;}
+#battleBtn{
+  font-family:'Press Start 2P',cursive;
+  font-size:18px;
+  padding:14px 40px;
+  background:linear-gradient(135deg,#e17055,#d63031);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  transition:all .3s;
+  display:none;
+  animation:pulse 1.5s infinite;
+}
+#battleBtn:hover{transform:scale(1.05);box-shadow:0 0 30px rgba(225,112,85,.5);}
+@keyframes pulse{0%,100%{box-shadow:0 0 10px rgba(225,112,85,.3)}50%{box-shadow:0 0 25px rgba(225,112,85,.6)}}
+
+/* ============ REVEAL OVERLAY ============ */
+#revealOverlay{
+  display:none;
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,.85);
+  z-index:1000;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  gap:20px;
+}
+#revealOverlay.show{display:flex;}
+#revealOverlay .reveal-text{
+  font-family:'Press Start 2P',cursive;
+  font-size:clamp(14px,3vw,24px);
+  color:#fdcb6e;
+  text-shadow:0 0 20px rgba(253,203,110,.5);
+  animation:fadeInUp .5s ease;
+}
+#revealOverlay canvas,#revealOverlay .poke-img{
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  width:192px;height:192px;
+  animation:fadeInUp .8s ease;
+}
+#revealOverlay .reveal-name{
+  font-family:'Press Start 2P',cursive;
+  font-size:18px;
+  color:#e0e0e0;
+  animation:fadeInUp 1s ease;
+}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============ BATTLE SCREEN ============ */
+#battleScreen{display:none;padding:10px 20px;max-width:900px;margin:0 auto;}
+.battle-field{
+  position:relative;
+  background:linear-gradient(180deg,#0a0a1e 0%,#16213e 50%,#1e3a5f 100%);
+  border:2px solid #2d3436;
+  border-radius:12px;
+  padding:20px;
+  min-height:360px;
+  margin-bottom:10px;
+}
+/* Weather banner */
+.weather-banner{
+  display:none;
+  position:absolute;
+  top:8px;left:50%;transform:translateX(-50%);
+  font-family:'Press Start 2P',cursive;
+  font-size:10px;
+  color:#74b9ff;
+  background:rgba(13,27,42,.8);
+  padding:4px 12px;
+  border-radius:6px;
+  border:1px solid #0984e3;
+}
+.weather-banner.active{display:block;}
+
+/* Opponent info top-right */
+.opp-info{
+  position:absolute;
+  top:20px;right:20px;
+  text-align:right;
+}
+.opp-info .bi-name{
+  font-family:'Press Start 2P',cursive;
+  font-size:12px;
+  color:#dfe6e9;
+}
+.opp-info .bi-level{font-size:16px;color:#636e72;margin-left:8px;}
+.opp-info .hp-bar-wrap{
+  width:220px;
+  height:14px;
+  background:#2d3436;
+  border-radius:7px;
+  overflow:hidden;
+  margin:4px 0;
+  border:1px solid #444;
+}
+.opp-info .hp-bar-fill{
+  height:100%;
+  border-radius:7px;
+  transition:width .6s ease,background .3s;
+}
+.opp-info .hp-text{font-size:16px;color:#b2bec3;}
+.status-badge{
+  display:inline-block;
+  font-family:'Press Start 2P',cursive;
+  font-size:8px;
+  padding:2px 6px;
+  border-radius:4px;
+  color:#fff;
+  margin-top:2px;
+}
+.status-BRN{background:#e17055;}
+.status-PSN{background:#6c5ce7;}
+.status-TOX{background:#6c5ce7;}
+.status-PAR{background:#fdcb6e;color:#111;}
+.status-SLP{background:#636e72;}
+.status-FRZ{background:#74b9ff;color:#111;}
+.status-CNF{background:#fd79a8;}
+.stat-changes{font-size:14px;color:#fdcb6e;margin-top:2px;}
+
+/* Player info bottom-left */
+.player-info{
+  position:absolute;
+  bottom:20px;left:20px;
+}
+.player-info .bi-name{
+  font-family:'Press Start 2P',cursive;
+  font-size:12px;
+  color:#dfe6e9;
+}
+.player-info .bi-level{font-size:16px;color:#636e72;margin-left:8px;}
+.player-info .hp-bar-wrap{
+  width:220px;
+  height:14px;
+  background:#2d3436;
+  border-radius:7px;
+  overflow:hidden;
+  margin:4px 0;
+  border:1px solid #444;
+}
+.player-info .hp-bar-fill{
+  height:100%;
+  border-radius:7px;
+  transition:width .6s ease,background .3s;
+}
+.player-info .hp-text{font-size:16px;color:#b2bec3;}
+
+/* Sprites in field */
+.opp-sprite{
+  position:absolute;
+  top:60px;right:80px;
+}
+.opp-sprite canvas,.opp-sprite .poke-img{
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  width:128px;height:128px;
+  transition:opacity .3s;
+}
+.player-sprite{
+  position:absolute;
+  bottom:60px;left:40px;
+}
+.player-sprite canvas,.player-sprite .poke-img{
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  width:128px;height:128px;
+  transition:opacity .3s;
+}
+/* Sprite animations */
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes superFlash{0%,100%{filter:brightness(1)}50%{filter:brightness(3)}}
+@keyframes faintAnim{to{opacity:0;transform:translateY(40px)}}
+.shake{animation:shake .3s ease 2;}
+.super-flash{animation:superFlash .2s ease 3;}
+.faint{animation:faintAnim .8s ease forwards;}
+
+/* Floating stat text */
+.float-text{
+  position:absolute;
+  font-family:'Press Start 2P',cursive;
+  font-size:10px;
+  pointer-events:none;
+  animation:floatUp 1.5s ease forwards;
+  z-index:50;
+}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-40px)}}
+
+/* ============ MOVE PANEL ============ */
+.move-panel{
+  background:#0d1b2a;
+  border:2px solid #2d3436;
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:10px;
+}
+.move-prompt{
+  font-family:'Press Start 2P',cursive;
+  font-size:11px;
+  color:#dfe6e9;
+  margin-bottom:10px;
+}
+.move-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.move-btn{
+  font-family:'VT323',monospace;
+  font-size:18px;
+  padding:10px;
+  border:2px solid #444;
+  border-radius:8px;
+  cursor:pointer;
+  transition:all .2s;
+  text-align:left;
+  position:relative;
+  color:#fff;
+}
+.move-btn:hover{
+  transform:scale(1.03);
+  box-shadow:0 4px 15px rgba(0,0,0,.3);
+  border-color:#fdcb6e;
+}
+.move-btn.disabled{opacity:.5;cursor:not-allowed;pointer-events:none;}
+.move-btn .mb-name{font-size:20px;font-weight:bold;}
+.move-btn .mb-info{display:flex;gap:8px;align-items:center;margin-top:2px;}
+.move-btn .mb-type{
+  font-size:12px;
+  padding:1px 6px;
+  border-radius:3px;
+  color:#fff;
+  text-transform:uppercase;
+}
+.move-btn .mb-pow{font-size:14px;color:rgba(255,255,255,.7);}
+.move-btn .mb-eff{
+  position:absolute;
+  top:4px;right:6px;
+  font-size:12px;
+  font-family:'Press Start 2P',cursive;
+}
+.move-btn .move-tooltip{
+  display:none;
+  position:absolute;
+  bottom:calc(100% + 8px);
+  left:0;
+  width:280px;
+  background:#0d1b2a;
+  border:2px solid #555;
+  border-radius:8px;
+  padding:10px 12px;
+  font-size:15px;
+  color:#dfe6e9;
+  line-height:1.3;
+  z-index:100;
+  pointer-events:none;
+  box-shadow:0 4px 16px rgba(0,0,0,.5);
+}
+.move-btn:hover .move-tooltip{display:block;}
+
+/* ============ BATTLE LOG ============ */
+.battle-log{
+  background:#0d1b2a;
+  border:2px solid #2d3436;
+  border-radius:10px;
+  padding:10px 14px;
+  height:160px;
+  overflow-y:auto;
+  font-size:17px;
+  line-height:1.4;
+}
+.battle-log::-webkit-scrollbar{width:6px;}
+.battle-log::-webkit-scrollbar-thumb{background:#636e72;border-radius:3px;}
+.log-line{margin:2px 0;}
+.log-super{color:#00b894;font-weight:bold;}
+.log-nve{color:#636e72;font-style:italic;}
+.log-immune{color:#e74c3c;font-weight:bold;}
+.log-crit{color:#fdcb6e;}
+.log-status{color:#a29bfe;}
+.log-damage{color:#e0e0e0;}
+.log-faint{color:#e74c3c;font-weight:bold;}
+.log-heal{color:#00b894;}
+
+/* ============ RESULT SCREEN ============ */
+#resultScreen{
+  display:none;
+  text-align:center;
+  padding:40px 20px;
+}
+#resultScreen .result-title{
+  font-family:'Press Start 2P',cursive;
+  font-size:clamp(20px,5vw,40px);
+  margin-bottom:20px;
+  animation:fadeInUp .8s ease;
+}
+#resultScreen .result-title.victory{color:#00b894;text-shadow:0 0 30px rgba(0,184,148,.5);}
+#resultScreen .result-title.defeat{color:#e74c3c;text-shadow:0 0 30px rgba(231,76,60,.5);}
+#resultScreen canvas,#resultScreen .poke-img{
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  width:192px;height:192px;
+  margin:20px auto;
+  display:block;
+  animation:bounce 1s ease infinite alternate;
+}
+@keyframes bounce{0%{transform:translateY(0)}100%{transform:translateY(-10px)}}
+.result-stats{
+  max-width:400px;
+  margin:20px auto;
+  background:#16213e;
+  border:2px solid #2d3436;
+  border-radius:10px;
+  padding:16px;
+  text-align:left;
+}
+.result-stats .rs-row{
+  display:flex;
+  justify-content:space-between;
+  padding:4px 0;
+  font-size:20px;
+  border-bottom:1px solid #2d3436;
+}
+.result-stats .rs-row:last-child{border:none;}
+.result-stats .rs-label{color:#636e72;}
+.result-stats .rs-val{color:#fdcb6e;}
+.result-btns{display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap;}
+.result-btns button,.result-btns a{
+  font-family:'Press Start 2P',cursive;
+  font-size:12px;
+  padding:12px 24px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:all .2s;
+  text-decoration:none;
+  display:inline-block;
+}
+.result-btns .btn-again{
+  background:linear-gradient(135deg,#00b894,#00cec9);
+  color:#fff;border:none;
+}
+.result-btns .btn-again:hover{transform:scale(1.05);}
+.result-btns .btn-pokedex{
+  background:transparent;
+  color:#a29bfe;
+  border:2px solid #a29bfe;
+}
+.result-btns .btn-pokedex:hover{color:#fdcb6e;border-color:#fdcb6e;}
+
+@media(max-width:600px){
+  .select-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;}
+  .select-card canvas,.select-card .poke-img{width:72px;height:72px;}
+  .select-card .sc-name{font-size:7px;}
+  .battle-field{min-height:300px;padding:12px;}
+  .opp-sprite canvas,.player-sprite canvas,.opp-sprite .poke-img,.player-sprite .poke-img{width:96px;height:96px;}
+  .opp-info .hp-bar-wrap,.player-info .hp-bar-wrap{width:160px;}
+  .move-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>DENVER POKEMON BATTLE ARENA</h1>
+  <a class="header-link" href="pokedex.html">Back to Pokedex</a>
+  <div class="turn-counter" id="turnCounter" style="display:none">Turn 1</div>
+</header>
+
+<!-- SELECT SCREEN -->
+<div id="selectScreen">
+  <div class="select-subtitle">Choose Your Fighter!</div>
+  <div class="select-grid" id="selectGrid"></div>
+  <div class="battle-btn-wrap">
+    <button id="battleBtn" onclick="startBattle()">BATTLE!</button>
+  </div>
+</div>
+
+<!-- REVEAL OVERLAY -->
+<div id="revealOverlay">
+  <div class="reveal-text">Your opponent is...</div>
+  <img id="revealCanvas" class="poke-img mirror">
+  <div class="reveal-name" id="revealName"></div>
+</div>
+
+<!-- BATTLE SCREEN -->
+<div id="battleScreen">
+  <div class="battle-field" id="battleField">
+    <div class="weather-banner" id="weatherBanner">Rain</div>
+    <!-- Opponent -->
+    <div class="opp-info" id="oppInfo">
+      <span class="bi-name" id="oppName"></span><span class="bi-level">Lv50</span>
+      <div class="hp-bar-wrap"><div class="hp-bar-fill" id="oppHpBar" style="width:100%;background:#00b894"></div></div>
+      <div class="hp-text" id="oppHpText"></div>
+      <div id="oppStatus"></div>
+      <div class="stat-changes" id="oppStatChanges"></div>
+    </div>
+    <div class="opp-sprite" id="oppSpriteWrap">
+      <img id="oppCanvas" class="poke-img mirror">
+    </div>
+    <!-- Player -->
+    <div class="player-sprite" id="playerSpriteWrap">
+      <img id="playerCanvas" class="poke-img">
+    </div>
+    <div class="player-info" id="playerInfo">
+      <span class="bi-name" id="playerName"></span><span class="bi-level">Lv50</span>
+      <div class="hp-bar-wrap"><div class="hp-bar-fill" id="playerHpBar" style="width:100%;background:#00b894"></div></div>
+      <div class="hp-text" id="playerHpText"></div>
+      <div id="playerStatus"></div>
+      <div class="stat-changes" id="playerStatChanges"></div>
+    </div>
+  </div>
+  <div class="move-panel" id="movePanel">
+    <div class="move-prompt" id="movePrompt">What will your Pokemon do?</div>
+    <div class="move-grid" id="moveGrid"></div>
+  </div>
+  <div class="battle-log" id="battleLog"></div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div id="resultScreen">
+  <div class="result-title" id="resultTitle"></div>
+  <img id="resultCanvas" class="poke-img">
+  <div class="result-stats" id="resultStats"></div>
+  <div class="result-btns">
+    <button class="btn-again" onclick="location.reload()">Battle Again</button>
+    <a class="btn-pokedex" href="pokedex.html">Back to Pokedex</a>
+  </div>
+</div>
+
+<script>
+/* ============================= DATA ============================= */
+const TYPE_COLORS={
+  Grass:'#00b894',Fire:'#e17055',Ice:'#74b9ff',Water:'#0984e3',Ground:'#b08968',
+  Normal:'#b2bec3',Flying:'#a29bfe',Bug:'#a8e6cf',Dark:'#2d3436',Poison:'#6c5ce7',
+  Electric:'#fdcb6e',Rock:'#636e72',Ghost:'#7d3c98',Fairy:'#fd79a8'
+};
+
+const MOVES={
+"Razor Leaf":{type:"Grass",power:55,acc:95,cat:"Physical",desc:"Sharp-edged leaves. Critical hits land more easily.",highCrit:true},
+"Giga Drain":{type:"Grass",power:75,acc:100,cat:"Special",desc:"Drains nutrients. Heals 50% of damage dealt.",drain:0.5},
+"Leech Seed":{type:"Grass",power:null,acc:90,cat:"Status",desc:"Plants a seed that drains 1/8 HP every turn.",effect:"leechseed"},
+"Seed Bomb":{type:"Grass",power:80,acc:100,cat:"Physical",desc:"Hurls hard-shelled seeds at the target."},
+"Leaf Storm":{type:"Grass",power:130,acc:90,cat:"Special",desc:"Whips up a storm of leaves. Harshly lowers user's Sp. Atk.",selfStat:{spa:-2}},
+"Petal Dance":{type:"Grass",power:120,acc:100,cat:"Special",desc:"Attacks for 2-3 turns, then user becomes confused.",lockIn:true},
+"Ember":{type:"Fire",power:40,acc:100,cat:"Special",desc:"Small flames. 10% chance to burn.",secondary:{status:"BRN",chance:10}},
+"Fire Spin":{type:"Fire",power:35,acc:85,cat:"Special",desc:"Traps in fire for 4-5 turns (1/8 HP/turn).",effect:"firespin"},
+"Ice Beam":{type:"Ice",power:90,acc:100,cat:"Special",desc:"Icy beam. 10% chance to freeze.",secondary:{status:"FRZ",chance:10}},
+"Blizzard":{type:"Ice",power:110,acc:70,cat:"Special",desc:"Howling blizzard. 10% chance to freeze.",secondary:{status:"FRZ",chance:10}},
+"Powder Snow":{type:"Ice",power:40,acc:100,cat:"Special",desc:"Chilling snow gust. 10% chance to freeze.",secondary:{status:"FRZ",chance:10}},
+"Ice Shard":{type:"Ice",power:40,acc:100,cat:"Physical",desc:"Flash-frozen ice chunks. Always goes first.",priority:1},
+"Frost Breath":{type:"Ice",power:60,acc:90,cat:"Special",desc:"Cold breath. Always crits.",alwaysCrit:true},
+"Water Gun":{type:"Water",power:40,acc:100,cat:"Special",desc:"Forceful shot of water."},
+"Surf":{type:"Water",power:90,acc:100,cat:"Special",desc:"Giant wave attack."},
+"Aqua Jet":{type:"Water",power:40,acc:100,cat:"Physical",desc:"Lunges at incredible speed. Always goes first.",priority:1},
+"Bubble":{type:"Water",power:40,acc:100,cat:"Special",desc:"Spray of bubbles. May lower Speed.",secondary:{stat:{spe:-1},chance:10}},
+"Rain Dance":{type:"Water",power:null,acc:null,cat:"Status",desc:"Summons rain for 5 turns. Water 1.5x, Fire 0.5x.",effect:"rain"},
+"Tackle":{type:"Normal",power:40,acc:100,cat:"Physical",desc:"Charges and slams."},
+"Quick Attack":{type:"Normal",power:40,acc:100,cat:"Physical",desc:"Attacks at blinding speed. Always goes first.",priority:1},
+"Headbutt":{type:"Normal",power:70,acc:100,cat:"Physical",desc:"Head charge. 30% flinch.",secondary:{flinch:true,chance:30}},
+"Body Slam":{type:"Normal",power:85,acc:100,cat:"Physical",desc:"Full body weight. 30% paralysis.",secondary:{status:"PAR",chance:30}},
+"Hyper Beam":{type:"Normal",power:150,acc:90,cat:"Special",desc:"Powerful beam. User must recharge next turn.",recharge:true},
+"Extreme Speed":{type:"Normal",power:80,acc:100,cat:"Physical",desc:"Charges at blinding speed. Extreme priority.",priority:2},
+"Stomp":{type:"Normal",power:65,acc:100,cat:"Physical",desc:"Stomps with big foot. 30% flinch.",secondary:{flinch:true,chance:30}},
+"Take Down":{type:"Normal",power:90,acc:85,cat:"Physical",desc:"Reckless charge. 25% recoil.",recoil:0.25},
+"Howl":{type:"Normal",power:null,acc:null,cat:"Status",desc:"Howls to raise Attack.",effect:"howl",selfStat:{atk:1}},
+"Screech":{type:"Normal",power:null,acc:85,cat:"Status",desc:"Harshly lowers target's Defense.",targetStat:{def:-2}},
+"Fury Swipes":{type:"Normal",power:18,acc:80,cat:"Physical",desc:"Rakes 2-5 times.",multiHit:true},
+"Double-Edge":{type:"Normal",power:120,acc:100,cat:"Physical",desc:"Life-risking tackle. 33% recoil.",recoil:0.33},
+"Sing":{type:"Normal",power:null,acc:55,cat:"Status",desc:"Puts target to sleep.",effect:"sleep"},
+"Uproar":{type:"Normal",power:90,acc:100,cat:"Special",desc:"Attacks in uproar for 3 turns."},
+"Earthquake":{type:"Ground",power:100,acc:100,cat:"Physical",desc:"Strikes every Pokemon with seismic force."},
+"Dig":{type:"Ground",power:80,acc:100,cat:"Physical",desc:"Burrows underground, attacks next turn.",twoTurn:"dug underground"},
+"Mud Shot":{type:"Ground",power:55,acc:95,cat:"Special",desc:"Hurls mud. Lowers target's Speed.",secondary:{stat:{spe:-1},chance:100}},
+"Sand Attack":{type:"Ground",power:null,acc:100,cat:"Status",desc:"Lowers target's accuracy.",targetStat:{acc:-1}},
+"Earth Power":{type:"Ground",power:90,acc:100,cat:"Special",desc:"Ground erupts. May lower Sp.Def.",secondary:{stat:{spd:-1},chance:10}},
+"Bulldoze":{type:"Ground",power:60,acc:100,cat:"Physical",desc:"Stomps ground. Lowers Speed.",secondary:{stat:{spe:-1},chance:100}},
+"Wing Attack":{type:"Flying",power:60,acc:100,cat:"Physical",desc:"Strikes with spread wings."},
+"Air Slash":{type:"Flying",power:75,acc:95,cat:"Special",desc:"Blade of air. 30% flinch.",secondary:{flinch:true,chance:30}},
+"Brave Bird":{type:"Flying",power:120,acc:100,cat:"Physical",desc:"Low altitude charge. 33% recoil.",recoil:0.33},
+"Fly":{type:"Flying",power:90,acc:95,cat:"Physical",desc:"Flies up, attacks next turn.",twoTurn:"flew up high"},
+"Aerial Ace":{type:"Flying",power:60,acc:null,cat:"Physical",desc:"Never misses."},
+"Feather Dance":{type:"Flying",power:null,acc:100,cat:"Status",desc:"Harshly lowers target's Attack.",targetStat:{atk:-2}},
+"Gust":{type:"Flying",power:40,acc:100,cat:"Special",desc:"Wind gust attack."},
+"Bug Buzz":{type:"Bug",power:90,acc:100,cat:"Special",desc:"Damaging sound wave. May lower Sp.Def.",secondary:{stat:{spd:-1},chance:10}},
+"Signal Beam":{type:"Bug",power:75,acc:100,cat:"Special",desc:"Sinister beam. May confuse.",secondary:{confuse:true,chance:10}},
+"Silver Wind":{type:"Bug",power:60,acc:100,cat:"Special",desc:"Powdery scales. 10% raise all stats.",secondary:{allBoost:true,chance:10}},
+"Struggle Bug":{type:"Bug",power:50,acc:100,cat:"Special",desc:"Resisting attack. Lowers Sp.Atk.",secondary:{stat:{spa:-1},chance:100}},
+"Megahorn":{type:"Bug",power:120,acc:85,cat:"Physical",desc:"Rams with impressive horn."},
+"Dark Pulse":{type:"Dark",power:80,acc:100,cat:"Special",desc:"Dark aura. 20% flinch.",secondary:{flinch:true,chance:20}},
+"Night Slash":{type:"Dark",power:70,acc:100,cat:"Physical",desc:"Quick slash. High crit rate.",highCrit:true},
+"Crunch":{type:"Dark",power:80,acc:100,cat:"Physical",desc:"Crunches with fangs. 20% lower Def.",secondary:{stat:{def:-1},chance:20}},
+"Sucker Punch":{type:"Dark",power:70,acc:100,cat:"Physical",desc:"Attacks first. Fails if target uses status.",priority:1,suckerPunch:true},
+"Foul Play":{type:"Dark",power:95,acc:100,cat:"Physical",desc:"Uses target's Attack against them.",foulPlay:true},
+"Poison Jab":{type:"Poison",power:80,acc:100,cat:"Physical",desc:"Poisonous stinger. 30% poison.",secondary:{status:"PSN",chance:30}},
+"Toxic":{type:"Poison",power:null,acc:90,cat:"Status",desc:"Badly poisons. Damage escalates.",effect:"toxic"},
+"Thunderbolt":{type:"Electric",power:90,acc:100,cat:"Special",desc:"Strong shock. 10% paralysis.",secondary:{status:"PAR",chance:10}},
+"Spark":{type:"Electric",power:65,acc:100,cat:"Physical",desc:"Electric tackle. 30% paralysis.",secondary:{status:"PAR",chance:30}},
+"Discharge":{type:"Electric",power:80,acc:100,cat:"Special",desc:"Electricity flare. 30% paralysis.",secondary:{status:"PAR",chance:30}},
+"Rock Slide":{type:"Rock",power:75,acc:90,cat:"Physical",desc:"Hurls boulders. 30% flinch.",secondary:{flinch:true,chance:30}},
+"Stone Edge":{type:"Rock",power:100,acc:80,cat:"Physical",desc:"Sharp stones. High crit rate.",highCrit:true},
+"Shadow Ball":{type:"Ghost",power:80,acc:100,cat:"Special",desc:"Shadowy blob. May lower Sp.Def.",secondary:{stat:{spd:-1},chance:20}},
+"Moonblast":{type:"Fairy",power:95,acc:100,cat:"Special",desc:"Moon's power. May lower Sp.Atk.",secondary:{stat:{spa:-1},chance:30}},
+"Glare":{type:"Normal",power:null,acc:100,cat:"Status",desc:"Intimidates target. Causes paralysis.",effect:"paralyze"},
+"Coil":{type:"Poison",power:null,acc:null,cat:"Status",desc:"Raises Atk +1, Def +1, Accuracy +1.",selfStat:{atk:1,def:1,acc:1}},
+"Withdraw":{type:"Water",power:null,acc:null,cat:"Status",desc:"Raises Defense +1.",selfStat:{def:1}},
+"Shell Smash":{type:"Normal",power:null,acc:null,cat:"Status",desc:"Sharply raises Atk/SpA/Spe, lowers Def/SpD.",selfStat:{atk:2,spa:2,spe:2,def:-1,spd:-1}},
+"Confuse Ray":{type:"Ghost",power:null,acc:100,cat:"Status",desc:"Confuses the target.",effect:"confuse"},
+};
+
+const POKEMON=[
+{id:1,name:"Columbelle",types:["Grass","Ice"],cat:"Flora",stats:{hp:65,atk:45,def:60,spa:85,spd:80,spe:55},moves:["Razor Leaf","Ice Beam","Giga Drain","Powder Snow"]},
+{id:2,name:"Blazebrush",types:["Grass","Fire"],cat:"Flora",stats:{hp:60,atk:55,def:50,spa:90,spd:65,spe:70},moves:["Ember","Razor Leaf","Fire Spin","Giga Drain"]},
+{id:3,name:"Pricklpear",types:["Grass","Ground"],cat:"Flora",stats:{hp:75,atk:70,def:90,spa:45,spd:70,spe:30},moves:["Seed Bomb","Sand Attack","Bulldoze","Leech Seed"]},
+{id:4,name:"Yucclade",types:["Grass","Ground"],cat:"Flora",stats:{hp:70,atk:85,def:75,spa:50,spd:60,spe:50},moves:["Razor Leaf","Rock Slide","Seed Bomb","Sand Attack"]},
+{id:5,name:"Quiltbloom",types:["Grass","Fire"],cat:"Flora",stats:{hp:80,atk:50,def:55,spa:80,spd:75,spe:50},moves:["Ember","Petal Dance","Fire Spin","Giga Drain"]},
+{id:6,name:"Glacitree",types:["Grass","Ice"],cat:"Flora",stats:{hp:95,atk:60,def:85,spa:110,spd:90,spe:40},moves:["Leaf Storm","Blizzard","Giga Drain","Ice Beam"]},
+{id:7,name:"Pasquini",types:["Grass","Ice"],cat:"Flora",stats:{hp:55,atk:40,def:65,spa:70,spd:75,spe:60},moves:["Powder Snow","Razor Leaf","Ice Shard","Leech Seed"]},
+{id:8,name:"Trembark",types:["Grass","Normal"],cat:"Flora",stats:{hp:90,atk:75,def:80,spa:65,spd:70,spe:45},moves:["Razor Leaf","Earthquake","Body Slam","Screech"]},
+{id:9,name:"Fluffwood",types:["Grass","Water"],cat:"Flora",stats:{hp:85,atk:55,def:70,spa:80,spd:75,spe:50},moves:["Surf","Razor Leaf","Rain Dance","Giga Drain"]},
+{id:10,name:"Junibraid",types:["Grass","Rock"],cat:"Flora",stats:{hp:80,atk:65,def:95,spa:60,spd:80,spe:30},moves:["Rock Slide","Seed Bomb","Razor Leaf","Earth Power"]},
+{id:11,name:"Muledoe",types:["Normal"],cat:"Mammals",stats:{hp:75,atk:70,def:60,spa:45,spd:55,spe:85},moves:["Quick Attack","Headbutt","Stomp","Take Down"]},
+{id:12,name:"Grizzmont",types:["Normal","Ground"],cat:"Mammals",stats:{hp:110,atk:115,def:90,spa:55,spd:70,spe:50},moves:["Earthquake","Stone Edge","Crunch","Hyper Beam"]},
+{id:13,name:"Prairipal",types:["Ground"],cat:"Mammals",stats:{hp:60,atk:55,def:65,spa:45,spd:55,spe:70},moves:["Dig","Mud Shot","Howl","Screech"]},
+{id:14,name:"Peaklion",types:["Normal","Rock"],cat:"Mammals",stats:{hp:90,atk:110,def:80,spa:55,spd:65,spe:95},moves:["Stone Edge","Extreme Speed","Crunch","Earthquake"]},
+{id:15,name:"Nutflick",types:["Normal"],cat:"Mammals",stats:{hp:55,atk:65,def:45,spa:40,spd:50,spe:100},moves:["Quick Attack","Fury Swipes","Headbutt","Seed Bomb"]},
+{id:16,name:"Coyotrik",types:["Normal","Dark"],cat:"Mammals",stats:{hp:75,atk:85,def:60,spa:80,spd:60,spe:90},moves:["Dark Pulse","Foul Play","Howl","Sucker Punch"]},
+{id:17,name:"Marmochunk",types:["Normal","Ground"],cat:"Mammals",stats:{hp:90,atk:75,def:80,spa:45,spd:70,spe:30},moves:["Dig","Bulldoze","Body Slam","Screech"]},
+{id:18,name:"Swifthorn",types:["Normal","Electric"],cat:"Mammals",stats:{hp:70,atk:80,def:55,spa:65,spd:55,spe:120},moves:["Extreme Speed","Thunderbolt","Headbutt","Quick Attack"]},
+{id:19,name:"Buglord",types:["Normal","Ground"],cat:"Mammals",stats:{hp:100,atk:100,def:75,spa:55,spd:65,spe:60},moves:["Megahorn","Earthquake","Stomp","Hyper Beam"]},
+{id:20,name:"Shimmerpi",types:["Flying","Dark"],cat:"Birds",stats:{hp:65,atk:60,def:55,spa:85,spd:60,spe:80},moves:["Dark Pulse","Air Slash","Foul Play","Wing Attack"]},
+{id:21,name:"Redgale",types:["Flying","Normal"],cat:"Birds",stats:{hp:70,atk:80,def:65,spa:75,spd:60,spe:95},moves:["Air Slash","Brave Bird","Quick Attack","Screech"]},
+{id:22,name:"Dusktalon",types:["Flying","Dark"],cat:"Birds",stats:{hp:85,atk:95,def:70,spa:100,spd:80,spe:70},moves:["Brave Bird","Dark Pulse","Shadow Ball","Night Slash"]},
+{id:23,name:"Melodark",types:["Flying","Normal"],cat:"Birds",stats:{hp:65,atk:50,def:55,spa:80,spd:65,spe:75},moves:["Sing","Air Slash","Uproar","Feather Dance"]},
+{id:24,name:"Hummbuzz",types:["Flying","Electric"],cat:"Birds",stats:{hp:45,atk:50,def:40,spa:85,spd:55,spe:110},moves:["Spark","Aerial Ace","Quick Attack","Discharge"]},
+{id:25,name:"Liberion",types:["Flying","Water"],cat:"Birds",stats:{hp:90,atk:95,def:75,spa:85,spd:70,spe:80},moves:["Brave Bird","Surf","Hyper Beam","Air Slash"]},
+{id:26,name:"Obsidiwing",types:["Flying","Dark"],cat:"Birds",stats:{hp:65,atk:75,def:60,spa:70,spd:55,spe:80},moves:["Dark Pulse","Wing Attack","Fly","Night Slash"]},
+{id:27,name:"Dipplet",types:["Flying","Water"],cat:"Birds",stats:{hp:60,atk:65,def:60,spa:55,spd:60,spe:70},moves:["Aqua Jet","Wing Attack","Water Gun","Aerial Ace"]},
+{id:28,name:"Bullcoil",types:["Ground"],cat:"Reptiles & Insects",stats:{hp:75,atk:80,def:70,spa:45,spd:60,spe:65},moves:["Glare","Body Slam","Dig","Coil"]},
+{id:29,name:"Venomrattle",types:["Ground","Poison"],cat:"Reptiles & Insects",stats:{hp:70,atk:90,def:65,spa:75,spd:60,spe:70},moves:["Poison Jab","Glare","Earthquake","Toxic"]},
+{id:30,name:"Tortaura",types:["Water","Normal"],cat:"Reptiles & Insects",stats:{hp:80,atk:60,def:95,spa:65,spd:85,spe:35},moves:["Withdraw","Surf","Shell Smash","Headbutt"]},
+{id:31,name:"Tigermander",types:["Water","Ground"],cat:"Reptiles & Insects",stats:{hp:80,atk:75,def:70,spa:60,spd:65,spe:55},moves:["Mud Shot","Water Gun","Dig","Body Slam"]},
+{id:32,name:"Croakini",types:["Water","Normal"],cat:"Reptiles & Insects",stats:{hp:50,atk:40,def:45,spa:65,spd:50,spe:75},moves:["Bubble","Mud Shot","Uproar","Rain Dance"]},
+{id:33,name:"Emperorfly",types:["Bug","Flying"],cat:"Reptiles & Insects",stats:{hp:75,atk:55,def:60,spa:105,spd:85,spe:95},moves:["Bug Buzz","Air Slash","Moonblast","Silver Wind"]},
+{id:34,name:"Purplewing",types:["Bug","Flying"],cat:"Reptiles & Insects",stats:{hp:60,atk:50,def:55,spa:80,spd:70,spe:75},moves:["Bug Buzz","Silver Wind","Air Slash","Signal Beam"]},
+{id:35,name:"Millerva",types:["Bug","Flying"],cat:"Reptiles & Insects",stats:{hp:55,atk:45,def:50,spa:60,spd:55,spe:70},moves:["Gust","Bug Buzz","Silver Wind","Struggle Bug"]},
+];
+
+/* ============================= TYPE CHART ============================= */
+const TYPE_CHART={};
+const ALL_TYPES=["Normal","Fire","Water","Grass","Electric","Ice","Ground","Flying","Poison","Bug","Rock","Ghost","Dark","Fairy"];
+ALL_TYPES.forEach(a=>{TYPE_CHART[a]={};ALL_TYPES.forEach(d=>{TYPE_CHART[a][d]=1;});});
+// Super effective (2x)
+const SE=[
+["Fire","Grass"],["Fire","Ice"],["Fire","Bug"],
+["Water","Fire"],["Water","Ground"],["Water","Rock"],
+["Grass","Water"],["Grass","Ground"],["Grass","Rock"],
+["Electric","Water"],["Electric","Flying"],
+["Ice","Grass"],["Ice","Ground"],["Ice","Flying"],
+["Ground","Fire"],["Ground","Electric"],["Ground","Poison"],["Ground","Rock"],
+["Flying","Grass"],["Flying","Bug"],
+["Poison","Grass"],["Poison","Fairy"],
+["Bug","Grass"],["Bug","Dark"],
+["Rock","Fire"],["Rock","Ice"],["Rock","Flying"],["Rock","Bug"],
+["Ghost","Ghost"],
+["Dark","Ghost"],
+["Fairy","Dark"],["Fairy","Bug"],
+];
+SE.forEach(([a,d])=>{TYPE_CHART[a][d]=2;});
+// Not very effective (0.5x)
+const NVE=[
+["Fire","Water"],["Fire","Rock"],["Fire","Fire"],
+["Water","Grass"],["Water","Water"],
+["Grass","Fire"],["Grass","Ice"],["Grass","Flying"],["Grass","Poison"],["Grass","Bug"],["Grass","Grass"],
+["Electric","Grass"],["Electric","Electric"],
+["Ice","Fire"],["Ice","Water"],["Ice","Ice"],
+["Ground","Grass"],["Ground","Bug"],
+["Flying","Electric"],["Flying","Rock"],
+["Poison","Poison"],["Poison","Ground"],["Poison","Rock"],["Poison","Ghost"],
+["Bug","Fire"],["Bug","Flying"],["Bug","Poison"],["Bug","Ghost"],["Bug","Fairy"],
+["Rock","Ground"],
+["Ghost","Dark"],
+["Dark","Dark"],["Dark","Fairy"],
+["Fairy","Fire"],["Fairy","Poison"],
+["Normal","Rock"],
+];
+NVE.forEach(([a,d])=>{TYPE_CHART[a][d]=0.5;});
+// Immunities (0x)
+TYPE_CHART["Normal"]["Ghost"]=0;
+TYPE_CHART["Ghost"]["Normal"]=0;
+TYPE_CHART["Electric"]["Ground"]=0;
+TYPE_CHART["Ground"]["Flying"]=0;
+
+function getTypeEffectiveness(moveType,defTypes){
+  let mult=1;
+  defTypes.forEach(dt=>{mult*=(TYPE_CHART[moveType]&&TYPE_CHART[moveType][dt]!==undefined)?TYPE_CHART[moveType][dt]:1;});
+  return mult;
+}
+
+/* ============================= STAT CALC ============================= */
+function calcHP(base){return Math.floor((2*base+31)*50/100)+50+10;}
+function calcStat(base){return Math.floor((2*base+31)*50/100)+5;}
+
+function getStatMultiplier(stage){
+  if(stage>=0) return (2+stage)/2;
+  return 2/(2-stage);
+}
+function getAccMultiplier(stage){
+  if(stage>=0) return (3+stage)/3;
+  return 3/(3-stage);
+}
+
+/* ============================= PIXEL ART ============================= */
+function px(ctx,x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(x,y,w||1,h||1);}
+function rect(ctx,x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(x,y,w,h);}
+function eye(ctx,x,y,s,pc,hc){
+  rect(ctx,x,y,s,s,'#fff');
+  var ps=Math.max(1,Math.floor(s*0.5));
+  rect(ctx,x+s-ps,y+s-ps,ps,ps,pc||'#111');
+  if(s>=3)px(ctx,x+1,y,1,1,hc||'#aee');
+  else if(s>=2)px(ctx,x,y,1,1,hc||'#aee');
+}
+function bigEye(ctx,x,y,s,pc,hc){
+  rect(ctx,x,y,s,s,'#fff');
+  var ps=Math.max(1,Math.floor(s*0.45));
+  rect(ctx,x+s-ps-1,y+s-ps,ps,ps,pc||'#111');
+  px(ctx,x+1,y+1,Math.max(1,Math.floor(s*0.3)),Math.max(1,Math.floor(s*0.3)),hc||'#aee');
+}
+
+const SPRITES={};
+
+SPRITES[1]=function(ctx){
+  rect(ctx,22,28,4,18,'#2d8a4e');rect(ctx,23,28,2,18,'#3cb371');
+  rect(ctx,16,36,6,3,'#2d8a4e');rect(ctx,26,34,6,3,'#2d8a4e');
+  rect(ctx,17,37,4,2,'#3cb371');rect(ctx,27,35,4,2,'#3cb371');
+  rect(ctx,18,18,12,10,'#74b9ff');rect(ctx,19,19,10,8,'#a4d4ff');
+  rect(ctx,14,14,6,8,'#74b9ff');rect(ctx,28,14,6,8,'#74b9ff');
+  rect(ctx,15,15,4,6,'#a4d4ff');rect(ctx,29,15,4,6,'#a4d4ff');
+  rect(ctx,18,10,12,6,'#74b9ff');rect(ctx,19,11,10,4,'#a4d4ff');
+  rect(ctx,20,20,8,6,'#fff');rect(ctx,21,21,6,4,'#eef');
+  eye(ctx,21,22,3,'#111','#74b9ff');eye(ctx,26,22,3,'#111','#74b9ff');
+  px(ctx,23,26,2,1,'#e17055');
+  rect(ctx,16,10,4,5,'#5b8cff');rect(ctx,28,10,4,5,'#5b8cff');
+  rect(ctx,21,8,6,4,'#5b8cff');
+};
+
+SPRITES[2]=function(ctx){
+  rect(ctx,20,24,8,20,'#2d8a4e');rect(ctx,21,24,6,20,'#3cb371');
+  rect(ctx,14,30,6,3,'#2d8a4e');rect(ctx,28,28,6,3,'#2d8a4e');
+  rect(ctx,15,31,4,1,'#3cb371');rect(ctx,29,29,4,1,'#3cb371');
+  rect(ctx,18,10,12,16,'#e17055');rect(ctx,19,11,10,14,'#f0a060');
+  rect(ctx,16,14,4,10,'#e17055');rect(ctx,28,12,4,12,'#e17055');
+  rect(ctx,20,8,8,6,'#e74c3c');rect(ctx,22,6,4,4,'#e74c3c');
+  rect(ctx,23,4,2,3,'#ff6b6b');
+  eye(ctx,21,20,3,'#111','#fdcb6e');eye(ctx,26,20,3,'#111','#fdcb6e');
+  px(ctx,22,24,1,1,'#c0392b');px(ctx,23,25,2,1,'#c0392b');px(ctx,25,24,1,1,'#c0392b');
+};
+
+SPRITES[3]=function(ctx){
+  rect(ctx,14,18,20,22,'#27ae60');rect(ctx,12,20,24,18,'#27ae60');
+  rect(ctx,15,19,18,20,'#2ecc71');rect(ctx,13,21,22,16,'#2ecc71');
+  rect(ctx,18,12,12,8,'#f1c40f');rect(ctx,20,10,8,4,'#f1c40f');
+  rect(ctx,19,13,10,6,'#f9e547');rect(ctx,22,10,4,3,'#f9e547');
+  rect(ctx,16,40,5,4,'#27ae60');rect(ctx,27,40,5,4,'#27ae60');
+  rect(ctx,16,20,3,1,'#8b6914');px(ctx,15,19,1,1,'#8b6914');
+  rect(ctx,29,20,3,1,'#8b6914');px(ctx,32,19,1,1,'#8b6914');
+  px(ctx,11,24,1,1,'#8b6914');px(ctx,35,26,1,1,'#8b6914');px(ctx,11,30,1,1,'#8b6914');px(ctx,35,30,1,1,'#8b6914');
+  eye(ctx,18,22,4,'#111','#aee');eye(ctx,26,22,4,'#111','#aee');
+  px(ctx,21,30,1,1,'#c0392b');rect(ctx,22,31,4,1,'#c0392b');px(ctx,26,30,1,1,'#c0392b');
+};
+
+SPRITES[4]=function(ctx){
+  rect(ctx,20,28,8,16,'#2d8a4e');rect(ctx,21,28,6,16,'#3cb371');
+  rect(ctx,8,20,10,3,'#2d8a4e');rect(ctx,30,18,10,3,'#2d8a4e');
+  rect(ctx,12,16,6,3,'#2d8a4e');rect(ctx,30,14,6,3,'#2d8a4e');
+  rect(ctx,16,22,6,2,'#3cb371');rect(ctx,26,20,6,2,'#3cb371');
+  rect(ctx,18,8,12,12,'#f5f5dc');rect(ctx,19,9,10,10,'#fff');
+  rect(ctx,20,6,8,4,'#f5f5dc');
+  eye(ctx,21,14,3,'#111','#aee');eye(ctx,26,14,3,'#111','#aee');
+  rect(ctx,22,19,4,1,'#6b4226');
+  rect(ctx,18,42,4,3,'#654321');rect(ctx,26,42,4,3,'#654321');
+};
+
+SPRITES[5]=function(ctx){
+  rect(ctx,12,12,24,24,'#e74c3c');rect(ctx,14,10,20,28,'#e74c3c');rect(ctx,10,14,28,20,'#e74c3c');
+  rect(ctx,16,16,16,16,'#f39c12');rect(ctx,18,14,12,20,'#f39c12');rect(ctx,14,18,20,12,'#f39c12');
+  rect(ctx,18,18,12,12,'#f1c40f');rect(ctx,19,19,10,10,'#f9e547');
+  rect(ctx,20,22,3,1,'#111');px(ctx,19,21,1,1,'#111');px(ctx,23,21,1,1,'#111');
+  rect(ctx,26,22,3,1,'#111');px(ctx,25,21,1,1,'#111');px(ctx,29,21,1,1,'#111');
+  px(ctx,22,26,1,1,'#e17055');rect(ctx,23,27,2,1,'#e17055');px(ctx,25,26,1,1,'#e17055');
+  rect(ctx,22,36,4,10,'#2d8a4e');rect(ctx,23,36,2,10,'#3cb371');
+  px(ctx,14,14,2,2,'#ff6b6b');px(ctx,30,14,2,2,'#ff6b6b');px(ctx,14,30,2,2,'#ff6b6b');px(ctx,30,30,2,2,'#ff6b6b');
+};
+
+SPRITES[6]=function(ctx){
+  rect(ctx,21,30,6,16,'#654321');rect(ctx,22,30,4,16,'#8b6914');
+  rect(ctx,14,24,20,8,'#5b8cff');rect(ctx,16,20,16,6,'#5b8cff');rect(ctx,18,16,12,6,'#5b8cff');rect(ctx,20,12,8,6,'#5b8cff');rect(ctx,22,8,4,5,'#5b8cff');
+  rect(ctx,16,22,6,4,'#74b9ff');rect(ctx,20,18,6,3,'#74b9ff');rect(ctx,22,13,4,3,'#74b9ff');
+  rect(ctx,20,8,8,2,'#fff');rect(ctx,22,6,4,3,'#fff');rect(ctx,16,16,16,2,'#eef');rect(ctx,14,24,20,2,'#eef');
+  px(ctx,12,26,2,2,'#a4d4ff');px(ctx,34,26,2,2,'#a4d4ff');px(ctx,18,14,2,1,'#a4d4ff');px(ctx,28,14,2,1,'#a4d4ff');
+  eye(ctx,22,32,3,'#74b9ff','#fff');eye(ctx,27,32,3,'#74b9ff','#fff');
+  rect(ctx,23,37,4,1,'#4a3520');
+  rect(ctx,18,44,4,2,'#654321');rect(ctx,26,44,4,2,'#654321');
+};
+
+SPRITES[7]=function(ctx){
+  rect(ctx,6,36,36,10,'#dfe6e9');rect(ctx,8,34,32,4,'#eef');
+  rect(ctx,22,24,4,12,'#3cb371');rect(ctx,23,24,2,12,'#5dde8e');
+  rect(ctx,16,14,16,12,'#9b59b6');rect(ctx,14,16,20,8,'#9b59b6');
+  rect(ctx,17,15,14,10,'#af7ac5');rect(ctx,15,17,18,6,'#af7ac5');
+  px(ctx,16,13,2,1,'#c39bd3');px(ctx,20,12,2,1,'#c39bd3');px(ctx,26,13,2,1,'#c39bd3');px(ctx,30,15,1,2,'#c39bd3');
+  rect(ctx,20,18,8,6,'#f9e547');rect(ctx,21,19,6,4,'#fef160');
+  bigEye(ctx,21,19,3,'#111','#74b9ff');bigEye(ctx,26,19,3,'#111','#74b9ff');
+  px(ctx,24,23,1,1,'#e17055');
+};
+
+SPRITES[8]=function(ctx){
+  rect(ctx,20,24,8,20,'#dfe6e9');rect(ctx,21,24,6,20,'#fff');
+  px(ctx,22,28,2,1,'#636e72');px(ctx,23,34,3,1,'#636e72');px(ctx,21,40,2,1,'#636e72');
+  rect(ctx,10,10,28,16,'#f39c12');rect(ctx,12,8,24,20,'#f39c12');
+  rect(ctx,12,12,24,12,'#f1c40f');rect(ctx,14,10,20,16,'#f1c40f');
+  px(ctx,14,10,3,2,'#f9e547');px(ctx,22,8,4,2,'#f9e547');px(ctx,30,12,3,2,'#f9e547');px(ctx,16,20,2,2,'#f9e547');
+  eye(ctx,22,28,3,'#111','#74b9ff');eye(ctx,27,28,3,'#111','#74b9ff');
+  px(ctx,23,33,1,1,'#8b6914');rect(ctx,24,34,2,1,'#8b6914');px(ctx,26,33,1,1,'#8b6914');
+  px(ctx,8,14,2,2,'#f39c12');px(ctx,38,16,2,2,'#f39c12');px(ctx,6,20,2,2,'#f1c40f');px(ctx,40,12,2,2,'#f1c40f');
+};
+
+SPRITES[9]=function(ctx){
+  rect(ctx,21,28,6,16,'#8b6914');rect(ctx,22,28,4,16,'#a0822a');
+  rect(ctx,10,10,28,20,'#fff');rect(ctx,12,8,24,24,'#fff');
+  rect(ctx,12,12,24,16,'#f0f0f0');rect(ctx,14,10,20,20,'#fafafa');
+  rect(ctx,8,14,6,6,'#fff');rect(ctx,34,12,6,6,'#fff');rect(ctx,16,6,6,6,'#fff');rect(ctx,26,6,6,6,'#fff');
+  px(ctx,6,8,2,2,'#fff');px(ctx,40,10,2,2,'#fff');px(ctx,4,18,2,2,'#fff');px(ctx,42,20,2,2,'#fff');
+  px(ctx,8,4,1,1,'#ddd');px(ctx,38,6,1,1,'#ddd');
+  rect(ctx,18,18,4,2,'#111');rect(ctx,26,18,4,2,'#111');
+  px(ctx,18,17,4,1,'#fff');px(ctx,26,17,4,1,'#fff');
+  px(ctx,21,23,1,1,'#b08968');rect(ctx,22,24,4,1,'#b08968');px(ctx,26,23,1,1,'#b08968');
+};
+
+SPRITES[10]=function(ctx){
+  rect(ctx,18,22,12,22,'#654321');rect(ctx,20,22,8,22,'#8b6914');
+  px(ctx,19,26,2,1,'#4a3520');px(ctx,27,30,2,1,'#4a3520');px(ctx,20,36,3,1,'#4a3520');
+  rect(ctx,10,10,28,16,'#1e7a34');rect(ctx,12,8,24,20,'#1e7a34');
+  rect(ctx,12,12,24,12,'#27ae60');rect(ctx,14,10,20,16,'#27ae60');
+  px(ctx,14,14,2,2,'#5b8cff');px(ctx,20,10,2,2,'#5b8cff');px(ctx,28,12,2,2,'#5b8cff');px(ctx,32,18,2,2,'#5b8cff');px(ctx,10,18,2,2,'#5b8cff');
+  px(ctx,16,22,2,2,'#5b8cff');px(ctx,26,20,2,2,'#5b8cff');
+  eye(ctx,21,28,3,'#111','#5b8cff');eye(ctx,26,28,3,'#111','#5b8cff');
+  px(ctx,19,27,2,1,'#4a3520');px(ctx,29,27,2,1,'#4a3520');
+  rect(ctx,23,34,4,1,'#4a3520');
+  rect(ctx,14,42,6,3,'#654321');rect(ctx,28,42,6,3,'#654321');
+};
+
+SPRITES[11]=function(ctx){
+  rect(ctx,14,24,22,14,'#b08968');rect(ctx,15,25,20,12,'#c4a882');
+  rect(ctx,28,18,6,10,'#b08968');rect(ctx,29,19,4,8,'#c4a882');
+  rect(ctx,28,10,12,12,'#b08968');rect(ctx,29,11,10,10,'#c4a882');
+  rect(ctx,28,4,4,10,'#b08968');rect(ctx,36,4,4,10,'#b08968');
+  rect(ctx,29,5,2,8,'#deb887');rect(ctx,37,5,2,8,'#deb887');
+  px(ctx,30,4,2,2,'#8b6914');px(ctx,37,4,2,2,'#8b6914');
+  rect(ctx,16,36,3,8,'#b08968');rect(ctx,22,36,3,8,'#b08968');rect(ctx,28,36,3,8,'#b08968');rect(ctx,31,36,3,8,'#b08968');
+  rect(ctx,16,42,3,2,'#654321');rect(ctx,22,42,3,2,'#654321');rect(ctx,28,42,3,2,'#654321');rect(ctx,31,42,3,2,'#654321');
+  bigEye(ctx,32,13,4,'#111','#74b9ff');
+  px(ctx,38,17,2,2,'#654321');
+  px(ctx,18,27,2,2,'#deb887');px(ctx,24,28,2,2,'#deb887');px(ctx,20,32,2,2,'#deb887');
+  px(ctx,13,25,2,3,'#deb887');
+};
+
+SPRITES[12]=function(ctx){
+  rect(ctx,10,20,28,22,'#4a3520');rect(ctx,11,21,26,20,'#654321');
+  rect(ctx,8,18,8,8,'#636e72');rect(ctx,32,18,8,8,'#636e72');
+  rect(ctx,9,19,6,6,'#808b91');rect(ctx,33,19,6,6,'#808b91');
+  rect(ctx,14,16,20,6,'#636e72');rect(ctx,16,14,14,4,'#636e72');rect(ctx,15,17,18,4,'#808b91');
+  rect(ctx,16,6,16,14,'#4a3520');rect(ctx,17,7,14,12,'#654321');
+  rect(ctx,14,4,5,5,'#4a3520');rect(ctx,29,4,5,5,'#4a3520');
+  rect(ctx,15,5,3,3,'#8b6914');rect(ctx,30,5,3,3,'#8b6914');
+  rect(ctx,19,10,4,3,'#fdcb6e');rect(ctx,25,10,4,3,'#fdcb6e');
+  rect(ctx,20,11,2,1,'#111');rect(ctx,26,11,2,1,'#111');
+  px(ctx,19,10,1,1,'#fff');px(ctx,25,10,1,1,'#fff');
+  rect(ctx,22,14,4,2,'#2d1810');
+  px(ctx,20,17,2,1,'#111');rect(ctx,22,18,4,1,'#111');px(ctx,26,17,2,1,'#111');
+  rect(ctx,6,24,6,12,'#4a3520');rect(ctx,36,24,6,12,'#4a3520');
+  px(ctx,6,36,2,2,'#dfe6e9');px(ctx,9,36,2,2,'#dfe6e9');px(ctx,36,36,2,2,'#dfe6e9');px(ctx,39,36,2,2,'#dfe6e9');
+  rect(ctx,14,40,6,4,'#4a3520');rect(ctx,28,40,6,4,'#4a3520');
+  rect(ctx,14,43,6,2,'#2d1810');rect(ctx,28,43,6,2,'#2d1810');
+};
+
+SPRITES[13]=function(ctx){
+  rect(ctx,18,20,12,20,'#c4a882');rect(ctx,19,21,10,18,'#deb887');
+  rect(ctx,16,10,16,12,'#c4a882');rect(ctx,17,11,14,10,'#deb887');
+  px(ctx,16,9,3,3,'#c4a882');px(ctx,29,9,3,3,'#c4a882');
+  px(ctx,17,10,1,1,'#deb887');px(ctx,30,10,1,1,'#deb887');
+  bigEye(ctx,19,13,4,'#111','#74b9ff');bigEye(ctx,27,13,4,'#111','#74b9ff');
+  px(ctx,23,17,2,2,'#654321');
+  rect(ctx,21,20,6,3,'#c0392b');rect(ctx,22,20,4,1,'#fff');
+  rect(ctx,14,22,4,3,'#deb887');rect(ctx,30,22,4,3,'#deb887');
+  rect(ctx,18,38,4,4,'#c4a882');rect(ctx,26,38,4,4,'#c4a882');
+  rect(ctx,21,28,6,6,'#efe0c8');
+};
+
+SPRITES[14]=function(ctx){
+  rect(ctx,8,22,30,14,'#c4a882');rect(ctx,9,23,28,12,'#deb887');
+  rect(ctx,12,20,6,3,'#636e72');rect(ctx,20,19,6,3,'#636e72');rect(ctx,28,20,6,3,'#636e72');
+  rect(ctx,13,20,4,2,'#808b91');rect(ctx,21,19,4,2,'#808b91');rect(ctx,29,20,4,2,'#808b91');
+  rect(ctx,32,14,12,12,'#c4a882');rect(ctx,33,15,10,10,'#deb887');
+  px(ctx,34,10,3,4,'#c4a882');px(ctx,40,10,3,4,'#c4a882');
+  px(ctx,35,11,1,2,'#deb887');px(ctx,41,11,1,2,'#deb887');
+  rect(ctx,34,17,4,3,'#27ae60');rect(ctx,39,17,4,3,'#27ae60');
+  rect(ctx,35,18,2,1,'#111');rect(ctx,40,18,2,1,'#111');
+  px(ctx,34,17,1,1,'#fff');px(ctx,39,17,1,1,'#fff');
+  px(ctx,38,21,2,1,'#654321');px(ctx,37,23,4,1,'#8b6914');
+  rect(ctx,30,34,4,8,'#c4a882');rect(ctx,36,34,4,8,'#c4a882');
+  rect(ctx,30,40,4,3,'#636e72');rect(ctx,36,40,4,3,'#636e72');
+  rect(ctx,10,32,4,10,'#c4a882');rect(ctx,16,34,4,8,'#c4a882');
+  rect(ctx,10,40,4,3,'#636e72');rect(ctx,16,40,4,3,'#636e72');
+  rect(ctx,4,18,6,3,'#c4a882');rect(ctx,2,16,4,3,'#deb887');px(ctx,2,15,3,2,'#c4a882');
+};
+
+SPRITES[15]=function(ctx){
+  rect(ctx,4,6,14,20,'#d4761a');rect(ctx,6,4,10,24,'#d4761a');
+  rect(ctx,6,8,12,16,'#e8963c');rect(ctx,8,6,8,20,'#e8963c');
+  rect(ctx,8,4,6,4,'#f0b060');
+  rect(ctx,22,18,12,16,'#d4761a');rect(ctx,23,19,10,14,'#e8963c');
+  rect(ctx,24,10,12,10,'#d4761a');rect(ctx,25,11,10,8,'#e8963c');
+  px(ctx,24,8,3,3,'#d4761a');px(ctx,33,8,3,3,'#d4761a');
+  px(ctx,25,9,1,1,'#f0b060');px(ctx,34,9,1,1,'#f0b060');
+  bigEye(ctx,26,12,4,'#111','#74b9ff');bigEye(ctx,32,12,4,'#111','#74b9ff');
+  px(ctx,30,16,2,1,'#654321');
+  px(ctx,29,18,1,1,'#c0392b');px(ctx,30,19,2,1,'#c0392b');px(ctx,32,18,1,1,'#c0392b');
+  rect(ctx,20,24,4,3,'#e8963c');rect(ctx,32,24,4,3,'#e8963c');
+  rect(ctx,26,24,6,5,'#8b6914');rect(ctx,27,25,4,3,'#a0822a');px(ctx,28,24,2,1,'#654321');
+  rect(ctx,24,32,4,4,'#d4761a');rect(ctx,30,32,4,4,'#d4761a');
+  rect(ctx,24,35,4,2,'#c4a882');rect(ctx,30,35,4,2,'#c4a882');
+  rect(ctx,25,26,8,6,'#f0d0a0');
+};
+
+SPRITES[16]=function(ctx){
+  rect(ctx,12,22,22,12,'#c4a882');rect(ctx,13,23,20,10,'#deb887');
+  rect(ctx,28,8,12,16,'#c4a882');rect(ctx,29,9,10,14,'#deb887');
+  rect(ctx,32,4,4,8,'#c4a882');rect(ctx,33,5,2,6,'#deb887');
+  px(ctx,32,8,4,2,'#c0392b');px(ctx,33,7,2,1,'#111');
+  rect(ctx,28,4,4,6,'#c4a882');rect(ctx,36,4,4,6,'#c4a882');
+  rect(ctx,29,5,2,4,'#deb887');rect(ctx,37,5,2,4,'#deb887');
+  rect(ctx,30,12,3,2,'#f39c12');rect(ctx,35,12,3,2,'#f39c12');
+  px(ctx,31,12,1,1,'#111');px(ctx,36,12,1,1,'#111');
+  px(ctx,30,12,1,1,'#fff');px(ctx,35,12,1,1,'#fff');
+  rect(ctx,4,18,10,6,'#c4a882');rect(ctx,2,20,8,4,'#deb887');px(ctx,2,18,3,2,'#f0d0a0');
+  rect(ctx,14,32,3,10,'#c4a882');rect(ctx,20,32,3,10,'#c4a882');rect(ctx,28,32,3,10,'#c4a882');rect(ctx,32,32,3,10,'#c4a882');
+  rect(ctx,14,40,3,2,'#8b6914');rect(ctx,20,40,3,2,'#8b6914');rect(ctx,28,40,3,2,'#8b6914');rect(ctx,32,40,3,2,'#8b6914');
+};
+
+SPRITES[17]=function(ctx){
+  rect(ctx,10,22,28,18,'#8b6914');rect(ctx,8,24,32,14,'#8b6914');
+  rect(ctx,11,23,26,16,'#a0822a');rect(ctx,9,25,30,12,'#a0822a');
+  rect(ctx,16,30,16,8,'#f1c40f');rect(ctx,17,31,14,6,'#f9e547');
+  rect(ctx,16,12,16,12,'#8b6914');rect(ctx,17,13,14,10,'#a0822a');
+  rect(ctx,14,16,4,6,'#c4a882');rect(ctx,30,16,4,6,'#c4a882');
+  px(ctx,16,10,3,3,'#8b6914');px(ctx,29,10,3,3,'#8b6914');
+  rect(ctx,19,16,4,1,'#111');px(ctx,18,15,1,1,'#111');px(ctx,23,15,1,1,'#111');
+  rect(ctx,26,16,4,1,'#111');px(ctx,25,15,1,1,'#111');px(ctx,30,15,1,1,'#111');
+  px(ctx,22,20,1,1,'#654321');rect(ctx,23,21,2,1,'#654321');px(ctx,25,20,1,1,'#654321');
+  rect(ctx,6,38,36,6,'#636e72');rect(ctx,8,37,32,2,'#808b91');
+  rect(ctx,10,36,4,3,'#a0822a');rect(ctx,34,36,4,3,'#a0822a');
+};
+
+SPRITES[18]=function(ctx){
+  rect(ctx,10,22,26,12,'#deb887');rect(ctx,11,23,24,10,'#efe0c8');
+  rect(ctx,14,28,18,5,'#fff');
+  rect(ctx,30,14,6,10,'#deb887');rect(ctx,31,15,4,8,'#efe0c8');
+  rect(ctx,30,6,10,10,'#deb887');rect(ctx,31,7,8,8,'#efe0c8');
+  rect(ctx,32,2,2,5,'#fdcb6e');px(ctx,31,3,1,2,'#fdcb6e');px(ctx,34,4,1,1,'#fdcb6e');
+  rect(ctx,37,2,2,5,'#fdcb6e');px(ctx,36,3,1,2,'#fdcb6e');px(ctx,39,4,1,1,'#fdcb6e');
+  rect(ctx,33,9,3,2,'#111');px(ctx,33,9,1,1,'#fff');
+  px(ctx,38,12,2,1,'#654321');
+  rect(ctx,4,24,6,1,'#fdcb6e');rect(ctx,2,27,5,1,'#fdcb6e');rect(ctx,6,30,4,1,'#fdcb6e');
+  px(ctx,12,34,2,2,'#fdcb6e');px(ctx,20,36,2,2,'#fdcb6e');px(ctx,30,34,2,2,'#fdcb6e');
+  rect(ctx,14,32,3,10,'#deb887');rect(ctx,20,32,3,10,'#deb887');rect(ctx,28,32,3,10,'#deb887');rect(ctx,33,32,3,10,'#deb887');
+  rect(ctx,14,40,3,2,'#654321');rect(ctx,20,40,3,2,'#654321');rect(ctx,28,40,3,2,'#654321');rect(ctx,33,40,3,2,'#654321');
+};
+
+SPRITES[19]=function(ctx){
+  rect(ctx,10,24,26,14,'#654321');rect(ctx,11,25,24,12,'#8b6914');
+  rect(ctx,30,16,6,10,'#654321');rect(ctx,31,17,4,8,'#8b6914');
+  rect(ctx,30,8,10,10,'#654321');rect(ctx,31,9,8,8,'#8b6914');
+  rect(ctx,28,4,2,6,'#c4a882');rect(ctx,26,2,2,4,'#c4a882');rect(ctx,24,2,2,3,'#c4a882');rect(ctx,22,4,2,2,'#c4a882');
+  rect(ctx,38,4,2,6,'#c4a882');rect(ctx,40,2,2,4,'#c4a882');rect(ctx,42,2,2,3,'#c4a882');rect(ctx,44,4,2,2,'#c4a882');
+  rect(ctx,30,2,2,3,'#c4a882');rect(ctx,36,2,2,3,'#c4a882');
+  px(ctx,22,3,1,1,'#deb887');px(ctx,44,3,1,1,'#deb887');px(ctx,24,1,1,1,'#deb887');px(ctx,42,1,1,1,'#deb887');
+  rect(ctx,33,11,3,2,'#f39c12');px(ctx,34,11,1,1,'#111');px(ctx,33,11,1,1,'#fff');
+  px(ctx,38,14,2,1,'#4a3520');
+  rect(ctx,12,36,4,8,'#654321');rect(ctx,18,36,4,8,'#654321');rect(ctx,28,36,4,8,'#654321');rect(ctx,33,36,4,8,'#654321');
+  rect(ctx,12,42,4,2,'#4a3520');rect(ctx,18,42,4,2,'#4a3520');rect(ctx,28,42,4,2,'#4a3520');rect(ctx,33,42,4,2,'#4a3520');
+  rect(ctx,30,16,6,4,'#8b6914');rect(ctx,28,18,3,4,'#7a5c10');
+};
+
+SPRITES[20]=function(ctx){
+  rect(ctx,16,20,16,12,'#111');rect(ctx,17,21,14,10,'#222');
+  rect(ctx,20,24,8,8,'#fff');rect(ctx,21,25,6,6,'#eee');
+  rect(ctx,26,12,10,10,'#111');rect(ctx,27,13,8,8,'#222');
+  rect(ctx,12,22,6,6,'#0984e3');rect(ctx,13,23,4,4,'#00b894');
+  rect(ctx,6,26,10,3,'#111');rect(ctx,2,28,6,2,'#111');rect(ctx,2,28,4,2,'#222');
+  rect(ctx,30,15,4,3,'#fff');rect(ctx,32,16,2,1,'#111');px(ctx,30,15,1,1,'#74b9ff');
+  rect(ctx,34,17,4,2,'#333');rect(ctx,36,18,2,1,'#444');
+  rect(ctx,20,30,2,6,'#636e72');rect(ctx,26,30,2,6,'#636e72');
+  rect(ctx,18,34,3,2,'#636e72');rect(ctx,24,34,3,2,'#636e72');
+  rect(ctx,14,20,4,3,'#333');
+};
+
+SPRITES[21]=function(ctx){
+  rect(ctx,16,20,16,12,'#8b4513');rect(ctx,17,21,14,10,'#a0522d');
+  rect(ctx,6,18,12,8,'#8b4513');rect(ctx,30,18,12,8,'#8b4513');
+  rect(ctx,8,19,8,6,'#a0522d');rect(ctx,32,19,8,6,'#a0522d');
+  rect(ctx,18,30,12,6,'#c0392b');rect(ctx,19,31,10,4,'#e74c3c');
+  rect(ctx,18,10,12,12,'#8b4513');rect(ctx,19,11,10,10,'#a0522d');
+  rect(ctx,28,14,4,3,'#f1c40f');rect(ctx,30,15,3,2,'#daa520');px(ctx,32,16,1,1,'#654321');
+  rect(ctx,20,13,4,3,'#f1c40f');rect(ctx,21,14,2,1,'#111');px(ctx,20,13,1,1,'#fff');
+  px(ctx,19,23,2,1,'#654321');px(ctx,22,25,2,1,'#654321');px(ctx,25,23,2,1,'#654321');
+  rect(ctx,18,34,3,4,'#f1c40f');rect(ctx,27,34,3,4,'#f1c40f');
+  px(ctx,17,37,1,2,'#654321');px(ctx,21,37,1,2,'#654321');px(ctx,26,37,1,2,'#654321');px(ctx,30,37,1,2,'#654321');
+};
+
+SPRITES[22]=function(ctx){
+  rect(ctx,14,22,20,18,'#2d3436');rect(ctx,15,23,18,16,'#3d4a4d');
+  rect(ctx,18,26,12,10,'#4a5a5e');
+  px(ctx,19,28,2,1,'#636e72');px(ctx,23,30,2,1,'#636e72');px(ctx,27,28,2,1,'#636e72');px(ctx,21,32,2,1,'#636e72');px(ctx,25,34,2,1,'#636e72');
+  rect(ctx,4,20,12,14,'#2d3436');rect(ctx,32,20,12,14,'#2d3436');
+  rect(ctx,6,22,8,10,'#3d4a4d');rect(ctx,34,22,8,10,'#3d4a4d');
+  px(ctx,4,32,3,2,'#222');px(ctx,41,32,3,2,'#222');
+  rect(ctx,16,8,16,16,'#2d3436');rect(ctx,17,9,14,14,'#3d4a4d');
+  rect(ctx,14,2,4,8,'#2d3436');rect(ctx,30,2,4,8,'#2d3436');
+  rect(ctx,15,3,2,6,'#3d4a4d');rect(ctx,31,3,2,6,'#3d4a4d');
+  rect(ctx,18,12,5,4,'#e17055');rect(ctx,25,12,5,4,'#e17055');
+  rect(ctx,19,13,3,2,'#f39c12');rect(ctx,26,13,3,2,'#f39c12');
+  rect(ctx,20,13,1,2,'#111');rect(ctx,27,13,1,2,'#111');
+  px(ctx,19,12,1,1,'#fff');px(ctx,26,12,1,1,'#fff');
+  rect(ctx,22,16,4,3,'#f1c40f');px(ctx,23,18,2,1,'#daa520');
+  rect(ctx,17,10,2,8,'#4a5a5e');rect(ctx,29,10,2,8,'#4a5a5e');
+  rect(ctx,18,38,3,4,'#f1c40f');rect(ctx,27,38,3,4,'#f1c40f');
+  px(ctx,17,41,1,2,'#654321');px(ctx,21,41,1,2,'#654321');px(ctx,26,41,1,2,'#654321');px(ctx,30,41,1,2,'#654321');
+};
+
+SPRITES[23]=function(ctx){
+  rect(ctx,20,34,8,12,'#8b6914');rect(ctx,21,34,6,12,'#a0822a');
+  rect(ctx,16,22,16,14,'#8b4513');rect(ctx,17,23,14,12,'#a0522d');
+  rect(ctx,18,24,12,10,'#f1c40f');rect(ctx,19,25,10,8,'#f9e547');
+  px(ctx,22,26,1,2,'#111');px(ctx,25,26,1,2,'#111');px(ctx,23,28,2,1,'#111');
+  rect(ctx,18,14,12,10,'#8b4513');rect(ctx,19,15,10,8,'#a0522d');
+  rect(ctx,20,16,8,4,'#f1c40f');
+  rect(ctx,28,17,5,2,'#f1c40f');rect(ctx,28,19,4,1,'#daa520');
+  rect(ctx,22,16,3,2,'#111');px(ctx,22,16,1,1,'#fff');
+  rect(ctx,19,15,10,1,'#f1c40f');
+  px(ctx,36,12,2,2,'#a29bfe');px(ctx,38,11,1,1,'#a29bfe');
+  px(ctx,40,8,2,2,'#a29bfe');px(ctx,42,7,1,1,'#a29bfe');
+  px(ctx,34,16,2,2,'#74b9ff');px(ctx,36,15,1,1,'#74b9ff');
+  rect(ctx,14,28,4,4,'#654321');
+};
+
+SPRITES[24]=function(ctx){
+  rect(ctx,20,20,10,10,'#27ae60');rect(ctx,21,21,8,8,'#2ecc71');
+  rect(ctx,22,14,8,8,'#27ae60');rect(ctx,23,15,6,6,'#2ecc71');
+  rect(ctx,24,20,4,3,'#c0392b');rect(ctx,25,21,2,1,'#e74c3c');
+  rect(ctx,28,16,8,2,'#333');rect(ctx,30,17,6,1,'#444');
+  rect(ctx,25,16,3,2,'#111');px(ctx,25,16,1,1,'#fff');
+  rect(ctx,14,14,8,4,'#5dde8e');rect(ctx,12,16,6,3,'#5dde8e');
+  rect(ctx,16,18,6,3,'#5dde8e');rect(ctx,14,20,4,2,'#5dde8e');
+  rect(ctx,18,28,4,4,'#1e7a34');rect(ctx,16,30,3,3,'#27ae60');
+  px(ctx,14,12,2,2,'#fdcb6e');px(ctx,32,14,2,2,'#fdcb6e');px(ctx,18,30,2,2,'#fdcb6e');px(ctx,28,26,2,2,'#fdcb6e');
+  px(ctx,10,18,1,1,'#fdcb6e');px(ctx,34,22,1,1,'#fdcb6e');
+  px(ctx,22,16,1,1,'#74b9ff');px(ctx,21,22,1,1,'#74b9ff');
+};
+
+SPRITES[25]=function(ctx){
+  rect(ctx,10,20,28,16,'#3d2b1f');rect(ctx,11,21,26,14,'#5c4033');
+  rect(ctx,4,18,8,10,'#3d2b1f');rect(ctx,36,18,8,10,'#3d2b1f');
+  rect(ctx,2,20,6,6,'#5c4033');rect(ctx,38,20,6,6,'#5c4033');
+  rect(ctx,20,6,12,16,'#fff');rect(ctx,21,7,10,14,'#f5f5f5');
+  rect(ctx,30,12,6,3,'#f1c40f');rect(ctx,34,13,3,2,'#daa520');px(ctx,36,14,1,1,'#654321');
+  rect(ctx,23,10,4,3,'#f1c40f');rect(ctx,24,11,2,1,'#111');px(ctx,23,10,1,1,'#fff');
+  rect(ctx,14,34,20,4,'#3d2b1f');rect(ctx,16,36,16,3,'#5c4033');
+  rect(ctx,18,34,4,6,'#f1c40f');rect(ctx,26,34,4,6,'#f1c40f');
+  px(ctx,16,38,2,2,'#f1c40f');px(ctx,22,38,2,2,'#f1c40f');px(ctx,24,38,2,2,'#f1c40f');px(ctx,30,38,2,2,'#f1c40f');
+  px(ctx,16,40,1,2,'#654321');px(ctx,21,40,1,2,'#654321');px(ctx,25,40,1,2,'#654321');px(ctx,30,40,1,2,'#654321');
+  px(ctx,2,26,3,2,'#2d1810');px(ctx,41,26,3,2,'#2d1810');
+};
+
+SPRITES[26]=function(ctx){
+  rect(ctx,16,20,16,14,'#111');rect(ctx,17,21,14,12,'#222');
+  rect(ctx,8,10,10,14,'#111');rect(ctx,30,10,10,14,'#111');
+  rect(ctx,10,12,6,10,'#222');rect(ctx,32,12,6,10,'#222');
+  rect(ctx,10,16,6,4,'#fff');rect(ctx,32,16,6,4,'#fff');
+  rect(ctx,11,17,4,2,'#eee');rect(ctx,33,17,4,2,'#eee');
+  rect(ctx,18,12,12,10,'#111');rect(ctx,19,13,10,8,'#222');
+  rect(ctx,22,15,3,2,'#fff');px(ctx,23,15,1,1,'#111');px(ctx,22,15,1,1,'#74b9ff');
+  rect(ctx,28,16,4,2,'#f1c40f');px(ctx,30,17,2,1,'#daa520');
+  rect(ctx,18,32,12,4,'#111');rect(ctx,20,34,8,3,'#222');
+  px(ctx,6,12,2,2,'#222');px(ctx,40,12,2,2,'#222');
+  rect(ctx,20,34,2,4,'#636e72');rect(ctx,26,34,2,4,'#636e72');
+};
+
+SPRITES[27]=function(ctx){
+  rect(ctx,8,36,32,6,'#0984e3');rect(ctx,10,34,28,4,'#74b9ff');
+  px(ctx,12,32,3,2,'#74b9ff');px(ctx,28,32,3,2,'#74b9ff');
+  px(ctx,16,30,2,2,'#a4d4ff');px(ctx,32,30,2,2,'#a4d4ff');
+  rect(ctx,16,22,16,14,'#636e72');rect(ctx,17,23,14,12,'#808b91');
+  rect(ctx,20,28,8,6,'#b2bec3');
+  rect(ctx,18,14,12,10,'#636e72');rect(ctx,19,15,10,8,'#808b91');
+  rect(ctx,20,16,8,4,'#74b9ff');rect(ctx,21,17,6,2,'#a4d4ff');
+  rect(ctx,21,17,3,2,'#111');px(ctx,21,17,1,1,'#fff');
+  rect(ctx,25,17,3,2,'#111');px(ctx,25,17,1,1,'#fff');
+  rect(ctx,28,18,4,2,'#333');px(ctx,30,19,2,1,'#444');
+  rect(ctx,14,22,4,4,'#636e72');rect(ctx,12,20,3,3,'#808b91');
+  px(ctx,14,18,2,2,'#74b9ff');px(ctx,34,20,2,2,'#74b9ff');px(ctx,10,28,2,2,'#a4d4ff');
+  rect(ctx,20,34,2,4,'#f1c40f');rect(ctx,26,34,2,4,'#f1c40f');
+};
+
+SPRITES[28]=function(ctx){
+  rect(ctx,12,24,24,12,'#c4a882');rect(ctx,10,28,28,6,'#c4a882');rect(ctx,14,20,20,6,'#c4a882');
+  rect(ctx,13,25,22,10,'#deb887');rect(ctx,11,29,26,4,'#deb887');rect(ctx,15,21,18,4,'#deb887');
+  px(ctx,16,26,3,2,'#8b6914');px(ctx,22,24,3,2,'#8b6914');px(ctx,28,26,3,2,'#8b6914');
+  px(ctx,14,30,3,2,'#8b6914');px(ctx,20,28,3,2,'#8b6914');px(ctx,26,30,3,2,'#8b6914');px(ctx,32,28,3,2,'#8b6914');
+  rect(ctx,22,10,10,12,'#c4a882');rect(ctx,23,11,8,10,'#deb887');
+  bigEye(ctx,24,13,4,'#111','#74b9ff');
+  rect(ctx,29,14,3,1,'#111');px(ctx,28,15,1,1,'#111');px(ctx,32,15,1,1,'#111');
+  px(ctx,25,19,1,1,'#c0392b');rect(ctx,26,20,3,1,'#c0392b');px(ctx,29,19,1,1,'#c0392b');
+  rect(ctx,30,18,4,1,'#e74c3c');px(ctx,34,17,1,1,'#e74c3c');px(ctx,34,19,1,1,'#e74c3c');
+  rect(ctx,8,34,6,3,'#c4a882');px(ctx,6,35,2,2,'#deb887');
+  px(ctx,4,33,2,1,'#636e72');px(ctx,4,37,2,1,'#636e72');px(ctx,5,35,1,1,'#636e72');
+};
+
+SPRITES[29]=function(ctx){
+  rect(ctx,10,22,28,14,'#6b6b3b');rect(ctx,8,26,32,8,'#6b6b3b');
+  rect(ctx,11,23,26,12,'#8b8b4b');rect(ctx,9,27,30,6,'#8b8b4b');
+  px(ctx,14,24,4,3,'#4a4a2a');px(ctx,20,26,4,3,'#4a4a2a');px(ctx,26,24,4,3,'#4a4a2a');px(ctx,32,26,4,3,'#4a4a2a');
+  px(ctx,15,25,2,1,'#8b8b4b');px(ctx,21,27,2,1,'#8b8b4b');px(ctx,27,25,2,1,'#8b8b4b');px(ctx,33,27,2,1,'#8b8b4b');
+  rect(ctx,24,10,12,12,'#6b6b3b');rect(ctx,25,11,10,10,'#8b8b4b');
+  rect(ctx,22,14,4,6,'#6b6b3b');
+  rect(ctx,27,13,3,3,'#f1c40f');rect(ctx,32,13,3,3,'#f1c40f');
+  px(ctx,28,14,1,1,'#111');px(ctx,33,14,1,1,'#111');
+  rect(ctx,34,16,4,1,'#e74c3c');px(ctx,38,15,1,1,'#e74c3c');px(ctx,38,17,1,1,'#e74c3c');
+  rect(ctx,6,32,6,4,'#deb887');rect(ctx,4,33,3,2,'#c4a882');
+  rect(ctx,7,33,4,2,'#f1c40f');px(ctx,4,32,2,1,'#c4a882');px(ctx,4,36,2,1,'#c4a882');
+  rect(ctx,14,32,20,4,'#a0a060');
+};
+
+SPRITES[30]=function(ctx){
+  rect(ctx,10,18,28,16,'#6b6b3b');rect(ctx,12,16,24,20,'#6b6b3b');
+  rect(ctx,12,20,24,12,'#8b8b4b');rect(ctx,14,18,20,16,'#8b8b4b');
+  rect(ctx,14,18,4,4,'#c0392b');rect(ctx,20,20,4,4,'#f1c40f');rect(ctx,26,18,4,4,'#c0392b');rect(ctx,32,20,4,4,'#f1c40f');
+  rect(ctx,16,26,4,4,'#f1c40f');rect(ctx,22,24,4,4,'#c0392b');rect(ctx,28,26,4,4,'#f1c40f');
+  rect(ctx,10,18,2,16,'#c0392b');rect(ctx,36,18,2,16,'#c0392b');rect(ctx,12,16,24,2,'#c0392b');rect(ctx,12,34,24,2,'#c0392b');
+  rect(ctx,34,20,8,8,'#3cb371');rect(ctx,35,21,6,6,'#5dde8e');
+  bigEye(ctx,36,22,3,'#111','#74b9ff');bigEye(ctx,40,22,3,'#111','#74b9ff');
+  px(ctx,38,26,3,1,'#27ae60');
+  rect(ctx,12,34,4,4,'#3cb371');rect(ctx,32,34,4,4,'#3cb371');
+  rect(ctx,12,32,4,2,'#3cb371');rect(ctx,32,32,4,2,'#3cb371');
+  px(ctx,8,28,3,2,'#3cb371');
+};
+
+SPRITES[31]=function(ctx){
+  rect(ctx,10,22,28,10,'#111');rect(ctx,11,23,26,8,'#222');
+  px(ctx,14,24,3,2,'#f1c40f');px(ctx,20,23,3,3,'#f1c40f');px(ctx,26,24,3,2,'#f1c40f');px(ctx,32,23,3,3,'#f1c40f');
+  px(ctx,16,28,3,2,'#f1c40f');px(ctx,24,28,3,2,'#f1c40f');px(ctx,30,28,2,2,'#f1c40f');
+  rect(ctx,32,16,10,10,'#111');rect(ctx,33,17,8,8,'#222');
+  bigEye(ctx,34,18,4,'#111','#74b9ff');bigEye(ctx,39,18,4,'#111','#74b9ff');
+  rect(ctx,32,12,3,6,'#c0392b');rect(ctx,36,10,2,6,'#c0392b');rect(ctx,40,12,3,6,'#c0392b');
+  px(ctx,31,12,1,2,'#e74c3c');px(ctx,36,9,2,2,'#e74c3c');px(ctx,43,12,1,2,'#e74c3c');
+  px(ctx,36,23,4,1,'#654321');
+  rect(ctx,12,30,4,6,'#111');rect(ctx,20,30,4,6,'#111');rect(ctx,30,30,4,6,'#111');rect(ctx,36,28,4,6,'#111');
+  px(ctx,11,35,2,1,'#f1c40f');px(ctx,15,35,2,1,'#f1c40f');px(ctx,19,35,2,1,'#f1c40f');px(ctx,23,35,2,1,'#f1c40f');
+  rect(ctx,6,24,6,3,'#111');rect(ctx,4,25,3,2,'#222');px(ctx,4,26,2,1,'#f1c40f');
+  px(ctx,35,17,4,1,'#f1c40f');
+};
+
+SPRITES[32]=function(ctx){
+  rect(ctx,12,34,24,6,'#27ae60');rect(ctx,14,32,20,4,'#3cb371');rect(ctx,10,36,28,2,'#27ae60');
+  rect(ctx,18,22,12,12,'#27ae60');rect(ctx,16,24,16,8,'#27ae60');
+  rect(ctx,19,23,10,10,'#3cb371');rect(ctx,17,25,14,6,'#3cb371');
+  rect(ctx,16,18,16,8,'#27ae60');rect(ctx,17,19,14,6,'#3cb371');
+  rect(ctx,16,14,6,6,'#27ae60');rect(ctx,26,14,6,6,'#27ae60');
+  bigEye(ctx,17,15,5,'#111','#74b9ff');bigEye(ctx,27,15,5,'#111','#74b9ff');
+  rect(ctx,20,30,8,5,'#5dde8e');rect(ctx,21,31,6,3,'#a0f0b0');
+  px(ctx,22,28,4,1,'#1e7a34');
+  rect(ctx,14,28,4,3,'#27ae60');rect(ctx,30,28,4,3,'#27ae60');
+  px(ctx,12,30,2,1,'#3cb371');px(ctx,33,30,2,1,'#3cb371');
+  px(ctx,10,20,2,1,'#a29bfe');px(ctx,36,20,2,1,'#a29bfe');px(ctx,8,22,2,1,'#a29bfe');px(ctx,38,22,2,1,'#a29bfe');
+};
+
+SPRITES[33]=function(ctx){
+  rect(ctx,22,14,4,22,'#111');rect(ctx,23,15,2,20,'#222');
+  rect(ctx,21,8,2,6,'#111');rect(ctx,25,8,2,6,'#111');
+  px(ctx,19,6,3,3,'#f39c12');px(ctx,26,6,3,3,'#f39c12');
+  px(ctx,20,7,1,1,'#fdcb6e');px(ctx,27,7,1,1,'#fdcb6e');
+  rect(ctx,6,12,16,18,'#e17055');rect(ctx,4,14,14,14,'#e17055');
+  rect(ctx,8,14,12,14,'#f39c12');rect(ctx,6,16,10,10,'#f39c12');
+  rect(ctx,4,12,2,20,'#111');rect(ctx,6,10,16,2,'#111');rect(ctx,4,30,18,2,'#111');
+  px(ctx,5,14,1,1,'#fff');px(ctx,5,18,1,1,'#fff');px(ctx,5,22,1,1,'#fff');px(ctx,5,26,1,1,'#fff');
+  px(ctx,8,10,1,1,'#fff');px(ctx,12,10,1,1,'#fff');px(ctx,16,10,1,1,'#fff');
+  px(ctx,8,31,1,1,'#fff');px(ctx,12,31,1,1,'#fff');px(ctx,16,31,1,1,'#fff');
+  rect(ctx,26,12,16,18,'#e17055');rect(ctx,30,14,14,14,'#e17055');
+  rect(ctx,28,14,12,14,'#f39c12');rect(ctx,32,16,10,10,'#f39c12');
+  rect(ctx,42,12,2,20,'#111');rect(ctx,26,10,16,2,'#111');rect(ctx,26,30,18,2,'#111');
+  px(ctx,42,14,1,1,'#fff');px(ctx,42,18,1,1,'#fff');px(ctx,42,22,1,1,'#fff');px(ctx,42,26,1,1,'#fff');
+  px(ctx,28,10,1,1,'#fff');px(ctx,32,10,1,1,'#fff');px(ctx,36,10,1,1,'#fff');
+  px(ctx,28,31,1,1,'#fff');px(ctx,32,31,1,1,'#fff');px(ctx,36,31,1,1,'#fff');
+  rect(ctx,14,14,2,14,'#111');rect(ctx,8,20,14,2,'#111');
+  rect(ctx,32,14,2,14,'#111');rect(ctx,26,20,14,2,'#111');
+  eye(ctx,22,14,2,'#fff','#74b9ff');eye(ctx,24,14,2,'#fff','#74b9ff');
+  rect(ctx,21,34,2,4,'#111');rect(ctx,25,34,2,4,'#111');
+};
+
+SPRITES[34]=function(ctx){
+  rect(ctx,22,16,4,18,'#6c5ce7');rect(ctx,23,17,2,16,'#7d6ef0');
+  rect(ctx,21,10,1,6,'#6c5ce7');rect(ctx,26,10,1,6,'#6c5ce7');
+  px(ctx,20,8,2,2,'#7d6ef0');px(ctx,26,8,2,2,'#7d6ef0');
+  rect(ctx,8,14,14,14,'#6c5ce7');rect(ctx,6,16,12,10,'#6c5ce7');
+  rect(ctx,10,16,10,10,'#7d6ef0');rect(ctx,8,18,8,6,'#9b8ee8');
+  px(ctx,10,18,3,3,'#e17055');px(ctx,14,22,3,2,'#e17055');px(ctx,8,24,2,2,'#e17055');
+  rect(ctx,26,14,14,14,'#6c5ce7');rect(ctx,30,16,12,10,'#6c5ce7');
+  rect(ctx,28,16,10,10,'#7d6ef0');rect(ctx,32,18,8,6,'#9b8ee8');
+  px(ctx,35,18,3,3,'#e17055');px(ctx,31,22,3,2,'#e17055');px(ctx,38,24,2,2,'#e17055');
+  eye(ctx,22,17,2,'#111','#fd79a8');eye(ctx,24,17,2,'#111','#fd79a8');
+  px(ctx,23,20,2,1,'#5a4cc7');px(ctx,24,19,1,1,'#5a4cc7');
+  rect(ctx,6,14,2,16,'#5a4cc7');rect(ctx,40,14,2,16,'#5a4cc7');
+  rect(ctx,20,32,2,4,'#6c5ce7');rect(ctx,26,32,2,4,'#6c5ce7');
+  px(ctx,19,35,1,2,'#e17055');px(ctx,27,35,1,2,'#e17055');
+};
+
+SPRITES[35]=function(ctx){
+  rect(ctx,20,18,8,16,'#8b8b7a');rect(ctx,21,19,6,14,'#a0a090');
+  px(ctx,19,20,1,2,'#9a9a8a');px(ctx,28,22,1,2,'#9a9a8a');px(ctx,19,26,1,2,'#9a9a8a');px(ctx,28,28,1,2,'#9a9a8a');
+  rect(ctx,21,12,1,6,'#8b8b7a');rect(ctx,26,12,1,6,'#8b8b7a');
+  px(ctx,19,10,3,3,'#a0a090');px(ctx,26,10,3,3,'#a0a090');
+  rect(ctx,8,16,12,14,'#7a7a6a');rect(ctx,6,18,10,10,'#7a7a6a');
+  rect(ctx,10,18,8,10,'#8b8b7a');rect(ctx,8,20,6,6,'#9a9a8a');
+  rect(ctx,28,16,12,14,'#7a7a6a');rect(ctx,32,18,10,10,'#7a7a6a');
+  rect(ctx,30,18,8,10,'#8b8b7a');rect(ctx,34,20,6,6,'#9a9a8a');
+  px(ctx,6,16,1,1,'#ddd');px(ctx,14,14,1,1,'#ddd');px(ctx,40,16,1,1,'#ddd');px(ctx,34,14,1,1,'#ddd');
+  px(ctx,4,22,1,1,'#ccc');px(ctx,42,24,1,1,'#ccc');
+  rect(ctx,20,14,8,6,'#8b8b7a');rect(ctx,21,15,6,4,'#a0a090');
+  bigEye(ctx,21,15,4,'#111','#74b9ff');bigEye(ctx,25,15,4,'#111','#74b9ff');
+  px(ctx,20,14,1,1,'#555');px(ctx,25,14,1,1,'#555');
+  px(ctx,21,13,1,1,'#555');px(ctx,26,13,1,1,'#555');
+  px(ctx,23,19,2,1,'#6b6b5b');
+};
+
+function drawSprite(elId,pokemonId,mirror){
+  const el=document.getElementById(elId);
+  if(!el)return;
+  const p=POKEMON.find(x=>x.id===pokemonId);
+  if(!p)return;
+  el.src='sprites/'+p.name.toLowerCase()+'.png?v=2';
+  el.alt=p.name;
+  if(mirror) el.classList.add('mirror');
+  else el.classList.remove('mirror');
+}
+
+/* ============================= SOUND ============================= */
+let audioCtx=null;
+function getAudioCtx(){
+  if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+  return audioCtx;
+}
+function playTone(freq,dur,type,vol){
+  try{
+    const ctx=getAudioCtx();
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.type=type||'square';
+    osc.frequency.value=freq;
+    gain.gain.value=vol||0.1;
+    gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+dur);
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.start();osc.stop(ctx.currentTime+dur);
+  }catch(e){}
+}
+function sfxClick(){playTone(800,0.05,'square',0.08);}
+function sfxHit(){playTone(200,0.15,'sawtooth',0.1);setTimeout(()=>playTone(150,0.1,'sawtooth',0.08),80);}
+function sfxSuperHit(){playTone(400,0.1,'square',0.12);setTimeout(()=>playTone(600,0.1,'square',0.1),60);setTimeout(()=>playTone(800,0.08,'square',0.08),120);}
+function sfxNveHit(){playTone(150,0.2,'triangle',0.06);}
+function sfxFaint(){playTone(400,0.15,'sawtooth',0.1);setTimeout(()=>playTone(300,0.15,'sawtooth',0.08),150);setTimeout(()=>playTone(200,0.2,'sawtooth',0.06),300);}
+function sfxVictory(){
+  const notes=[523,659,784,1047];
+  notes.forEach((n,i)=>setTimeout(()=>playTone(n,0.2,'square',0.08),i*150));
+}
+
+/* ============================= GAME STATE ============================= */
+let playerPoke=null, oppPoke=null;
+let playerState=null, oppState=null;
+let turnNum=0, battleOver=false, waitingForInput=false;
+let battleStats={playerDmg:0,oppDmg:0,turns:0,superEffHits:0};
+let weatherTurns=0; // rain turns remaining
+let currentTurnMoves={player:null,opp:null}; // track chosen moves for sucker punch
+
+function makeBattleState(poke){
+  return {
+    poke:poke,
+    maxHp:calcHP(poke.stats.hp),
+    hp:calcHP(poke.stats.hp),
+    atk:calcStat(poke.stats.atk),
+    def:calcStat(poke.stats.def),
+    spa:calcStat(poke.stats.spa),
+    spd:calcStat(poke.stats.spd),
+    spe:calcStat(poke.stats.spe),
+    stages:{atk:0,def:0,spa:0,spd:0,spe:0,acc:0,eva:0},
+    status:null, // BRN, PSN, TOX, PAR, SLP, FRZ
+    statusTurns:0,
+    toxicCounter:0,
+    confused:false,
+    confuseTurns:0,
+    leechSeed:false,
+    fireSpinTurns:0,
+    twoTurnMove:null, // {move,label} if charging
+    recharging:false,
+    petalTurns:0,
+    flinched:false,
+  };
+}
+
+function getEffStat(state,stat){
+  const base=state[stat];
+  let mult=getStatMultiplier(state.stages[stat]);
+  if(stat==='spe'&&state.status==='PAR') mult*=0.5;
+  // burn penalty applied in damage calc, not here
+  return Math.max(1,Math.floor(base*mult));
+}
+function getEffAcc(state){return getAccMultiplier(state.stages.acc);}
+
+/* ============================= UI HELPERS ============================= */
+function delay(ms){return new Promise(r=>setTimeout(r,ms));}
+
+function hpColor(ratio){
+  if(ratio>0.5)return '#00b894';
+  if(ratio>0.25)return '#fdcb6e';
+  return '#e74c3c';
+}
+
+function updateHpBar(who){
+  const st=who==='player'?playerState:oppState;
+  const bar=document.getElementById(who==='player'?'playerHpBar':'oppHpBar');
+  const txt=document.getElementById(who==='player'?'playerHpText':'oppHpText');
+  const ratio=Math.max(0,st.hp/st.maxHp);
+  bar.style.width=(ratio*100)+'%';
+  bar.style.background=hpColor(ratio);
+  txt.textContent=Math.max(0,st.hp)+' / '+st.maxHp;
+}
+
+function updateStatus(who){
+  const st=who==='player'?playerState:oppState;
+  const el=document.getElementById(who==='player'?'playerStatus':'oppStatus');
+  let html='';
+  if(st.status) html+='<span class="status-badge status-'+st.status+'">'+st.status+'</span> ';
+  if(st.confused) html+='<span class="status-badge status-CNF">CNF</span>';
+  el.innerHTML=html;
+}
+
+function updateStatChanges(who){
+  const st=who==='player'?playerState:oppState;
+  const el=document.getElementById(who==='player'?'playerStatChanges':'oppStatChanges');
+  const names={atk:'ATK',def:'DEF',spa:'SPA',spd:'SPD',spe:'SPE',acc:'ACC'};
+  let parts=[];
+  for(let k in names){
+    if(st.stages[k]>0) parts.push(names[k]+' +'+st.stages[k]);
+    else if(st.stages[k]<0) parts.push(names[k]+' '+st.stages[k]);
+  }
+  el.textContent=parts.join(' ');
+}
+
+function floatText(who,text,color){
+  const wrap=document.getElementById(who==='player'?'playerSpriteWrap':'oppSpriteWrap');
+  const el=document.createElement('div');
+  el.className='float-text';
+  el.textContent=text;
+  el.style.color=color||'#fdcb6e';
+  el.style.left='10px';
+  el.style.top='-10px';
+  wrap.appendChild(el);
+  setTimeout(()=>el.remove(),1500);
+}
+
+function addLog(text,cls){
+  const log=document.getElementById('battleLog');
+  const line=document.createElement('div');
+  line.className='log-line'+(cls?' '+cls:'');
+  line.textContent='> '+text;
+  log.appendChild(line);
+  log.scrollTop=log.scrollHeight;
+}
+
+function shakeSprite(who){
+  const c=document.getElementById(who==='player'?'playerCanvas':'oppCanvas');
+  c.classList.add('shake');
+  setTimeout(()=>c.classList.remove('shake'),600);
+}
+function flashSprite(who){
+  const c=document.getElementById(who==='player'?'playerCanvas':'oppCanvas');
+  c.classList.add('super-flash');
+  setTimeout(()=>c.classList.remove('super-flash'),600);
+}
+function faintSprite(who){
+  const c=document.getElementById(who==='player'?'playerCanvas':'oppCanvas');
+  c.classList.add('faint');
+}
+
+/* ============================= SELECT SCREEN ============================= */
+let selectedId=null;
+
+function buildSelectScreen(){
+  const grid=document.getElementById('selectGrid');
+  POKEMON.forEach(p=>{
+    const card=document.createElement('div');
+    card.className='select-card';
+    card.dataset.id=p.id;
+    const bst=p.stats.hp+p.stats.atk+p.stats.def+p.stats.spa+p.stats.spd+p.stats.spe;
+    let typeBadges=p.types.map(t=>'<span class="type-'+t+'" style="background:'+TYPE_COLORS[t]+'">'+t+'</span>').join('');
+    // stat preview
+    const statNames=['HP','ATK','DEF','SPA','SPD','SPE'];
+    const statKeys=['hp','atk','def','spa','spd','spe'];
+    const colors=['#00b894','#e17055','#fdcb6e','#a29bfe','#74b9ff','#fd79a8'];
+    let preview='<div class="stat-preview">';
+    statKeys.forEach((k,i)=>{
+      const val=p.stats[k];
+      const pct=Math.min(100,val/130*100);
+      preview+='<div class="sp-row"><span class="sp-label">'+statNames[i]+'</span><div class="sp-bar"><div class="sp-fill" style="width:'+pct+'%;background:'+colors[i]+'"></div></div><span class="sp-val">'+val+'</span></div>';
+    });
+    preview+='</div>';
+    card.innerHTML='<img id="sel-'+p.id+'" class="poke-img" src="sprites/'+p.name.toLowerCase()+'.png" alt="'+p.name+'">'
+      +'<div class="sc-name">'+p.name+'</div>'
+      +'<div class="sc-types">'+typeBadges+'</div>'
+      +'<div class="sc-bst">BST: '+bst+'</div>'
+      +preview;
+    card.onclick=()=>{
+      sfxClick();
+      document.querySelectorAll('.select-card').forEach(c=>c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedId=p.id;
+      document.getElementById('battleBtn').style.display='inline-block';
+    };
+    grid.appendChild(card);
+  });
+  // sprites load automatically via img src
+}
+
+/* ============================= START BATTLE ============================= */
+async function startBattle(){
+  if(!selectedId)return;
+  sfxClick();
+  playerPoke=POKEMON.find(p=>p.id===selectedId);
+  // AI picks random (different from player)
+  let choices=POKEMON.filter(p=>p.id!==selectedId);
+  oppPoke=choices[Math.floor(Math.random()*choices.length)];
+
+  // Reveal animation
+  const overlay=document.getElementById('revealOverlay');
+  overlay.classList.add('show');
+  drawSprite('revealCanvas',oppPoke.id,true);
+  document.getElementById('revealName').textContent=oppPoke.name+' ('+oppPoke.types.join('/')+')';
+  await delay(2500);
+  overlay.classList.remove('show');
+
+  // Switch screens
+  document.getElementById('selectScreen').style.display='none';
+  document.getElementById('battleScreen').style.display='block';
+  document.getElementById('turnCounter').style.display='inline-block';
+
+  // Init states
+  playerState=makeBattleState(playerPoke);
+  oppState=makeBattleState(oppPoke);
+  turnNum=0;
+  battleOver=false;
+  weatherTurns=0;
+  battleStats={playerDmg:0,oppDmg:0,turns:0,superEffHits:0};
+
+  // Draw battle sprites
+  document.getElementById('playerName').textContent=playerPoke.name;
+  document.getElementById('oppName').textContent=oppPoke.name;
+  drawSprite('playerCanvas',playerPoke.id,false);
+  drawSprite('oppCanvas',oppPoke.id,true);
+  updateHpBar('player');
+  updateHpBar('opp');
+  updateStatus('player');
+  updateStatus('opp');
+  updateStatChanges('player');
+  updateStatChanges('opp');
+
+  addLog('A wild '+oppPoke.name+' appeared!');
+  addLog('Go, '+playerPoke.name+'!');
+
+  await delay(800);
+  promptMove();
+}
+
+/* ============================= MOVE BUTTONS ============================= */
+function promptMove(){
+  if(battleOver)return;
+  waitingForInput=true;
+  const panel=document.getElementById('movePanel');
+  panel.style.display='block';
+  document.getElementById('movePrompt').textContent='What will '+playerPoke.name+' do?';
+  const grid=document.getElementById('moveGrid');
+  grid.innerHTML='';
+
+  // Check if player must do two-turn or recharge
+  if(playerState.twoTurnMove){
+    // auto-proceed
+    waitingForInput=false;
+    executeTurn(playerState.twoTurnMove.move);
+    return;
+  }
+  if(playerState.recharging){
+    waitingForInput=false;
+    executeTurn('__recharge__');
+    return;
+  }
+  if(playerState.petalTurns>0){
+    waitingForInput=false;
+    executeTurn('Petal Dance');
+    return;
+  }
+
+  playerPoke.moves.forEach(mName=>{
+    const md=MOVES[mName];
+    if(!md)return;
+    const btn=document.createElement('button');
+    btn.className='move-btn';
+    btn.style.background='linear-gradient(135deg,'+TYPE_COLORS[md.type]+'44,'+TYPE_COLORS[md.type]+'22)';
+    btn.style.borderColor=TYPE_COLORS[md.type];
+
+    // effectiveness hint
+    const eff=getTypeEffectiveness(md.type,oppPoke.types);
+    let effText='',effColor='';
+    if(eff>=4){effText='4x';effColor='#00b894';}
+    else if(eff>=2){effText='2x';effColor='#00b894';}
+    else if(eff===0){effText='0x';effColor='#e74c3c';}
+    else if(eff<=0.25){effText='\u00BCx';effColor='#636e72';}
+    else if(eff<=0.5){effText='\u00BDx';effColor='#636e72';}
+    const effSpan=eff!==1?'<span class="mb-eff" style="color:'+effColor+'">'+effText+'</span>':'';
+
+    const powStr=md.power?'Pow:'+md.power:'--';
+    const accStr=md.acc?md.acc+'%':'--';
+
+    btn.innerHTML='<div class="mb-name">'+mName+'</div>'
+      +'<div class="mb-info"><span class="mb-type" style="background:'+TYPE_COLORS[md.type]+'">'+md.type+'</span><span class="mb-pow">'+powStr+' / '+accStr+'</span></div>'
+      +effSpan
+      +'<div class="move-tooltip" style="border-color:'+TYPE_COLORS[md.type]+'">'
+      +'<strong>'+mName+'</strong> ('+md.cat+')<br>'
+      +md.desc
+      +'</div>';
+
+    btn.onclick=()=>{
+      if(!waitingForInput)return;
+      sfxClick();
+      waitingForInput=false;
+      executeTurn(mName);
+    };
+    grid.appendChild(btn);
+  });
+}
+
+/* ============================= AI ============================= */
+function aiChooseMove(){
+  // handle forced moves
+  if(oppState.twoTurnMove) return oppState.twoTurnMove.move;
+  if(oppState.recharging) return '__recharge__';
+  if(oppState.petalTurns>0) return 'Petal Dance';
+
+  const moves=oppPoke.moves;
+  // score each move
+  let scored=moves.map(mName=>{
+    const md=MOVES[mName];
+    if(!md)return {name:mName,score:0};
+    let score=0;
+    if(md.power){
+      const eff=getTypeEffectiveness(md.type,playerPoke.types);
+      const stab=oppPoke.types.includes(md.type)?1.5:1;
+      const aStat=md.cat==='Physical'?getEffStat(oppState,'atk'):getEffStat(oppState,'spa');
+      const dStat=md.cat==='Physical'?getEffStat(playerState,'def'):getEffStat(playerState,'spd');
+      score=md.power*eff*stab*(aStat/dStat);
+    } else {
+      // status moves
+      if(md.effect==='sleep'||md.effect==='paralyze'||md.effect==='toxic'){
+        score=playerState.status?10:80;
+      } else if(md.selfStat){
+        // boost moves worth more early
+        score=turnNum<=2?70:30;
+      } else if(md.targetStat){
+        score=50;
+      } else if(md.effect==='leechseed'){
+        score=playerState.leechSeed?5:60;
+      } else if(md.effect==='rain'){
+        score=weatherTurns>0?5:50;
+      } else if(md.effect==='confuse'){
+        score=playerState.confused?5:60;
+      } else {
+        score=30;
+      }
+    }
+    if(md.acc&&md.acc<100) score*=md.acc/100;
+    return {name:mName,score};
+  });
+
+  scored.sort((a,b)=>b.score-a.score);
+  const r=Math.random();
+  if(r<0.7) return scored[0].name;
+  if(r<0.9&&scored.length>1) return scored[1].name;
+  return scored[Math.floor(Math.random()*scored.length)].name;
+}
+
+/* ============================= TURN EXECUTION ============================= */
+async function executeTurn(playerMoveName){
+  document.getElementById('movePanel').style.display='none';
+  turnNum++;
+  battleStats.turns=turnNum;
+  document.getElementById('turnCounter').textContent='Turn '+turnNum;
+
+  const aiMoveName=aiChooseMove();
+  const pmd=MOVES[playerMoveName]||null;
+  const amd=MOVES[aiMoveName]||null;
+
+  // Store moves for sucker punch checks
+  currentTurnMoves.player=playerMoveName;
+  currentTurnMoves.opp=aiMoveName;
+
+  // Determine order
+  let first='player',second='opp';
+  let firstMove=playerMoveName, secondMove=aiMoveName;
+
+  const pPrio=pmd?pmd.priority||0:0;
+  const aPrio=amd?amd.priority||0:0;
+
+  if(pPrio!==aPrio){
+    if(aPrio>pPrio){first='opp';second='player';firstMove=aiMoveName;secondMove=playerMoveName;}
+  } else {
+    const pSpe=getEffStat(playerState,'spe');
+    const oSpe=getEffStat(oppState,'spe');
+    if(oSpe>pSpe||(oSpe===pSpe&&Math.random()<0.5)){
+      first='opp';second='player';firstMove=aiMoveName;secondMove=playerMoveName;
+    }
+  }
+
+  // Reset flinch
+  playerState.flinched=false;
+  oppState.flinched=false;
+
+  // Execute first move
+  await executeMove(first,first==='player'?second:first==='opp'?'player':'opp',firstMove);
+  if(battleOver)return;
+
+  // Check if second can still act
+  const secondState=second==='player'?playerState:oppState;
+  if(secondState.hp>0){
+    await executeMove(second,second==='player'?'opp':'player',secondMove);
+  }
+  if(battleOver)return;
+
+  // End of turn effects
+  await endOfTurnEffects();
+  if(battleOver)return;
+
+  // Next turn
+  promptMove();
+}
+
+async function executeMove(attackerWho,defenderWho,moveName){
+  if(battleOver)return;
+  const atkState=attackerWho==='player'?playerState:oppState;
+  const defState=defenderWho==='player'?playerState:oppState;
+  const atkPoke=attackerWho==='player'?playerPoke:oppPoke;
+  const defPoke=defenderWho==='player'?playerPoke:oppPoke;
+
+  if(atkState.hp<=0)return;
+
+  // Recharging
+  if(moveName==='__recharge__'){
+    addLog(atkPoke.name+' must recharge!');
+    atkState.recharging=false;
+    await delay(600);
+    return;
+  }
+
+  const md=MOVES[moveName];
+  if(!md)return;
+
+  // Two-turn moves: turn 2 (attacking)
+  if(atkState.twoTurnMove){
+    addLog(atkPoke.name+' attacked!');
+    atkState.twoTurnMove=null;
+    // continue to damage calc below
+  }
+  // Two-turn moves: turn 1 (charging)
+  else if(md.twoTurn&&!atkState.twoTurnMove){
+    addLog(atkPoke.name+' '+md.twoTurn+'!');
+    atkState.twoTurnMove={move:moveName,label:md.twoTurn};
+    await delay(600);
+    return;
+  }
+
+  // Check status conditions preventing action
+  if(atkState.status==='SLP'){
+    atkState.statusTurns--;
+    if(atkState.statusTurns<=0){
+      atkState.status=null;
+      addLog(atkPoke.name+' woke up!','log-status');
+      updateStatus(attackerWho);
+    } else {
+      addLog(atkPoke.name+' is fast asleep.','log-status');
+      await delay(600);
+      return;
+    }
+  }
+  if(atkState.status==='FRZ'){
+    if(Math.random()<0.2){
+      atkState.status=null;
+      addLog(atkPoke.name+' thawed out!','log-status');
+      updateStatus(attackerWho);
+    } else {
+      addLog(atkPoke.name+' is frozen solid!','log-status');
+      await delay(600);
+      return;
+    }
+  }
+  if(atkState.status==='PAR'){
+    if(Math.random()<0.25){
+      addLog(atkPoke.name+' is paralyzed! It can\'t move!','log-status');
+      await delay(600);
+      return;
+    }
+  }
+  if(atkState.flinched){
+    addLog(atkPoke.name+' flinched and couldn\'t move!');
+    await delay(600);
+    return;
+  }
+
+  // Confusion
+  if(atkState.confused){
+    atkState.confuseTurns--;
+    if(atkState.confuseTurns<=0){
+      atkState.confused=false;
+      addLog(atkPoke.name+' snapped out of confusion!','log-status');
+    } else {
+      addLog(atkPoke.name+' is confused!','log-status');
+      if(Math.random()<0.5){
+        // Hit self
+        const selfDmg=calcConfusionDmg(atkState);
+        atkState.hp=Math.max(0,atkState.hp-selfDmg);
+        addLog('It hurt itself in its confusion! ('+selfDmg+' damage)');
+        updateHpBar(attackerWho);
+        shakeSprite(attackerWho);
+        await delay(600);
+        if(atkState.hp<=0){
+          await handleFaint(attackerWho);
+        }
+        return;
+      }
+    }
+  }
+
+  // Sucker Punch check: fails if opponent uses a status move
+  if(md.suckerPunch){
+    const defMoveName=currentTurnMoves[defenderWho];
+    const defMd=defMoveName?MOVES[defMoveName]:null;
+    if(defMd&&defMd.cat==='Status'){
+      addLog('But it failed!');
+      await delay(600);
+      return;
+    }
+  }
+
+  addLog(atkPoke.name+' used '+moveName+'!');
+  await delay(400);
+
+  // Status moves
+  if(md.cat==='Status'){
+    await handleStatusMove(attackerWho,defenderWho,moveName,md);
+    await delay(400);
+    return;
+  }
+
+  // Accuracy check
+  if(md.acc!==null){
+    const accMult=getEffAcc(atkState);
+    const hitChance=md.acc*accMult/100;
+    if(Math.random()>hitChance){
+      addLog(atkPoke.name+'\'s attack missed!');
+      await delay(400);
+      return;
+    }
+  }
+
+  // Multi-hit
+  let hits=1;
+  if(md.multiHit){
+    const r=Math.random();
+    if(r<0.33)hits=2;
+    else if(r<0.66)hits=3;
+    else if(r<0.83)hits=4;
+    else hits=5;
+  }
+
+  let totalDmg=0;
+  for(let h=0;h<hits;h++){
+    // Damage calc
+    let power=md.power;
+    let aStat,dStat;
+
+    if(md.foulPlay){
+      // Uses defender's attack
+      aStat=getEffStat(defState,'atk');
+      dStat=getEffStat(defState,'def');
+    } else if(md.cat==='Physical'){
+      aStat=getEffStat(atkState,'atk');
+      dStat=getEffStat(defState,'def');
+    } else {
+      aStat=getEffStat(atkState,'spa');
+      dStat=getEffStat(defState,'spd');
+    }
+
+    // STAB
+    const stab=atkPoke.types.includes(md.type)?1.5:1;
+
+    // Type effectiveness
+    const typeEff=getTypeEffectiveness(md.type,defPoke.types);
+
+    if(typeEff===0){
+      addLog('It doesn\'t affect '+defPoke.name+'...','log-immune');
+      await delay(400);
+      return;
+    }
+
+    // Critical hit
+    let critMult=1;
+    let isCrit=false;
+    if(md.alwaysCrit){
+      isCrit=true;critMult=1.5;
+    } else {
+      let critChance=md.highCrit?1/8:1/16;
+      if(Math.random()<critChance){isCrit=true;critMult=1.5;}
+    }
+
+    // Random factor
+    const rand=0.85+Math.random()*0.15;
+
+    // Weather
+    let weatherMult=1;
+    if(weatherTurns>0){
+      if(md.type==='Water')weatherMult=1.5;
+      if(md.type==='Fire')weatherMult=0.5;
+    }
+
+    // Burn halves physical damage (already factored into atk via getEffStat for atk)
+    // Actually burn halves the damage of physical moves, let's apply it here directly
+    let burnMult=1;
+    if(atkState.status==='BRN'&&md.cat==='Physical'&&!md.foulPlay) burnMult=0.5;
+
+    let baseDmg=Math.floor(((2*50/5+2)*power*aStat/dStat)/50+2);
+    let modifier=stab*typeEff*critMult*rand*weatherMult*burnMult;
+    let damage=Math.max(1,Math.floor(baseDmg*modifier));
+
+    totalDmg+=damage;
+    defState.hp=Math.max(0,defState.hp-damage);
+
+    if(attackerWho==='player') battleStats.playerDmg+=damage;
+    else battleStats.oppDmg+=damage;
+
+    // Animations
+    shakeSprite(defenderWho);
+    if(typeEff>=2){
+      flashSprite(defenderWho);
+      sfxSuperHit();
+    } else if(typeEff<1){
+      sfxNveHit();
+    } else {
+      sfxHit();
+    }
+
+    updateHpBar(defenderWho);
+    await delay(300);
+
+    if(isCrit) addLog('A critical hit!','log-crit');
+
+    if(typeEff>=4){addLog('It\'s super effective!! (4x)','log-super');battleStats.superEffHits++;}
+    else if(typeEff>=2){addLog('It\'s super effective!','log-super');battleStats.superEffHits++;}
+    else if(typeEff<=0.25) addLog('It\'s not very effective... (\u00BCx)','log-nve');
+    else if(typeEff<1) addLog('It\'s not very effective...','log-nve');
+
+    if(hits>1) addLog('Hit '+(h+1)+' of '+hits+'!');
+
+    if(defState.hp<=0) break;
+  }
+
+  addLog(defPoke.name+' lost '+totalDmg+' HP!','log-damage');
+
+  // Drain
+  if(md.drain&&totalDmg>0){
+    const heal=Math.max(1,Math.floor(totalDmg*md.drain));
+    atkState.hp=Math.min(atkState.maxHp,atkState.hp+heal);
+    addLog(atkPoke.name+' restored '+heal+' HP!','log-heal');
+    updateHpBar(attackerWho);
+  }
+
+  // Recoil
+  if(md.recoil&&totalDmg>0){
+    const recoilDmg=Math.max(1,Math.floor(totalDmg*md.recoil));
+    atkState.hp=Math.max(0,atkState.hp-recoilDmg);
+    addLog(atkPoke.name+' was hurt by recoil! ('+recoilDmg+' HP)');
+    updateHpBar(attackerWho);
+    if(atkState.hp<=0){await handleFaint(attackerWho);return;}
+  }
+
+  // Recharge
+  if(md.recharge) atkState.recharging=true;
+
+  // Self stat changes
+  if(md.selfStat){
+    for(let s in md.selfStat){
+      applyStatChange(atkState,s,md.selfStat[s],attackerWho,atkPoke.name);
+    }
+  }
+
+  // Petal Dance
+  if(md.lockIn){
+    if(atkState.petalTurns<=0) atkState.petalTurns=Math.random()<0.5?2:3;
+    atkState.petalTurns--;
+    if(atkState.petalTurns<=0){
+      atkState.confused=true;
+      atkState.confuseTurns=2+Math.floor(Math.random()*3);
+      addLog(atkPoke.name+' became confused due to fatigue!','log-status');
+      updateStatus(attackerWho);
+    }
+  }
+
+  // Secondary effects on defender
+  if(md.secondary&&defState.hp>0){
+    const sec=md.secondary;
+    if(sec.status&&Math.random()*100<sec.chance){
+      if(!defState.status){
+        defState.status=sec.status;
+        if(sec.status==='SLP') defState.statusTurns=1+Math.floor(Math.random()*3);
+        addLog(defPoke.name+' was '+statusVerb(sec.status)+'!','log-status');
+        updateStatus(defenderWho);
+      }
+    }
+    if(sec.flinch&&Math.random()*100<sec.chance){
+      defState.flinched=true;
+    }
+    if(sec.stat&&Math.random()*100<sec.chance){
+      for(let s in sec.stat){
+        applyStatChange(defState,s,sec.stat[s],defenderWho,defPoke.name);
+      }
+    }
+    if(sec.confuse&&Math.random()*100<sec.chance){
+      if(!defState.confused){
+        defState.confused=true;
+        defState.confuseTurns=2+Math.floor(Math.random()*3);
+        addLog(defPoke.name+' became confused!','log-status');
+        updateStatus(defenderWho);
+      }
+    }
+    if(sec.allBoost&&Math.random()*100<sec.chance){
+      ['atk','def','spa','spd','spe'].forEach(s=>applyStatChange(atkState,s,1,attackerWho,atkPoke.name));
+    }
+  }
+
+  // Fire Spin
+  if(md.effect==='firespin'&&defState.hp>0){
+    if(defState.fireSpinTurns<=0){
+      defState.fireSpinTurns=4+Math.floor(Math.random()*2);
+      addLog(defPoke.name+' was trapped in a fire spin!','log-status');
+    }
+  }
+
+  await delay(300);
+
+  // Check faint
+  if(defState.hp<=0){await handleFaint(defenderWho);return;}
+  if(atkState.hp<=0){await handleFaint(attackerWho);return;}
+}
+
+function calcConfusionDmg(state){
+  const power=40;
+  const a=getEffStat(state,'atk');
+  const d=getEffStat(state,'def');
+  const baseDmg=Math.floor(((2*50/5+2)*power*a/d)/50+2);
+  return Math.max(1,Math.floor(baseDmg*(0.85+Math.random()*0.15)));
+}
+
+async function handleStatusMove(atkWho,defWho,moveName,md){
+  const atkState2=atkWho==='player'?playerState:oppState;
+  const defState2=defWho==='player'?playerState:oppState;
+  const atkPoke2=atkWho==='player'?playerPoke:oppPoke;
+  const defPoke2=defWho==='player'?playerPoke:oppPoke;
+
+  // Accuracy check
+  if(md.acc!==null){
+    const accMult=getEffAcc(atkState2);
+    if(Math.random()>md.acc*accMult/100){
+      addLog(atkPoke2.name+'\'s move missed!');
+      return;
+    }
+  }
+
+  // Self stat boosts
+  if(md.selfStat){
+    for(let s in md.selfStat){
+      applyStatChange(atkState2,s,md.selfStat[s],atkWho,atkPoke2.name);
+    }
+  }
+
+  // Target stat drops
+  if(md.targetStat){
+    for(let s in md.targetStat){
+      applyStatChange(defState2,s,md.targetStat[s],defWho,defPoke2.name);
+    }
+  }
+
+  // Status effects
+  if(md.effect==='sleep'){
+    if(!defState2.status){
+      defState2.status='SLP';
+      defState2.statusTurns=1+Math.floor(Math.random()*3);
+      addLog(defPoke2.name+' fell asleep!','log-status');
+      updateStatus(defWho);
+    } else {addLog('But it failed!');}
+  }
+  if(md.effect==='paralyze'){
+    if(!defState2.status){
+      defState2.status='PAR';
+      addLog(defPoke2.name+' was paralyzed!','log-status');
+      updateStatus(defWho);
+    } else {addLog('But it failed!');}
+  }
+  if(md.effect==='toxic'){
+    if(!defState2.status){
+      defState2.status='TOX';
+      defState2.toxicCounter=1;
+      addLog(defPoke2.name+' was badly poisoned!','log-status');
+      updateStatus(defWho);
+    } else {addLog('But it failed!');}
+  }
+  if(md.effect==='confuse'){
+    if(!defState2.confused){
+      defState2.confused=true;
+      defState2.confuseTurns=2+Math.floor(Math.random()*3);
+      addLog(defPoke2.name+' became confused!','log-status');
+      updateStatus(defWho);
+    } else {addLog('But it failed!');}
+  }
+  if(md.effect==='leechseed'){
+    if(!defState2.leechSeed){
+      defState2.leechSeed=true;
+      addLog(defPoke2.name+' was seeded!','log-status');
+    } else {addLog('But it failed!');}
+  }
+  if(md.effect==='rain'){
+    weatherTurns=5;
+    addLog('It started to rain!','log-status');
+    document.getElementById('weatherBanner').textContent='Rain ('+weatherTurns+' turns)';
+    document.getElementById('weatherBanner').classList.add('active');
+  }
+}
+
+function statusVerb(s){
+  switch(s){
+    case 'BRN':return 'burned';
+    case 'PSN':return 'poisoned';
+    case 'PAR':return 'paralyzed';
+    case 'FRZ':return 'frozen';
+    case 'SLP':return 'put to sleep';
+    default:return 'afflicted';
+  }
+}
+
+function applyStatChange(state,stat,amount,who,name){
+  const old=state.stages[stat];
+  state.stages[stat]=Math.max(-6,Math.min(6,old+amount));
+  const diff=state.stages[stat]-old;
+  if(diff===0){
+    const statName=stat.toUpperCase();
+    addLog(name+'\'s '+statName+' can\'t go any '+(amount>0?'higher':'lower')+'!');
+    return;
+  }
+  const statName=stat.toUpperCase();
+  const arrow=diff>0?'\u2191':'\u2193';
+  const word=Math.abs(diff)>=2?'sharply ':'';
+  const dir=diff>0?'rose':'fell';
+  addLog(name+'\'s '+statName+' '+word+dir+'!','log-status');
+  floatText(who,statName+' '+arrow.repeat(Math.abs(diff)),diff>0?'#00b894':'#e74c3c');
+  updateStatChanges(who);
+}
+
+async function endOfTurnEffects(){
+  for(let who of ['player','opp']){
+    const state=who==='player'?playerState:oppState;
+    const poke=who==='player'?playerPoke:oppPoke;
+    const otherState=who==='player'?oppState:playerState;
+    const otherPoke=who==='player'?oppPoke:playerPoke;
+    const otherWho=who==='player'?'opp':'player';
+
+    if(state.hp<=0)continue;
+
+    // Burn damage
+    if(state.status==='BRN'){
+      const dmg=Math.max(1,Math.floor(state.maxHp/16));
+      state.hp=Math.max(0,state.hp-dmg);
+      addLog(poke.name+' was hurt by its burn! ('+dmg+' HP)','log-status');
+      updateHpBar(who);
+      if(state.hp<=0){await handleFaint(who);if(battleOver)return;continue;}
+    }
+    // Poison damage
+    if(state.status==='PSN'){
+      const dmg=Math.max(1,Math.floor(state.maxHp/8));
+      state.hp=Math.max(0,state.hp-dmg);
+      addLog(poke.name+' was hurt by poison! ('+dmg+' HP)','log-status');
+      updateHpBar(who);
+      if(state.hp<=0){await handleFaint(who);if(battleOver)return;continue;}
+    }
+    // Toxic damage
+    if(state.status==='TOX'){
+      state.toxicCounter++;
+      const dmg=Math.max(1,Math.floor(state.maxHp*state.toxicCounter/16));
+      state.hp=Math.max(0,state.hp-dmg);
+      addLog(poke.name+' was hurt by toxic! ('+dmg+' HP)','log-status');
+      updateHpBar(who);
+      if(state.hp<=0){await handleFaint(who);if(battleOver)return;continue;}
+    }
+    // Leech Seed
+    if(state.leechSeed&&otherState.hp>0){
+      const dmg=Math.max(1,Math.floor(state.maxHp/8));
+      state.hp=Math.max(0,state.hp-dmg);
+      const heal=Math.min(dmg,otherState.maxHp-otherState.hp);
+      otherState.hp=Math.min(otherState.maxHp,otherState.hp+heal);
+      addLog('Leech Seed saps '+poke.name+'! ('+dmg+' HP)','log-status');
+      if(heal>0) addLog(otherPoke.name+' restored '+heal+' HP!','log-heal');
+      updateHpBar(who);
+      updateHpBar(otherWho);
+      if(state.hp<=0){await handleFaint(who);if(battleOver)return;continue;}
+    }
+    // Fire Spin
+    if(state.fireSpinTurns>0){
+      state.fireSpinTurns--;
+      const dmg=Math.max(1,Math.floor(state.maxHp/8));
+      state.hp=Math.max(0,state.hp-dmg);
+      addLog(poke.name+' is hurt by Fire Spin! ('+dmg+' HP)','log-status');
+      updateHpBar(who);
+      if(state.fireSpinTurns<=0) addLog(poke.name+' was freed from Fire Spin!');
+      if(state.hp<=0){await handleFaint(who);if(battleOver)return;continue;}
+    }
+  }
+
+  // Weather countdown
+  if(weatherTurns>0){
+    weatherTurns--;
+    if(weatherTurns<=0){
+      addLog('The rain stopped.','log-status');
+      document.getElementById('weatherBanner').classList.remove('active');
+    } else {
+      document.getElementById('weatherBanner').textContent='Rain ('+weatherTurns+' turns)';
+    }
+  }
+
+  await delay(200);
+}
+
+async function handleFaint(who){
+  const poke=who==='player'?playerPoke:oppPoke;
+  addLog(poke.name+' fainted!','log-faint');
+  faintSprite(who);
+  sfxFaint();
+  await delay(1000);
+  battleOver=true;
+
+  if(who==='opp'){
+    showResult(true);
+  } else {
+    showResult(false);
+  }
+}
+
+function showResult(victory){
+  document.getElementById('battleScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+  const title=document.getElementById('resultTitle');
+  if(victory){
+    title.textContent='VICTORY!';
+    title.className='result-title victory';
+    drawSprite('resultCanvas',playerPoke.id,false);
+    sfxVictory();
+  } else {
+    title.textContent='DEFEAT...';
+    title.className='result-title defeat';
+    drawSprite('resultCanvas',oppPoke.id,true);
+  }
+
+  const stats=document.getElementById('resultStats');
+  stats.innerHTML=
+    '<div class="rs-row"><span class="rs-label">Turns</span><span class="rs-val">'+battleStats.turns+'</span></div>'
+    +'<div class="rs-row"><span class="rs-label">Damage Dealt</span><span class="rs-val">'+battleStats.playerDmg+'</span></div>'
+    +'<div class="rs-row"><span class="rs-label">Damage Taken</span><span class="rs-val">'+battleStats.oppDmg+'</span></div>'
+    +'<div class="rs-row"><span class="rs-label">Super Effective Hits</span><span class="rs-val">'+battleStats.superEffHits+'</span></div>'
+    +'<div class="rs-row"><span class="rs-label">Your HP Remaining</span><span class="rs-val">'+(playerState.hp>0?playerState.hp:0)+' / '+playerState.maxHp+'</span></div>';
+}
+
+/* ============================= INIT ============================= */
+document.addEventListener('DOMContentLoaded',()=>{
+  buildSelectScreen();
+});
+</script>
+</body>
+</html>

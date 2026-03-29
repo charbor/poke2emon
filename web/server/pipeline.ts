@@ -1,6 +1,7 @@
 import type { PokemonConcept, PipelineStep, StepStatus } from "../src/types";
-import { analyzeImage, generateText, generateImage } from "./gemini";
-import { startVideoGeneration, waitForVideo } from "./veo";
+import { analyzeImage, generateTextStream, generateImage } from "./gemini";
+import { generateVideo } from "./veo";
+import { storeMedia } from "./media";
 import {
   ANALYZE_IMAGE_PROMPT,
   buildDesignPrompt,
@@ -41,10 +42,16 @@ export async function runPipeline(
       throw new Error("Either a prompt or an image is required");
     }
 
-    // Step 2: Design Pokemon concept
-    emitStep(write, "design", "active", "Designing your Pokemon...");
+    // Step 2: Design Pokemon concept (streamed, with web search for research)
+    emitStep(write, "design", "active", "Researching & designing your Pokemon...");
     const designPrompt = buildDesignPrompt(context);
-    const conceptRaw = await generateText(designPrompt);
+    const conceptRaw = await generateTextStream(
+      designPrompt,
+      (_chunk, accumulated) => {
+        write("stream", { step: "design", text: accumulated });
+      },
+      { useSearch: true },
+    );
 
     let concept: PokemonConcept;
     try {
@@ -63,7 +70,8 @@ export async function runPipeline(
     const sprite = await generateImage(spritePrompt);
 
     if (sprite) {
-      write("sprite", { base64: sprite.base64, mimeType: sprite.mimeType });
+      const spriteId = storeMedia(sprite.base64, sprite.mimeType);
+      write("sprite", { url: `/api/media/${spriteId}` });
       emitStep(write, "illustrate", "complete", "Sprite created!");
     } else {
       emitStep(write, "illustrate", "error", "Sprite generation failed");
@@ -72,15 +80,11 @@ export async function runPipeline(
     // Step 4: Generate idle animation video
     emitStep(write, "animate", "active", "Generating animation...");
     const videoPrompt = buildVideoPrompt(concept);
-    const opName = await startVideoGeneration(videoPrompt, sprite?.base64);
+    const videoResult = await generateVideo(videoPrompt, sprite?.base64);
 
-    const videoResult = await waitForVideo(opName);
     if (videoResult.video) {
-      write("video", {
-        operationName: opName,
-        base64: videoResult.video.base64,
-        mimeType: videoResult.video.mimeType,
-      });
+      const videoId = storeMedia(videoResult.video.base64, videoResult.video.mimeType);
+      write("video", { url: `/api/media/${videoId}` });
       emitStep(write, "animate", "complete", "Animation ready!");
     } else {
       emitStep(write, "animate", "error", "Video generation failed");

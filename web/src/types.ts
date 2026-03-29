@@ -59,13 +59,15 @@ export interface StepState {
 export interface GenerationState {
   steps: StepState[];
   concept: PokemonConcept | null;
+  partialConcept: Partial<PokemonConcept> | null;
+  streamText: string | null;
   spriteUrl: string | null;
   videoUrl: string | null;
   error: string | null;
 }
 
 export interface SSEEvent {
-  type: "step" | "concept" | "sprite" | "video" | "error" | "done";
+  type: "step" | "concept" | "sprite" | "video" | "stream" | "error" | "done";
   data: unknown;
 }
 

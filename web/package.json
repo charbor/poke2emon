@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun run server/index.ts",
+    "dev": "bun run dev:server & bun run dev:vite & wait",
+    "dev:server": "bun run server/index.ts",
     "dev:vite": "vite",
     "build": "vite build",
     "check": "tsc --noEmit"

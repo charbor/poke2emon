@@ -37,6 +37,7 @@ export async function startGeneration(
 
   const decoder = new TextDecoder();
   let buffer = "";
+  let currentEvent = "";
 
   while (true) {
     const { done, value } = await reader.read();
@@ -47,7 +48,6 @@ export async function startGeneration(
     const lines = buffer.split("\n");
     buffer = lines.pop() ?? "";
 
-    let currentEvent = "";
     for (const line of lines) {
       if (line.startsWith("event: ")) {
         currentEvent = line.slice(7);
@@ -62,14 +62,4 @@ export async function startGeneration(
       }
     }
   }
-}
-
-export function base64ToObjectUrl(base64: string, mimeType: string): string {
-  const bytes = atob(base64);
-  const array = new Uint8Array(bytes.length);
-  for (let i = 0; i < bytes.length; i++) {
-    array[i] = bytes.charCodeAt(i);
-  }
-  const blob = new Blob([array], { type: mimeType });
-  return URL.createObjectURL(blob);
 }

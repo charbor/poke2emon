@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Denver Pokedex</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'VT323',monospace;
+  background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);
+  color:#e0e0e0;
+  min-height:100vh;
+  padding:0 0 60px;
+  font-size:18px;
+}
+header{
+  text-align:center;
+  padding:40px 20px 20px;
+}
+header h1{
+  font-family:'Press Start 2P',cursive;
+  font-size:clamp(18px,4vw,36px);
+  color:#fdcb6e;
+  text-shadow:0 0 20px rgba(253,203,110,.4);
+  margin-bottom:10px;
+  letter-spacing:2px;
+}
+header p{
+  font-size:clamp(16px,2.5vw,24px);
+  color:#a29bfe;
+  font-style:italic;
+}
+.top-bar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:linear-gradient(135deg,#1a1a2e 0%,#0f3460 100%);
+  box-shadow:0 4px 20px rgba(0,0,0,.5);
+  padding-bottom:12px;
+}
+.top-bar header{padding:16px 20px 8px;}
+.controls{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 20px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  justify-content:center;
+}
+.controls input[type=text]{
+  font-family:'VT323',monospace;
+  font-size:20px;
+  padding:8px 16px;
+  border:2px solid #a29bfe;
+  border-radius:8px;
+  background:#16213e;
+  color:#e0e0e0;
+  outline:none;
+  width:220px;
+  transition:border-color .2s;
+}
+.controls input[type=text]:focus{border-color:#fdcb6e;}
+.filter-btn{
+  font-family:'VT323',monospace;
+  font-size:18px;
+  padding:6px 14px;
+  border:2px solid #555;
+  border-radius:6px;
+  background:#16213e;
+  color:#b2bec3;
+  cursor:pointer;
+  transition:all .2s;
+}
+.filter-btn:hover,.filter-btn.active{
+  border-color:#fdcb6e;
+  color:#fdcb6e;
+  background:#1a1a2e;
+}
+.type-select{
+  font-family:'VT323',monospace;
+  font-size:18px;
+  padding:6px 12px;
+  border:2px solid #555;
+  border-radius:6px;
+  background:#16213e;
+  color:#b2bec3;
+  cursor:pointer;
+  outline:none;
+}
+.grid{
+  max-width:1200px;
+  margin:20px auto;
+  padding:0 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:24px;
+}
+.card{
+  background:linear-gradient(145deg,#16213e,#1a1a2e);
+  border:2px solid #2d3436;
+  border-radius:16px;
+  padding:20px;
+  transition:transform .25s,box-shadow .25s;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+}
+.card.flipped .pokemon-mode-content{display:none !important;}
+.card.flipped .real-mode-content{display:block !important;}
+.card:not(.flipped) .pokemon-mode-content{display:block;}
+.card:not(.flipped) .real-mode-content{display:none;}
+body.real-view .card:not(.flipped) .pokemon-mode-content{display:none;}
+body.real-view .card:not(.flipped) .real-mode-content{display:block;}
+body.real-view .card.flipped .pokemon-mode-content{display:block !important;}
+body.real-view .card.flipped .real-mode-content{display:none !important;}
+.card.hidden{display:none;}
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 8px 30px rgba(162,155,254,.25);
+  border-color:#a29bfe;
+}
+.card-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+.card-number{
+  font-family:'Press Start 2P',cursive;
+  font-size:12px;
+  color:#636e72;
+}
+.type-badges{display:flex;gap:6px;flex-wrap:wrap;}
+.type-badge{
+  font-family:'VT323',monospace;
+  font-size:14px;
+  padding:2px 8px;
+  border-radius:4px;
+  color:#fff;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.sprite-container{
+  display:flex;
+  justify-content:center;
+  margin:10px 0;
+}
+.sprite-container canvas{
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  width:192px;
+  height:192px;
+}
+.pokemon-sprite{
+  width:192px;
+  height:192px;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+}
+.pokemon-sprite-mini{
+  width:72px;
+  height:72px;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+}
+.evo-sprite-img{
+  width:64px;
+  height:64px;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+}
+.card-name{
+  font-family:'Press Start 2P',cursive;
+  font-size:14px;
+  color:#dfe6e9;
+  margin:8px 0 2px;
+}
+.card-title{
+  font-size:16px;
+  color:#636e72;
+  margin-bottom:6px;
+}
+.card-desc{
+  font-size:17px;
+  color:#b2bec3;
+  line-height:1.3;
+  margin-bottom:10px;
+  font-style:italic;
+}
+.moves-list{
+  background:#0d1b2a;
+  border-radius:8px;
+  padding:8px 10px;
+  margin-bottom:10px;
+}
+.moves-list .move-title{
+  font-size:14px;
+  color:#636e72;
+  margin-bottom:4px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.move-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:3px 0;
+  cursor:default;
+  position:relative;
+}
+.move-name{font-size:18px;color:#dfe6e9;flex:1;}
+.move-type-badge{
+  font-size:12px;
+  padding:1px 6px;
+  border-radius:3px;
+  color:#fff;
+  text-transform:uppercase;
+}
+.move-info{
+  font-size:16px;
+  color:#636e72;
+  cursor:help;
+  position:relative;
+}
+.tooltip::after{
+  content:'';
+  position:absolute;
+  top:100%;
+  right:12px;
+  border:6px solid transparent;
+  border-top-color:#555;
+}
+.move-row:hover .tooltip{display:block;}
+.evo-chain{
+  text-align:center;
+  margin:10px 0;
+  padding:10px 0;
+  border-top:1px solid #2d3436;
+}
+.evo-label{
+  font-size:13px;
+  color:#636e72;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+.evo-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+.evo-sprite{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+}
+.evo-sprite canvas{
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  width:72px;
+  height:72px;
+}
+.evo-sprite span{
+  font-size:13px;
+  color:#b2bec3;
+}
+.evo-sprite.current span{color:#fdcb6e;font-weight:bold;}
+.evo-arrow{
+  font-size:24px;
+  color:#636e72;
+  margin:0 2px;
+}
+.real-species{
+  border-top:1px solid #2d3436;
+  margin-top:8px;
+  padding-top:8px;
+}
+.real-toggle{
+  background:none;
+  border:none;
+  color:#636e72;
+  font-family:'VT323',monospace;
+  font-size:18px;
+  cursor:pointer;
+  transition:color .2s;
+  padding:2px 0;
+}
+.real-toggle:hover{color:#a29bfe;}
+.real-content{
+  display:none;
+  margin-top:8px;
+  padding:10px;
+  background:#0d1b2a;
+  border-radius:8px;
+  border:1px solid #2d3436;
+}
+.real-content.open{display:block;}
+.real-content .rname{font-size:18px;color:#dfe6e9;font-weight:bold;}
+.real-content .rsci{font-size:16px;color:#a29bfe;font-style:italic;margin:2px 0;}
+.real-content .rfact{font-size:16px;color:#b2bec3;margin-top:4px;}
+/* === View Toggle Button === */
+.view-toggle{
+  display:inline-flex;
+  border:2px solid #a29bfe;
+  border-radius:20px;
+  overflow:hidden;
+  margin-left:10px;
+}
+.view-toggle button{
+  font-family:'VT323',monospace;
+  font-size:18px;
+  padding:6px 16px;
+  border:none;
+  cursor:pointer;
+  transition:all .25s;
+  background:#16213e;
+  color:#b2bec3;
+}
+.view-toggle button.active{
+  background:linear-gradient(135deg,#a29bfe,#6c5ce7);
+  color:#fff;
+  text-shadow:0 1px 4px rgba(0,0,0,.3);
+}
+.view-toggle button:first-child{border-radius:18px 0 0 18px;}
+.view-toggle button:last-child{border-radius:0 18px 18px 0;}
+.view-toggle button:hover:not(.active){
+  background:#1a1a2e;
+  color:#fdcb6e;
+}
+
+/* === Wiki Image Styles === */
+.wiki-img-wrap{
+  text-align:center;
+  margin:8px 0;
+}
+.wiki-img-wrap img{
+  width:180px;
+  max-width:100%;
+  border-radius:10px;
+  border:2px solid #2d3436;
+  display:block;
+  margin:0 auto;
+  background:#0d1b2a;
+}
+.wiki-img-wrap .img-spinner{
+  width:180px;
+  height:120px;
+  margin:0 auto;
+  border-radius:10px;
+  background:#0d1b2a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px solid #2d3436;
+}
+.wiki-img-wrap .img-spinner::after{
+  content:'';
+  width:28px;height:28px;
+  border:3px solid #636e72;
+  border-top-color:#a29bfe;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.wiki-img-wrap .img-fail{
+  width:180px;
+  height:80px;
+  margin:0 auto;
+  border-radius:10px;
+  background:#0d1b2a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px dashed #2d3436;
+  color:#636e72;
+  font-size:14px;
+}
+
+/* === Enhanced Tooltip === */
+.tooltip{
+  display:none;
+  position:absolute;
+  bottom:calc(100% + 8px);
+  right:0;
+  width:280px;
+  background:#0d1b2a;
+  border:2px solid #555;
+  border-radius:8px;
+  padding:10px 12px;
+  font-size:15px;
+  color:#dfe6e9;
+  line-height:1.3;
+  z-index:100;
+  pointer-events:none;
+  box-shadow:0 4px 16px rgba(0,0,0,.5);
+}
+.tooltip .tt-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:4px;
+}
+.tooltip .tt-move-name{
+  font-family:'Press Start 2P',cursive;
+  font-size:10px;
+  color:#fdcb6e;
+  text-transform:uppercase;
+}
+.tooltip .tt-type-badge{
+  font-size:12px;
+  padding:1px 6px;
+  border-radius:3px;
+  color:#fff;
+  text-transform:uppercase;
+}
+.tooltip .tt-stats{
+  font-size:15px;
+  color:#b2bec3;
+  margin:4px 0;
+}
+.tooltip .tt-category{
+  font-size:15px;
+  margin:2px 0;
+}
+.tooltip .tt-category.physical{color:#e17055;}
+.tooltip .tt-category.special{color:#a29bfe;}
+.tooltip .tt-category.status{color:#00b894;}
+.tooltip .tt-divider{
+  border:none;
+  border-top:1px solid #2d3436;
+  margin:6px 0;
+}
+.tooltip .tt-desc{
+  font-size:14px;
+  color:#b2bec3;
+  line-height:1.4;
+}
+
+/* === Real-Mode Card Content === */
+.real-mode-content{
+  display:none;
+}
+
+.real-mode-content .real-hero-img{
+  text-align:center;
+  margin:10px 0;
+}
+.real-mode-content .real-hero-img img{
+  width:220px;
+  max-width:100%;
+  border-radius:12px;
+  border:2px solid #a29bfe;
+  box-shadow:0 4px 20px rgba(162,155,254,.2);
+}
+.real-mode-content .real-hero-img .img-spinner{
+  width:220px;
+  height:140px;
+  margin:0 auto;
+  border-radius:12px;
+  background:#0d1b2a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px solid #a29bfe;
+}
+.real-mode-content .real-hero-img .img-spinner::after{
+  content:'';
+  width:32px;height:32px;
+  border:3px solid #636e72;
+  border-top-color:#a29bfe;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+.real-mode-content .real-hero-img .img-fail{
+  width:220px;
+  height:80px;
+  margin:0 auto;
+  border-radius:12px;
+  background:#0d1b2a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px dashed #a29bfe;
+  color:#636e72;
+  font-size:14px;
+}
+.real-mode-content .real-main-name{
+  font-family:'Press Start 2P',cursive;
+  font-size:14px;
+  color:#dfe6e9;
+  margin:8px 0 2px;
+}
+.real-mode-content .real-main-sci{
+  font-size:18px;
+  color:#a29bfe;
+  font-style:italic;
+  margin-bottom:4px;
+}
+.real-mode-content .real-main-fact{
+  font-size:17px;
+  color:#b2bec3;
+  line-height:1.3;
+  margin-bottom:10px;
+  font-style:italic;
+}
+.real-mode-content .pokemon-collapsed{
+  border-top:1px solid #2d3436;
+  margin-top:8px;
+  padding-top:8px;
+}
+.real-mode-content .pokemon-collapsed .poke-toggle{
+  background:none;
+  border:none;
+  color:#636e72;
+  font-family:'VT323',monospace;
+  font-size:18px;
+  cursor:pointer;
+  transition:color .2s;
+  padding:2px 0;
+}
+.real-mode-content .pokemon-collapsed .poke-toggle:hover{color:#a29bfe;}
+.real-mode-content .pokemon-collapsed .poke-inner{
+  display:none;
+  margin-top:8px;
+  padding:10px;
+  background:#0d1b2a;
+  border-radius:8px;
+  border:1px solid #2d3436;
+}
+.real-mode-content .pokemon-collapsed .poke-inner.open{display:block;}
+.real-mode-content .pokemon-collapsed .poke-inner .mini-sprite{
+  display:flex;
+  justify-content:center;
+  margin:6px 0;
+}
+.real-mode-content .pokemon-collapsed .poke-inner .mini-sprite canvas{
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  width:96px;
+  height:96px;
+}
+.real-mode-content .pokemon-collapsed .poke-inner .poke-name{
+  font-family:'Press Start 2P',cursive;
+  font-size:12px;
+  color:#fdcb6e;
+  margin:4px 0 2px;
+}
+.real-mode-content .pokemon-collapsed .poke-inner .poke-title{
+  font-size:15px;
+  color:#636e72;
+}
+.real-mode-content .pokemon-collapsed .poke-inner .poke-desc{
+  font-size:15px;
+  color:#b2bec3;
+  margin-top:4px;
+  font-style:italic;
+}
+
+/* fade transition for toggle */
+.pokemon-mode-content, .real-mode-content{
+  transition:opacity .3s ease;
+}
+body.real-view .real-mode-content{
+  animation:fadeIn .35s ease;
+}
+body:not(.real-view) .pokemon-mode-content{
+  animation:fadeIn .35s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(6px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:420px){
+  .grid{grid-template-columns:1fr;padding:0 10px;}
+  .card{padding:14px;}
+  header h1{font-size:16px;}
+  .view-toggle button{padding:6px 10px;font-size:16px;}
+}
+
+/* ===== Scanner Modal ===== */
+.scan-btn:hover{background:#00b894 !important;color:#fff !important;}
+#scanModal{
+  display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,.85);z-index:9999;
+  justify-content:center;align-items:center;
+}
+#scanModal.open{display:flex;}
+.scan-box{
+  background:linear-gradient(145deg,#16213e,#1a1a2e);
+  border:2px solid #00b894;border-radius:20px;
+  padding:30px;max-width:500px;width:90%;
+  text-align:center;position:relative;
+  box-shadow:0 0 40px rgba(0,184,148,.2);
+}
+.scan-box h2{
+  font-family:'Press Start 2P',cursive;font-size:16px;
+  color:#00b894;margin-bottom:20px;
+  text-shadow:0 0 12px rgba(0,184,148,.4);
+}
+.scan-close{
+  position:absolute;top:12px;right:16px;
+  background:none;border:none;color:#636e72;
+  font-size:28px;cursor:pointer;font-family:'VT323',monospace;
+}
+.scan-close:hover{color:#e17055;}
+.scan-drop{
+  border:3px dashed #2d3436;border-radius:14px;
+  padding:40px 20px;margin:16px 0;cursor:pointer;
+  transition:border-color .2s,background .2s;
+  position:relative;
+}
+.scan-drop:hover,.scan-drop.dragover{
+  border-color:#00b894;background:rgba(0,184,148,.05);
+}
+.scan-drop-text{color:#636e72;font-size:20px;}
+.scan-drop-text span{color:#00b894;text-decoration:underline;cursor:pointer;}
+.scan-or{color:#636e72;font-size:16px;margin:10px 0;}
+.scan-cam-btn{
+  font-family:'VT323',monospace;font-size:20px;
+  padding:10px 24px;border:2px solid #a29bfe;border-radius:10px;
+  background:#16213e;color:#a29bfe;cursor:pointer;
+  transition:all .2s;
+}
+.scan-cam-btn:hover{background:#a29bfe;color:#fff;}
+.scan-preview{
+  margin:16px 0;border-radius:10px;overflow:hidden;
+  display:none;position:relative;
+}
+.scan-preview img,.scan-preview video{
+  width:100%;max-height:300px;object-fit:contain;
+  border-radius:10px;
+}
+.scan-preview canvas{display:none;}
+.scan-go{
+  font-family:'Press Start 2P',cursive;font-size:14px;
+  padding:12px 32px;border:none;border-radius:10px;
+  background:linear-gradient(135deg,#00b894,#00cec9);
+  color:#fff;cursor:pointer;display:none;
+  transition:transform .2s,box-shadow .2s;
+  margin-top:8px;
+}
+.scan-go:hover{transform:scale(1.05);box-shadow:0 4px 20px rgba(0,184,148,.4);}
+.scan-go:disabled{opacity:.5;cursor:wait;transform:none;}
+.scan-result{
+  margin-top:16px;padding:16px;
+  background:#0d1b2a;border-radius:10px;
+  border:1px solid #2d3436;display:none;
+  text-align:left;
+}
+.scan-result.show{display:block;}
+.scan-result .match-name{
+  font-family:'Press Start 2P',cursive;font-size:14px;
+  color:#fdcb6e;margin-bottom:6px;
+}
+.scan-result .match-real{color:#00b894;font-size:18px;}
+.scan-result .match-conf{color:#a29bfe;font-size:16px;margin-top:4px;}
+.scan-result .match-reason{color:#b2bec3;font-size:16px;margin-top:8px;}
+.scan-result .match-none{color:#e17055;font-size:18px;}
+.scan-result .match-go-btn{
+  font-family:'VT323',monospace;font-size:18px;
+  padding:6px 16px;border:2px solid #fdcb6e;border-radius:8px;
+  background:transparent;color:#fdcb6e;cursor:pointer;
+  margin-top:10px;transition:all .2s;
+}
+.scan-result .match-go-btn:hover{background:#fdcb6e;color:#1a1a2e;}
+.scan-api-setup{
+  margin-top:12px;padding:12px;
+  background:#0d1b2a;border-radius:8px;
+  border:1px solid #2d3436;
+}
+.scan-api-setup label{color:#b2bec3;font-size:16px;}
+.scan-api-setup input{
+  font-family:'VT323',monospace;font-size:18px;
+  padding:6px 12px;border:2px solid #2d3436;border-radius:6px;
+  background:#16213e;color:#e0e0e0;width:100%;margin-top:6px;
+  outline:none;
+}
+.scan-api-setup input:focus{border-color:#00b894;}
+.scan-api-setup .api-hint{color:#636e72;font-size:14px;margin-top:4px;}
+.scan-spinner{
+  display:inline-block;width:20px;height:20px;
+  border:3px solid #2d3436;border-top-color:#00b894;
+  border-radius:50%;animation:spin .8s linear infinite;
+  vertical-align:middle;margin-right:8px;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+<div class="top-bar">
+<header>
+<h1>DENVER POKEDEX</h1>
+<p>Gotta Catch 'em All &mdash; Front Range Edition</p>
+</header>
+<div class="controls">
+<input type="text" id="search" placeholder="Search Pokemon...">
+<button class="filter-btn active" data-cat="All">All</button>
+<button class="filter-btn" data-cat="Flora">Flora</button>
+<button class="filter-btn" data-cat="Mammals">Mammals</button>
+<button class="filter-btn" data-cat="Birds">Birds</button>
+<button class="filter-btn" data-cat="Reptiles & Insects">Reptiles &amp; Insects</button>
+<div class="view-toggle" id="viewToggle">
+<button class="active" data-view="pokemon">&#127918; Pokemon</button>
+<button data-view="real">&#128247; Real</button>
+</div>
+<button class="filter-btn scan-btn" id="scanBtn" style="border-color:#00b894;color:#00b894;font-size:20px;">&#128247; SCAN</button>
+<select class="type-select" id="typeFilter">
+<option value="All">All Types</option>
+<option value="Grass">Grass</option>
+<option value="Fire">Fire</option>
+<option value="Ice">Ice</option>
+<option value="Water">Water</option>
+<option value="Ground">Ground</option>
+<option value="Normal">Normal</option>
+<option value="Flying">Flying</option>
+<option value="Bug">Bug</option>
+<option value="Dark">Dark</option>
+<option value="Poison">Poison</option>
+<option value="Electric">Electric</option>
+<option value="Rock">Rock</option>
+<option value="Ghost">Ghost</option>
+<option value="Fairy">Fairy</option>
+</select>
+</div>
+</div>
+<div class="grid" id="grid"></div>
+
+<script>
+const TYPE_COLORS={
+Grass:'#00b894',Fire:'#e17055',Ice:'#74b9ff',Water:'#0984e3',Ground:'#b08968',
+Normal:'#b2bec3',Flying:'#a29bfe',Bug:'#a8e6cf',Dark:'#2d3436',Poison:'#6c5ce7',
+Electric:'#fdcb6e',Rock:'#636e72',Ghost:'#7d3c98',Fairy:'#fd79a8'
+};
+
+const MOVES={
+"Razor Leaf":{type:"Grass",power:55,acc:95,cat:"Physical",desc:"Sharp-edged leaves are launched to slash at opposing Pokemon. Critical hits land more easily."},
+"Giga Drain":{type:"Grass",power:75,acc:100,cat:"Special",desc:"A nutrient-draining attack. The user's HP is restored by half the damage taken by the target."},
+"Leech Seed":{type:"Grass",power:null,acc:90,cat:"Status",desc:"A seed is planted on the target. It steals some HP from the target every turn."},
+"Seed Bomb":{type:"Grass",power:80,acc:100,cat:"Physical",desc:"The user slams a barrage of hard-shelled seeds down on the target from above."},
+"Leaf Storm":{type:"Grass",power:130,acc:90,cat:"Special",desc:"The user whips up a storm of leaves. This harshly lowers the user's Sp. Atk."},
+"Petal Dance":{type:"Grass",power:120,acc:100,cat:"Special",desc:"The user attacks by scattering petals for two to three turns, then becomes confused."},
+"Ember":{type:"Fire",power:40,acc:100,cat:"Special",desc:"The target is attacked with small flames. This may also leave the target with a burn."},
+"Fire Spin":{type:"Fire",power:35,acc:85,cat:"Special",desc:"The target becomes trapped within a fierce vortex of fire for four to five turns."},
+"Ice Beam":{type:"Ice",power:90,acc:100,cat:"Special",desc:"The target is struck with an icy-cold beam of energy. This may also freeze the target."},
+"Blizzard":{type:"Ice",power:110,acc:70,cat:"Special",desc:"A howling blizzard strikes opposing Pokemon. This may also freeze them."},
+"Powder Snow":{type:"Ice",power:40,acc:100,cat:"Special",desc:"The user attacks with a chilling gust of powdery snow. May also freeze opposing Pokemon."},
+"Ice Shard":{type:"Ice",power:40,acc:100,cat:"Physical",desc:"The user flash-freezes chunks of ice and hurls them. This move always goes first."},
+"Frost Breath":{type:"Ice",power:60,acc:90,cat:"Special",desc:"The user blows cold breath on the target. This attack always results in a critical hit."},
+"Water Gun":{type:"Water",power:40,acc:100,cat:"Special",desc:"The target is blasted with a forceful shot of water."},
+"Surf":{type:"Water",power:90,acc:100,cat:"Special",desc:"The user attacks everything around it with a giant wave."},
+"Hydro Pump":{type:"Water",power:110,acc:80,cat:"Special",desc:"The target is blasted by a huge volume of water launched under great pressure."},
+"Aqua Jet":{type:"Water",power:40,acc:100,cat:"Physical",desc:"The user lunges at the target at a speed that makes it almost invisible. Always goes first."},
+"Bubble":{type:"Water",power:40,acc:100,cat:"Special",desc:"A spray of countless bubbles is jetted at the target. May also lower their Speed."},
+"Rain Dance":{type:"Water",power:null,acc:null,cat:"Status",desc:"The user summons a heavy rain for five turns, powering up Water-type moves."},
+"Tackle":{type:"Normal",power:40,acc:100,cat:"Physical",desc:"A physical attack in which the user charges and slams into the target."},
+"Quick Attack":{type:"Normal",power:40,acc:100,cat:"Physical",desc:"The user lunges at the target at a speed that makes it almost invisible. Always goes first."},
+"Headbutt":{type:"Normal",power:70,acc:100,cat:"Physical",desc:"The user sticks out its head and charges into the target. May also make the target flinch."},
+"Body Slam":{type:"Normal",power:85,acc:100,cat:"Physical",desc:"The user drops onto the target with its full body weight. May cause paralysis."},
+"Hyper Beam":{type:"Normal",power:150,acc:90,cat:"Special",desc:"The target is attacked with a powerful beam. The user can't move on the next turn."},
+"Extreme Speed":{type:"Normal",power:80,acc:100,cat:"Physical",desc:"The user charges at blinding speed. This move always goes first."},
+"Stomp":{type:"Normal",power:65,acc:100,cat:"Physical",desc:"The target is stomped with a big foot. May also make the target flinch."},
+"Take Down":{type:"Normal",power:90,acc:85,cat:"Physical",desc:"A reckless, full-body charge attack. This also damages the user a little."},
+"Howl":{type:"Normal",power:null,acc:null,cat:"Status",desc:"The user howls loudly to raise its spirit, boosting its Attack stat."},
+"Roar":{type:"Normal",power:null,acc:null,cat:"Status",desc:"The target is scared off, and a different Pokemon is dragged out."},
+"Screech":{type:"Normal",power:null,acc:85,cat:"Status",desc:"An earsplitting screech harshly lowers the target's Defense stat."},
+"Fury Swipes":{type:"Normal",power:18,acc:80,cat:"Physical",desc:"The target is raked with sharp claws quickly two to five times in a row."},
+"Double-Edge":{type:"Normal",power:120,acc:100,cat:"Physical",desc:"A reckless, life-risking tackle. This also damages the user quite a lot."},
+"Sing":{type:"Normal",power:null,acc:55,cat:"Status",desc:"A soothing lullaby puts the target into a deep slumber."},
+"Uproar":{type:"Normal",power:90,acc:100,cat:"Special",desc:"The user attacks in an uproar for three turns. No Pokemon can fall asleep."},
+"Earthquake":{type:"Ground",power:100,acc:100,cat:"Physical",desc:"The user sets off an earthquake that strikes every Pokemon around it."},
+"Dig":{type:"Ground",power:80,acc:100,cat:"Physical",desc:"The user burrows into the ground, then attacks on the next turn."},
+"Mud Shot":{type:"Ground",power:55,acc:95,cat:"Special",desc:"The user hurls a blob of mud. This also lowers the target's Speed."},
+"Sand Attack":{type:"Ground",power:null,acc:100,cat:"Status",desc:"Sand is hurled in the target's face, reducing the target's accuracy."},
+"Earth Power":{type:"Ground",power:90,acc:100,cat:"Special",desc:"The user makes the ground erupt with power. May lower the target's Sp. Def."},
+"Bulldoze":{type:"Ground",power:60,acc:100,cat:"Physical",desc:"The user strikes by stomping on the ground. This also lowers the Speed of those hit."},
+"Wing Attack":{type:"Flying",power:60,acc:100,cat:"Physical",desc:"The target is struck with large, imposing wings spread wide."},
+"Air Slash":{type:"Flying",power:75,acc:95,cat:"Special",desc:"The user attacks with a blade of air. May cause flinching."},
+"Brave Bird":{type:"Flying",power:120,acc:100,cat:"Physical",desc:"The user charges at low altitude. This also damages the user quite a lot."},
+"Fly":{type:"Flying",power:90,acc:95,cat:"Physical",desc:"The user flies up into the sky and strikes on the next turn."},
+"Aerial Ace":{type:"Flying",power:60,acc:null,cat:"Physical",desc:"The user confounds the target with speed, then slashes. This attack never misses."},
+"Feather Dance":{type:"Flying",power:null,acc:100,cat:"Status",desc:"Covers the target with down that harshly lowers its Attack stat."},
+"Gust":{type:"Flying",power:40,acc:100,cat:"Special",desc:"A gust of wind is whipped up by wings and launched at the target."},
+"Peck":{type:"Flying",power:35,acc:100,cat:"Physical",desc:"The target is jabbed with a sharply pointed beak or horn."},
+"Bug Buzz":{type:"Bug",power:90,acc:100,cat:"Special",desc:"The user vibrates to generate a damaging sound wave. May lower Sp. Def."},
+"Signal Beam":{type:"Bug",power:75,acc:100,cat:"Special",desc:"The user attacks with a sinister beam of light. May confuse the target."},
+"Silver Wind":{type:"Bug",power:60,acc:100,cat:"Special",desc:"Powdery scales blown by wind. May raise all the user's stats."},
+"Struggle Bug":{type:"Bug",power:50,acc:100,cat:"Special",desc:"While resisting, the user attacks. This lowers the Sp. Atk of those hit."},
+"Megahorn":{type:"Bug",power:120,acc:85,cat:"Physical",desc:"Using its impressive horn, the user rams into the target with no letup."},
+"Dark Pulse":{type:"Dark",power:80,acc:100,cat:"Special",desc:"A horrible aura with dark thoughts. May cause flinching."},
+"Night Slash":{type:"Dark",power:70,acc:100,cat:"Physical",desc:"The user slashes the instant an opportunity arises. Critical hits land more easily."},
+"Crunch":{type:"Dark",power:80,acc:100,cat:"Physical",desc:"The user crunches with sharp fangs. May lower the target's Defense."},
+"Sucker Punch":{type:"Dark",power:70,acc:100,cat:"Physical",desc:"Enables the user to attack first. Fails if the target isn't readying an attack."},
+"Foul Play":{type:"Dark",power:95,acc:100,cat:"Physical",desc:"Turns the target's power against it. Higher Attack means more damage."},
+"Poison Jab":{type:"Poison",power:80,acc:100,cat:"Physical",desc:"Stabbed with a poisonous stinger. May also poison the target."},
+"Toxic":{type:"Poison",power:null,acc:90,cat:"Status",desc:"Leaves the target badly poisoned. Damage worsens every turn."},
+"Thunderbolt":{type:"Electric",power:90,acc:100,cat:"Special",desc:"A strong electric blast. May cause paralysis."},
+"Spark":{type:"Electric",power:65,acc:100,cat:"Physical",desc:"An electrically charged tackle. May cause paralysis."},
+"Discharge":{type:"Electric",power:80,acc:100,cat:"Special",desc:"A flare of electricity strikes everything around. May cause paralysis."},
+"Rock Slide":{type:"Rock",power:75,acc:90,cat:"Physical",desc:"Large boulders are hurled. May also cause flinching."},
+"Stone Edge":{type:"Rock",power:100,acc:80,cat:"Physical",desc:"Sharpened stones stab from below. Critical hits land more easily."},
+"Shadow Ball":{type:"Ghost",power:80,acc:100,cat:"Special",desc:"A shadowy blob is hurled. May lower the target's Sp. Def."},
+"Moonblast":{type:"Fairy",power:95,acc:100,cat:"Special",desc:"Borrowing the moon's power. May lower the target's Sp. Atk."},
+"Confuse Ray":{type:"Ghost",power:null,acc:100,cat:"Status",desc:"A sinister ray triggers confusion."},
+"Glare":{type:"Normal",power:null,acc:100,cat:"Status",desc:"The user intimidates the target to cause paralysis."},
+"Coil":{type:"Poison",power:null,acc:null,cat:"Status",desc:"Coils up and concentrates. Raises Attack, Defense, and accuracy."},
+"Withdraw":{type:"Water",power:null,acc:null,cat:"Status",desc:"Withdraws into its hard shell, raising its Defense stat."},
+"Shell Smash":{type:"Normal",power:null,acc:null,cat:"Status",desc:"Breaks its shell. Lowers Defense/Sp.Def but sharply raises Attack/Sp.Atk/Speed."},
+};
+
+const WIKI_MAP={
+1:"Aquilegia_coerulea",2:"Castilleja_integra",3:"Opuntia_polyacantha",
+4:"Yucca_glauca",5:"Gaillardia_aristata",6:"Picea_pungens",
+7:"Pulsatilla_patens",8:"Populus_tremuloides",9:"Populus_angustifolia",
+10:"Juniperus_scopulorum",11:"Mule_deer",12:"American_black_bear",
+13:"Black-tailed_prairie_dog",14:"Cougar",15:"Fox_squirrel",
+16:"Coyote",17:"Yellow-bellied_marmot",18:"Pronghorn",
+19:"Elk",20:"Black-billed_magpie",21:"Red-tailed_hawk",
+22:"Great_horned_owl",23:"Western_meadowlark",24:"Broad-tailed_hummingbird",
+25:"Bald_eagle",26:"Lark_bunting",27:"American_dipper",
+28:"Bullsnake",29:"Prairie_rattlesnake",30:"Western_painted_turtle",
+31:"Tiger_salamander",32:"Boreal_chorus_frog",33:"Monarch_butterfly",
+34:"Colorado_hairstreak",35:"Euxoa_auxiliaris"
+};
+
+const wikiImages={};
+
+async function fetchWikiImage(title){
+  try{
+    const resp=await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title));
+    const data=await resp.json();
+    return data.thumbnail?data.thumbnail.source:null;
+  }catch(e){return null;}
+}
+
+async function loadAllWikiImages(){
+  const promises=POKEMON.map(async p=>{
+    const wikiTitle=WIKI_MAP[p.id];
+    if(!wikiTitle)return;
+    const url=await fetchWikiImage(wikiTitle);
+    wikiImages[p.id]=url;
+    // Update the spinner placeholders in both pokemon-mode and real-mode
+    document.querySelectorAll('.wiki-img-slot-'+p.id).forEach(slot=>{
+      if(url){
+        slot.innerHTML='<img src="'+url+'" alt="'+p.real.name+'" loading="lazy">';
+      }else{
+        slot.innerHTML='<div class="img-fail">Image unavailable</div>';
+      }
+    });
+  });
+  await Promise.all(promises);
+}
+
+const POKEMON=[
+{id:1,name:"Columbelle",title:"The Bell Petal Pokemon",types:["Grass","Ice"],cat:"Flora",
+desc:"Its delicate petals chime like tiny bells when a cold wind blows through mountain meadows. Picking one brings seven years of bad luck.",
+moves:["Razor Leaf","Ice Beam","Giga Drain","Powder Snow"],
+real:{name:"Blue Columbine",sci:"Aquilegia caerulea",fact:"Colorado's state flower. Illegal to uproot on public land."}},
+{id:2,name:"Blazebrush",title:"The Wildfire Bloom Pokemon",types:["Grass","Fire"],cat:"Flora",
+desc:"The bracts on its head burn with a parasitic flame that secretly drains life from nearby plants. Its warmth attracts chilly travelers.",
+moves:["Ember","Razor Leaf","Fire Spin","Giga Drain"],
+real:{name:"Indian Paintbrush",sci:"Castilleja integra",fact:"Semi-parasitic. The colorful 'petals' are actually modified leaves."}},
+{id:3,name:"Pricklpear",title:"The Thorny Heart Pokemon",types:["Grass","Ground"],cat:"Flora",
+desc:"Beneath its thorny exterior lies a sweet, tender heart. It blooms spectacular flowers only for those who earn its trust.",
+moves:["Seed Bomb","Sand Attack","Bulldoze","Leech Seed"],
+real:{name:"Prickly Pear Cactus",sci:"Opuntia polyacantha",fact:"Edible fruits. Survives -30F."}},
+{id:4,name:"Yucclade",title:"The Blade Leaf Pokemon",types:["Grass","Ground"],cat:"Flora",
+desc:"Its sword-like leaves can slice through stone. It has an ancient pact with a tiny moth \u2014 they cannot live without each other.",
+moves:["Razor Leaf","Rock Slide","Seed Bomb","Sand Attack"],
+real:{name:"Yucca",sci:"Yucca glauca",fact:"Pollinated exclusively by the yucca moth."}},
+{id:5,name:"Quiltbloom",title:"The Patchwork Pokemon",types:["Grass","Fire"],cat:"Flora",
+desc:"Its petals weave together like a warm blanket. On cold nights, sleeping Pokemon gather around its gentle warmth.",
+moves:["Ember","Petal Dance","Fire Spin","Giga Drain"],
+real:{name:"Blanket Flower",sci:"Gaillardia aristata",fact:"Named for its resemblance to woven Native American blankets."}},
+{id:6,name:"Glacitree",title:"The Ancient Frost Pokemon",types:["Grass","Ice"],cat:"Flora",
+desc:"A 1,000-year-old sentinel whose crystalline needles can freeze the air itself. It remembers every winter that has ever passed.",
+moves:["Leaf Storm","Blizzard","Giga Drain","Ice Beam"],
+evo:{chain:["Sproutice","Frostpine","Glacitree"],current:2},
+real:{name:"Blue Spruce",sci:"Picea pungens",fact:"Colorado's state tree. Blue color from UV-reflecting waxy coating."}},
+{id:7,name:"Pasquini",title:"The First Bloom Pokemon",types:["Grass","Ice"],cat:"Flora",
+desc:"Always the first to push through snow after a storm. Its fuzzy coat keeps it warm enough to bloom while everything else still sleeps.",
+moves:["Powder Snow","Razor Leaf","Ice Shard","Leech Seed"],
+real:{name:"Pasque Flower",sci:"Pulsatilla patens",fact:"Blooms through snow. Fine silky hairs act as insulation."}},
+{id:8,name:"Trembark",title:"The Shared Mind Pokemon",types:["Grass","Normal"],cat:"Flora",
+desc:"Every Trembark in a grove shares one root system and one mind. Harm one, and the entire forest trembles with fury.",
+moves:["Razor Leaf","Earthquake","Body Slam","Screech"],
+real:{name:"Quaking Aspen",sci:"Populus tremuloides",fact:"Clonal colonies share roots. 'Pando' weighs 13 million lbs."}},
+{id:9,name:"Fluffwood",title:"The Wish Seed Pokemon",types:["Grass","Water"],cat:"Flora",
+desc:"Its cotton-like seeds carry wishes on the wind. Where one lands near water, a spring bubbles up from the earth.",
+moves:["Surf","Razor Leaf","Rain Dance","Giga Drain"],
+real:{name:"Narrowleaf Cottonwood",sci:"Populus angustifolia",fact:"Early settlers called them 'oases of the plains.'"}},
+{id:10,name:"Junibraid",title:"The Elder Berry Pokemon",types:["Grass","Rock"],cat:"Flora",
+desc:"Its berries are prized for ancient remedies. A single Junibraid can live 1,000 years, watching civilizations rise and fall in silence.",
+moves:["Rock Slide","Seed Bomb","Razor Leaf","Earth Power"],
+real:{name:"Rocky Mountain Juniper",sci:"Juniperus scopulorum",fact:"Berries flavor gin. Can live 1,000+ years."}},
+{id:11,name:"Muledoe",title:"The Big Ear Pokemon",types:["Normal"],cat:"Mammals",
+desc:"Its enormous ears can detect a whisper from a mile away. It moves in a bizarre bouncing gait where all four hooves leave the ground at once.",
+moves:["Quick Attack","Headbutt","Stomp","Take Down"],
+real:{name:"Mule Deer",sci:"Odocoileus hemionus",fact:"Named for its large ears. Uses 'stotting' gait."}},
+{id:12,name:"Grizzmont",title:"The Mountain King Pokemon",types:["Normal","Ground"],cat:"Mammals",
+desc:"Its stone-like armor was forged by centuries of mountain living. When it roars, avalanches answer. Despite its size, it is gentle with cubs.",
+moves:["Earthquake","Stone Edge","Crunch","Hyper Beam"],
+evo:{chain:["Cubark","Ursapine","Grizzmont"],current:2},
+real:{name:"Black Bear",sci:"Ursus americanus",fact:"Can smell food from 5 miles. Denver bears open car doors."}},
+{id:13,name:"Prairipal",title:"The Gossip Pokemon",types:["Ground"],cat:"Mammals",
+desc:"Its 50 distinct alarm calls make it the most talkative Pokemon on the plains. Its underground cities span acres, with room for every friend.",
+moves:["Dig","Mud Shot","Howl","Screech"],
+real:{name:"Prairie Dog",sci:"Cynomys ludovicianus",fact:"Complex language encodes predator's size, shape, and color."}},
+{id:14,name:"Peaklion",title:"The Summit Phantom Pokemon",types:["Normal","Rock"],cat:"Mammals",
+desc:"A ghost-silent predator of the highest peaks. Its rocky claws can grip any surface. It is seen only by those it allows to see it.",
+moves:["Stone Edge","Extreme Speed","Crunch","Earthquake"],
+evo:{chain:["Pumakitten","Cougarock","Peaklion"],current:2},
+real:{name:"Mountain Lion",sci:"Puma concolor",fact:"Can leap 40 feet. Produces an eerie human-like scream."}},
+{id:15,name:"Nutflick",title:"The Scatter Brain Pokemon",types:["Normal"],cat:"Mammals",
+desc:"It forgets where 25% of its hidden nuts are buried, accidentally planting entire forests. Its fluffy tail can balance on any surface.",
+moves:["Quick Attack","Fury Swipes","Headbutt","Seed Bomb"],
+real:{name:"Fox Squirrel",sci:"Sciurus niger",fact:"Largest North American tree squirrel. Buries 10,000 acorns/season."}},
+{id:16,name:"Coyotrik",title:"The Trickster Pokemon",types:["Normal","Dark"],cat:"Mammals",
+desc:"The cleverest hunter on the plains. It lures prey with a playful act, then strikes. Its midnight howl can carry 11 different meanings.",
+moves:["Dark Pulse","Foul Play","Howl","Sucker Punch"],
+evo:{chain:["Howlpup","Coyotrik"],current:1},
+real:{name:"Coyote",sci:"Canis latrans",fact:"'Barking dog.' 11 distinct vocalizations. Thrives in urban Denver."}},
+{id:17,name:"Marmochunk",title:"The Nap King Pokemon",types:["Normal","Ground"],cat:"Mammals",
+desc:"Champion sleeper of the mountains. It hibernates 8 months a year, and its piercing whistle can shatter icicles across an entire canyon.",
+moves:["Dig","Bulldoze","Body Slam","Screech"],
+real:{name:"Yellow-Bellied Marmot",sci:"Marmota flaviventris",fact:"Hibernates 8 months. Heart drops from 200 to 30 bpm."}},
+{id:18,name:"Swifthorn",title:"The Phantom Sprint Pokemon",types:["Normal","Electric"],cat:"Mammals",
+desc:"The fastest Pokemon on the plains at 55 mph. It evolved this insane speed to outrun a predator that went extinct 10,000 years ago.",
+moves:["Extreme Speed","Thunderbolt","Headbutt","Quick Attack"],
+real:{name:"American Pronghorn",sci:"Antilocapra americana",fact:"Faster than any living predator. Evolved to outrun extinct American cheetah."}},
+{id:19,name:"Buglord",title:"The Bugle Call Pokemon",types:["Normal","Ground"],cat:"Mammals",
+desc:"Its antlers grow an inch per day \u2014 the fastest bone growth of any creature. When it bugles, the mountains themselves seem to bow.",
+moves:["Megahorn","Earthquake","Stomp","Hyper Beam"],
+evo:{chain:["Elkid","Buglord"],current:1},
+real:{name:"Rocky Mountain Elk",sci:"Cervus canadensis nelsoni",fact:"Bulls grow 4-foot antlers annually."}},
+{id:20,name:"Shimmerpi",title:"The Funeral Bird Pokemon",types:["Flying","Dark"],cat:"Birds",
+desc:"Highly intelligent and deeply mischievous. It holds solemn funerals for fallen companions. It can recognize its own reflection \u2014 and doesn't like what it sees.",
+moves:["Dark Pulse","Air Slash","Foul Play","Wing Attack"],
+real:{name:"Black-Billed Magpie",sci:"Pica hudsonia",fact:"Holds 'funerals.' Passes mirror self-recognition test."}},
+{id:21,name:"Redgale",title:"The Sky Scream Pokemon",types:["Flying","Normal"],cat:"Birds",
+desc:"Its screech is so iconic that every movie uses it as the 'eagle sound.' Its eyesight is 8x sharper than a human's.",
+moves:["Air Slash","Brave Bird","Quick Attack","Screech"],
+real:{name:"Red-Tailed Hawk",sci:"Buteo jamaicensis",fact:"Hollywood's go-to raptor screech. Spots mice from 100 feet."}},
+{id:22,name:"Dusktalon",title:"The Silent Death Pokemon",types:["Flying","Dark"],cat:"Birds",
+desc:"Its flight is perfectly silent \u2014 specialized feathers break turbulence. Its head rotates 270 degrees. Nothing escapes its watch.",
+moves:["Brave Bird","Dark Pulse","Shadow Ball","Night Slash"],
+evo:{chain:["Owlette","Hornowl","Dusktalon"],current:2},
+real:{name:"Great Horned Owl",sci:"Bubo virginianus",fact:"Silent flight. 270-degree head rotation."}},
+{id:23,name:"Melodark",title:"The Prairie Song Pokemon",types:["Flying","Normal"],cat:"Birds",
+desc:"Its flute-like melody defines the entire prairie soundscape. Its species name means 'overlooked' \u2014 because everyone confused it with its boring cousin.",
+moves:["Sing","Air Slash","Uproar","Feather Dance"],
+real:{name:"Western Meadowlark",sci:"Sturnella neglecta",fact:"'Neglecta' = overlooked. Rich flute-like song."}},
+{id:24,name:"Hummbuzz",title:"The Heartbeat Pokemon",types:["Flying","Electric"],cat:"Birds",
+desc:"Heart beats 1,200 times per minute. On cold nights it enters a death-like torpor, dropping its body temp by 50 degrees. It always comes back.",
+moves:["Spark","Aerial Ace","Quick Attack","Discharge"],
+real:{name:"Broad-Tailed Hummingbird",sci:"Selasphorus platycercus",fact:"Metallic wing trill. Torpor drops temp from 104F to 54F."}},
+{id:25,name:"Liberion",title:"The Sovereign Sky Pokemon",types:["Flying","Water"],cat:"Birds",
+desc:"Despite its majestic reputation, it often steals fish from other Pokemon rather than catching its own. Nobody dares call it out.",
+moves:["Brave Bird","Surf","Hyper Beam","Air Slash"],
+real:{name:"Bald Eagle",sci:"Haliaeetus leucocephalus",fact:"7-foot wingspan. Often steals from osprey."}},
+{id:26,name:"Obsidiwing",title:"The Shadow Dancer Pokemon",types:["Flying","Dark"],cat:"Birds",
+desc:"Males transform from drab brown to jet black each spring, performing sky-dances \u2014 launching upward then fluttering down like feathered fireworks.",
+moves:["Dark Pulse","Wing Attack","Fly","Night Slash"],
+real:{name:"Lark Bunting",sci:"Calamospiza melanocorys",fact:"Colorado's state bird. Males do sky-dance courtship."}},
+{id:27,name:"Dipplet",title:"The Swim Singer Pokemon",types:["Flying","Water"],cat:"Birds",
+desc:"The only Pokemon that sings underwater. Built-in swim goggles \u2014 a third translucent eyelid \u2014 let it hunt in rushing mountain streams.",
+moves:["Aqua Jet","Wing Attack","Water Gun","Aerial Ace"],
+real:{name:"American Dipper",sci:"Cinclus mexicanus",fact:"Only aquatic songbird. Nictitating membrane as swim goggles."}},
+{id:28,name:"Bullcoil",title:"The Bluff Master Pokemon",types:["Ground"],cat:"Reptiles & Insects",
+desc:"Completely harmless, but an Oscar-worthy performer. It hisses, flattens its head, and vibrates its tail to impersonate a deadly rattlesnake.",
+moves:["Glare","Body Slam","Dig","Coil"],
+real:{name:"Bull Snake",sci:"Pituophis catenifer sayi",fact:"Mimics rattlesnakes. More effective rodent control than poison."}},
+{id:29,name:"Venomrattle",title:"The Heirloom Den Pokemon",types:["Ground","Poison"],cat:"Reptiles & Insects",
+desc:"Its communal dens are passed down for generations like family homes. Hundreds gather each winter, sharing warmth and ancient memories.",
+moves:["Poison Jab","Glare","Earthquake","Toxic"],
+real:{name:"Prairie Rattlesnake",sci:"Crotalus viridis",fact:"Communal dens used for generations. Denver's only venomous snake."}},
+{id:30,name:"Tortaura",title:"The Living Canvas Pokemon",types:["Water","Normal"],cat:"Reptiles & Insects",
+desc:"Its shell is a living painting \u2014 red, yellow, and olive brushstrokes shift with the seasons. Its babies survive winter by becoming popsicles.",
+moves:["Withdraw","Surf","Shell Smash","Headbutt"],
+real:{name:"Western Painted Turtle",sci:"Chrysemys picta bellii",fact:"Hatchlings survive freezing via glucose antifreeze."}},
+{id:31,name:"Tigermander",title:"The Eternal Youth Pokemon",types:["Water","Ground"],cat:"Reptiles & Insects",
+desc:"The largest land salamander, but some never grow up \u2014 they keep their baby gills forever, refusing to leave the water. Peter Pan of Pokemon.",
+moves:["Mud Shot","Water Gun","Dig","Body Slam"],
+real:{name:"Tiger Salamander",sci:"Ambystoma mavortium",fact:"Largest land salamander. Some retain larval gills (neoteny)."}},
+{id:32,name:"Croakini",title:"The Spring Herald Pokemon",types:["Water","Normal"],cat:"Reptiles & Insects",
+desc:"Only one inch tall but its spring chorus carries for miles. It survives winter by literally freezing itself solid and thawing in spring.",
+moves:["Bubble","Mud Shot","Uproar","Rain Dance"],
+real:{name:"Boreal Chorus Frog",sci:"Pseudacris maculata",fact:"1-inch frog. Survives partial freezing via glucose."}},
+{id:33,name:"Emperorfly",title:"The Migration Monarch Pokemon",types:["Bug","Flying"],cat:"Reptiles & Insects",
+desc:"It takes five generations to complete its round-trip migration, yet each one navigates to the exact same trees their ancestors used, guided by memories written in their blood.",
+moves:["Bug Buzz","Air Slash","Moonblast","Silver Wind"],
+evo:{chain:["Monarchling","Chrysalord","Emperorfly"],current:2},
+real:{name:"Monarch Butterfly",sci:"Danaus plexippus",fact:"3,000-mile migration. 4-5 generations per round trip."}},
+{id:34,name:"Purplewing",title:"The Junk Food Gourmet Pokemon",types:["Bug","Flying"],cat:"Reptiles & Insects",
+desc:"Colorado's most beautiful insect, with wings of pure purple and orange. Despite its elegance, it dines exclusively on tree sap and dung.",
+moves:["Bug Buzz","Silver Wind","Air Slash","Signal Beam"],
+real:{name:"Colorado Hairstreak",sci:"Hypaurotis crysalus",fact:"State insect. Feeds on sap and dung, not flowers."}},
+{id:35,name:"Millerva",title:"The Calorie Bomb Pokemon",types:["Bug","Flying"],cat:"Reptiles & Insects",
+desc:"Migrates by the millions through Denver each June. Each one is 70% fat \u2014 grizzly bears eat 40,000 per day and consider it fine dining.",
+moves:["Gust","Bug Buzz","Silver Wind","Struggle Bug"],
+real:{name:"Miller Moth",sci:"Euxoa auxiliaris",fact:"Annual Denver invasion. 70% fat. Bears gorge on them."}},
+];
+
+/* ===== Pixel Art Helpers ===== */
+function px(ctx,x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(x,y,w||1,h||1);}
+function rect(ctx,x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(x,y,w,h);}
+function eye(ctx,x,y,s,pc,hc){
+  rect(ctx,x,y,s,s,'#fff');
+  var ps=Math.max(1,Math.floor(s*0.5));
+  rect(ctx,x+s-ps,y+s-ps,ps,ps,pc||'#111');
+  if(s>=3)px(ctx,x+1,y,1,1,hc||'#aee');
+  else if(s>=2)px(ctx,x,y,1,1,hc||'#aee');
+}
+function bigEye(ctx,x,y,s,pc,hc){
+  rect(ctx,x,y,s,s,'#fff');
+  var ps=Math.max(1,Math.floor(s*0.45));
+  rect(ctx,x+s-ps-1,y+s-ps,ps,ps,pc||'#111');
+  px(ctx,x+1,y+1,Math.max(1,Math.floor(s*0.3)),Math.max(1,Math.floor(s*0.3)),hc||'#aee');
+}
+
+/* ===== 48x48 Main Sprites ===== */
+const SPRITES={};
+
+// #001 Columbelle
+SPRITES[1]=function(ctx){
+  // stem
+  rect(ctx,22,28,4,18,'#2d8a4e');rect(ctx,23,28,2,18,'#3cb371');
+  // leaves
+  rect(ctx,16,36,6,3,'#2d8a4e');rect(ctx,26,34,6,3,'#2d8a4e');
+  rect(ctx,17,37,4,2,'#3cb371');rect(ctx,27,35,4,2,'#3cb371');
+  // flower base
+  rect(ctx,18,18,12,10,'#74b9ff');rect(ctx,19,19,10,8,'#a4d4ff');
+  // petals (bell shapes)
+  rect(ctx,14,14,6,8,'#74b9ff');rect(ctx,28,14,6,8,'#74b9ff');
+  rect(ctx,15,15,4,6,'#a4d4ff');rect(ctx,29,15,4,6,'#a4d4ff');
+  rect(ctx,18,10,12,6,'#74b9ff');rect(ctx,19,11,10,4,'#a4d4ff');
+  // white inner
+  rect(ctx,20,20,8,6,'#fff');rect(ctx,21,21,6,4,'#eef');
+  // face
+  eye(ctx,21,22,3,'#111','#74b9ff');eye(ctx,26,22,3,'#111','#74b9ff');
+  // mouth
+  px(ctx,23,26,2,1,'#e17055');
+  // top petal accents
+  rect(ctx,16,10,4,5,'#5b8cff');rect(ctx,28,10,4,5,'#5b8cff');
+  rect(ctx,21,8,6,4,'#5b8cff');
+};
+
+// #002 Blazebrush
+SPRITES[2]=function(ctx){
+  rect(ctx,20,24,8,20,'#2d8a4e');rect(ctx,21,24,6,20,'#3cb371');
+  rect(ctx,14,30,6,3,'#2d8a4e');rect(ctx,28,28,6,3,'#2d8a4e');
+  rect(ctx,15,31,4,1,'#3cb371');rect(ctx,29,29,4,1,'#3cb371');
+  rect(ctx,18,10,12,16,'#e17055');rect(ctx,19,11,10,14,'#f0a060');
+  rect(ctx,16,14,4,10,'#e17055');rect(ctx,28,12,4,12,'#e17055');
+  rect(ctx,20,8,8,6,'#e74c3c');rect(ctx,22,6,4,4,'#e74c3c');
+  rect(ctx,23,4,2,3,'#ff6b6b');
+  eye(ctx,21,20,3,'#111','#fdcb6e');eye(ctx,26,20,3,'#111','#fdcb6e');
+  px(ctx,22,24,1,1,'#c0392b');px(ctx,23,25,2,1,'#c0392b');px(ctx,25,24,1,1,'#c0392b');
+};
+
+// #003 Pricklpear
+SPRITES[3]=function(ctx){
+  rect(ctx,14,18,20,22,'#27ae60');rect(ctx,12,20,24,18,'#27ae60');
+  rect(ctx,15,19,18,20,'#2ecc71');rect(ctx,13,21,22,16,'#2ecc71');
+  rect(ctx,18,12,12,8,'#f1c40f');rect(ctx,20,10,8,4,'#f1c40f');
+  rect(ctx,19,13,10,6,'#f9e547');rect(ctx,22,10,4,3,'#f9e547');
+  rect(ctx,16,40,5,4,'#27ae60');rect(ctx,27,40,5,4,'#27ae60');
+  rect(ctx,16,20,3,1,'#8b6914');px(ctx,15,19,1,1,'#8b6914');
+  rect(ctx,29,20,3,1,'#8b6914');px(ctx,32,19,1,1,'#8b6914');
+  px(ctx,11,24,1,1,'#8b6914');px(ctx,35,26,1,1,'#8b6914');px(ctx,11,30,1,1,'#8b6914');px(ctx,35,30,1,1,'#8b6914');
+  eye(ctx,18,22,4,'#111','#aee');eye(ctx,26,22,4,'#111','#aee');
+  px(ctx,21,30,1,1,'#c0392b');rect(ctx,22,31,4,1,'#c0392b');px(ctx,26,30,1,1,'#c0392b');
+};
+
+// #004 Yucclade
+SPRITES[4]=function(ctx){
+  rect(ctx,20,28,8,16,'#2d8a4e');rect(ctx,21,28,6,16,'#3cb371');
+  rect(ctx,8,20,10,3,'#2d8a4e');rect(ctx,30,18,10,3,'#2d8a4e');
+  rect(ctx,12,16,6,3,'#2d8a4e');rect(ctx,30,14,6,3,'#2d8a4e');
+  rect(ctx,16,22,6,2,'#3cb371');rect(ctx,26,20,6,2,'#3cb371');
+  rect(ctx,18,8,12,12,'#f5f5dc');rect(ctx,19,9,10,10,'#fff');
+  rect(ctx,20,6,8,4,'#f5f5dc');
+  eye(ctx,21,14,3,'#111','#aee');eye(ctx,26,14,3,'#111','#aee');
+  rect(ctx,22,19,4,1,'#6b4226');
+  rect(ctx,18,42,4,3,'#654321');rect(ctx,26,42,4,3,'#654321');
+};
+
+// #005 Quiltbloom
+SPRITES[5]=function(ctx){
+  rect(ctx,12,12,24,24,'#e74c3c');rect(ctx,14,10,20,28,'#e74c3c');rect(ctx,10,14,28,20,'#e74c3c');
+  rect(ctx,16,16,16,16,'#f39c12');rect(ctx,18,14,12,20,'#f39c12');rect(ctx,14,18,20,12,'#f39c12');
+  rect(ctx,18,18,12,12,'#f1c40f');rect(ctx,19,19,10,10,'#f9e547');
+  rect(ctx,20,22,3,1,'#111');px(ctx,19,21,1,1,'#111');px(ctx,23,21,1,1,'#111');
+  rect(ctx,26,22,3,1,'#111');px(ctx,25,21,1,1,'#111');px(ctx,29,21,1,1,'#111');
+  px(ctx,22,26,1,1,'#e17055');rect(ctx,23,27,2,1,'#e17055');px(ctx,25,26,1,1,'#e17055');
+  rect(ctx,22,36,4,10,'#2d8a4e');rect(ctx,23,36,2,10,'#3cb371');
+  px(ctx,14,14,2,2,'#ff6b6b');px(ctx,30,14,2,2,'#ff6b6b');px(ctx,14,30,2,2,'#ff6b6b');px(ctx,30,30,2,2,'#ff6b6b');
+};
+
+// #006 Glacitree
+SPRITES[6]=function(ctx){
+  rect(ctx,21,30,6,16,'#654321');rect(ctx,22,30,4,16,'#8b6914');
+  rect(ctx,14,24,20,8,'#5b8cff');rect(ctx,16,20,16,6,'#5b8cff');rect(ctx,18,16,12,6,'#5b8cff');rect(ctx,20,12,8,6,'#5b8cff');rect(ctx,22,8,4,5,'#5b8cff');
+  rect(ctx,16,22,6,4,'#74b9ff');rect(ctx,20,18,6,3,'#74b9ff');rect(ctx,22,13,4,3,'#74b9ff');
+  rect(ctx,20,8,8,2,'#fff');rect(ctx,22,6,4,3,'#fff');rect(ctx,16,16,16,2,'#eef');rect(ctx,14,24,20,2,'#eef');
+  px(ctx,12,26,2,2,'#a4d4ff');px(ctx,34,26,2,2,'#a4d4ff');px(ctx,18,14,2,1,'#a4d4ff');px(ctx,28,14,2,1,'#a4d4ff');
+  eye(ctx,22,32,3,'#74b9ff','#fff');eye(ctx,27,32,3,'#74b9ff','#fff');
+  rect(ctx,23,37,4,1,'#4a3520');
+  rect(ctx,18,44,4,2,'#654321');rect(ctx,26,44,4,2,'#654321');
+};
+
+// #007 Pasquini
+SPRITES[7]=function(ctx){
+  rect(ctx,6,36,36,10,'#dfe6e9');rect(ctx,8,34,32,4,'#eef');
+  rect(ctx,22,24,4,12,'#3cb371');rect(ctx,23,24,2,12,'#5dde8e');
+  rect(ctx,16,14,16,12,'#9b59b6');rect(ctx,14,16,20,8,'#9b59b6');
+  rect(ctx,17,15,14,10,'#af7ac5');rect(ctx,15,17,18,6,'#af7ac5');
+  px(ctx,16,13,2,1,'#c39bd3');px(ctx,20,12,2,1,'#c39bd3');px(ctx,26,13,2,1,'#c39bd3');px(ctx,30,15,1,2,'#c39bd3');
+  rect(ctx,20,18,8,6,'#f9e547');rect(ctx,21,19,6,4,'#fef160');
+  bigEye(ctx,21,19,3,'#111','#74b9ff');bigEye(ctx,26,19,3,'#111','#74b9ff');
+  px(ctx,24,23,1,1,'#e17055');
+};
+
+// #008 Trembark
+SPRITES[8]=function(ctx){
+  rect(ctx,20,24,8,20,'#dfe6e9');rect(ctx,21,24,6,20,'#fff');
+  px(ctx,22,28,2,1,'#636e72');px(ctx,23,34,3,1,'#636e72');px(ctx,21,40,2,1,'#636e72');
+  rect(ctx,10,10,28,16,'#f39c12');rect(ctx,12,8,24,20,'#f39c12');
+  rect(ctx,12,12,24,12,'#f1c40f');rect(ctx,14,10,20,16,'#f1c40f');
+  px(ctx,14,10,3,2,'#f9e547');px(ctx,22,8,4,2,'#f9e547');px(ctx,30,12,3,2,'#f9e547');px(ctx,16,20,2,2,'#f9e547');
+  eye(ctx,22,28,3,'#111','#74b9ff');eye(ctx,27,28,3,'#111','#74b9ff');
+  px(ctx,23,33,1,1,'#8b6914');rect(ctx,24,34,2,1,'#8b6914');px(ctx,26,33,1,1,'#8b6914');
+  px(ctx,8,14,2,2,'#f39c12');px(ctx,38,16,2,2,'#f39c12');px(ctx,6,20,2,2,'#f1c40f');px(ctx,40,12,2,2,'#f1c40f');
+};
+
+// #009 Fluffwood
+SPRITES[9]=function(ctx){
+  rect(ctx,21,28,6,16,'#8b6914');rect(ctx,22,28,4,16,'#a0822a');
+  rect(ctx,10,10,28,20,'#fff');rect(ctx,12,8,24,24,'#fff');
+  rect(ctx,12,12,24,16,'#f0f0f0');rect(ctx,14,10,20,20,'#fafafa');
+  rect(ctx,8,14,6,6,'#fff');rect(ctx,34,12,6,6,'#fff');rect(ctx,16,6,6,6,'#fff');rect(ctx,26,6,6,6,'#fff');
+  px(ctx,6,8,2,2,'#fff');px(ctx,40,10,2,2,'#fff');px(ctx,4,18,2,2,'#fff');px(ctx,42,20,2,2,'#fff');
+  px(ctx,8,4,1,1,'#ddd');px(ctx,38,6,1,1,'#ddd');
+  rect(ctx,18,18,4,2,'#111');rect(ctx,26,18,4,2,'#111');
+  px(ctx,18,17,4,1,'#fff');px(ctx,26,17,4,1,'#fff');
+  px(ctx,21,23,1,1,'#b08968');rect(ctx,22,24,4,1,'#b08968');px(ctx,26,23,1,1,'#b08968');
+};
+
+// #010 Junibraid
+SPRITES[10]=function(ctx){
+  rect(ctx,18,22,12,22,'#654321');rect(ctx,20,22,8,22,'#8b6914');
+  px(ctx,19,26,2,1,'#4a3520');px(ctx,27,30,2,1,'#4a3520');px(ctx,20,36,3,1,'#4a3520');
+  rect(ctx,10,10,28,16,'#1e7a34');rect(ctx,12,8,24,20,'#1e7a34');
+  rect(ctx,12,12,24,12,'#27ae60');rect(ctx,14,10,20,16,'#27ae60');
+  px(ctx,14,14,2,2,'#5b8cff');px(ctx,20,10,2,2,'#5b8cff');px(ctx,28,12,2,2,'#5b8cff');px(ctx,32,18,2,2,'#5b8cff');px(ctx,10,18,2,2,'#5b8cff');
+  px(ctx,16,22,2,2,'#5b8cff');px(ctx,26,20,2,2,'#5b8cff');
+  eye(ctx,21,28,3,'#111','#5b8cff');eye(ctx,26,28,3,'#111','#5b8cff');
+  px(ctx,19,27,2,1,'#4a3520');px(ctx,29,27,2,1,'#4a3520');
+  rect(ctx,23,34,4,1,'#4a3520');
+  rect(ctx,14,42,6,3,'#654321');rect(ctx,28,42,6,3,'#654321');
+};
+
+// #011 Muledoe
+SPRITES[11]=function(ctx){
+  rect(ctx,14,24,22,14,'#b08968');rect(ctx,15,25,20,12,'#c4a882');
+  rect(ctx,28,18,6,10,'#b08968');rect(ctx,29,19,4,8,'#c4a882');
+  rect(ctx,28,10,12,12,'#b08968');rect(ctx,29,11,10,10,'#c4a882');
+  rect(ctx,28,4,4,10,'#b08968');rect(ctx,36,4,4,10,'#b08968');
+  rect(ctx,29,5,2,8,'#deb887');rect(ctx,37,5,2,8,'#deb887');
+  px(ctx,30,4,2,2,'#8b6914');px(ctx,37,4,2,2,'#8b6914');
+  rect(ctx,16,36,3,8,'#b08968');rect(ctx,22,36,3,8,'#b08968');rect(ctx,28,36,3,8,'#b08968');rect(ctx,31,36,3,8,'#b08968');
+  rect(ctx,16,42,3,2,'#654321');rect(ctx,22,42,3,2,'#654321');rect(ctx,28,42,3,2,'#654321');rect(ctx,31,42,3,2,'#654321');
+  bigEye(ctx,32,13,4,'#111','#74b9ff');
+  px(ctx,38,17,2,2,'#654321');
+  px(ctx,18,27,2,2,'#deb887');px(ctx,24,28,2,2,'#deb887');px(ctx,20,32,2,2,'#deb887');
+  px(ctx,13,25,2,3,'#deb887');
+};
+
+// #012 Grizzmont
+SPRITES[12]=function(ctx){
+  rect(ctx,10,20,28,22,'#4a3520');rect(ctx,11,21,26,20,'#654321');
+  rect(ctx,8,18,8,8,'#636e72');rect(ctx,32,18,8,8,'#636e72');
+  rect(ctx,9,19,6,6,'#808b91');rect(ctx,33,19,6,6,'#808b91');
+  rect(ctx,14,16,20,6,'#636e72');rect(ctx,16,14,14,4,'#636e72');rect(ctx,15,17,18,4,'#808b91');
+  rect(ctx,16,6,16,14,'#4a3520');rect(ctx,17,7,14,12,'#654321');
+  rect(ctx,14,4,5,5,'#4a3520');rect(ctx,29,4,5,5,'#4a3520');
+  rect(ctx,15,5,3,3,'#8b6914');rect(ctx,30,5,3,3,'#8b6914');
+  rect(ctx,19,10,4,3,'#fdcb6e');rect(ctx,25,10,4,3,'#fdcb6e');
+  rect(ctx,20,11,2,1,'#111');rect(ctx,26,11,2,1,'#111');
+  px(ctx,19,10,1,1,'#fff');px(ctx,25,10,1,1,'#fff');
+  rect(ctx,22,14,4,2,'#2d1810');
+  px(ctx,20,17,2,1,'#111');rect(ctx,22,18,4,1,'#111');px(ctx,26,17,2,1,'#111');
+  rect(ctx,6,24,6,12,'#4a3520');rect(ctx,36,24,6,12,'#4a3520');
+  px(ctx,6,36,2,2,'#dfe6e9');px(ctx,9,36,2,2,'#dfe6e9');px(ctx,36,36,2,2,'#dfe6e9');px(ctx,39,36,2,2,'#dfe6e9');
+  rect(ctx,14,40,6,4,'#4a3520');rect(ctx,28,40,6,4,'#4a3520');
+  rect(ctx,14,43,6,2,'#2d1810');rect(ctx,28,43,6,2,'#2d1810');
+};
+
+// #013 Prairipal
+SPRITES[13]=function(ctx){
+  rect(ctx,18,20,12,20,'#c4a882');rect(ctx,19,21,10,18,'#deb887');
+  rect(ctx,16,10,16,12,'#c4a882');rect(ctx,17,11,14,10,'#deb887');
+  px(ctx,16,9,3,3,'#c4a882');px(ctx,29,9,3,3,'#c4a882');
+  px(ctx,17,10,1,1,'#deb887');px(ctx,30,10,1,1,'#deb887');
+  bigEye(ctx,19,13,4,'#111','#74b9ff');bigEye(ctx,27,13,4,'#111','#74b9ff');
+  px(ctx,23,17,2,2,'#654321');
+  rect(ctx,21,20,6,3,'#c0392b');rect(ctx,22,20,4,1,'#fff');
+  rect(ctx,14,22,4,3,'#deb887');rect(ctx,30,22,4,3,'#deb887');
+  rect(ctx,18,38,4,4,'#c4a882');rect(ctx,26,38,4,4,'#c4a882');
+  rect(ctx,21,28,6,6,'#efe0c8');
+};
+
+// #014 Peaklion
+SPRITES[14]=function(ctx){
+  rect(ctx,8,22,30,14,'#c4a882');rect(ctx,9,23,28,12,'#deb887');
+  rect(ctx,12,20,6,3,'#636e72');rect(ctx,20,19,6,3,'#636e72');rect(ctx,28,20,6,3,'#636e72');
+  rect(ctx,13,20,4,2,'#808b91');rect(ctx,21,19,4,2,'#808b91');rect(ctx,29,20,4,2,'#808b91');
+  rect(ctx,32,14,12,12,'#c4a882');rect(ctx,33,15,10,10,'#deb887');
+  px(ctx,34,10,3,4,'#c4a882');px(ctx,40,10,3,4,'#c4a882');
+  px(ctx,35,11,1,2,'#deb887');px(ctx,41,11,1,2,'#deb887');
+  rect(ctx,34,17,4,3,'#27ae60');rect(ctx,39,17,4,3,'#27ae60');
+  rect(ctx,35,18,2,1,'#111');rect(ctx,40,18,2,1,'#111');
+  px(ctx,34,17,1,1,'#fff');px(ctx,39,17,1,1,'#fff');
+  px(ctx,38,21,2,1,'#654321');px(ctx,37,23,4,1,'#8b6914');
+  rect(ctx,30,34,4,8,'#c4a882');rect(ctx,36,34,4,8,'#c4a882');
+  rect(ctx,30,40,4,3,'#636e72');rect(ctx,36,40,4,3,'#636e72');
+  rect(ctx,10,32,4,10,'#c4a882');rect(ctx,16,34,4,8,'#c4a882');
+  rect(ctx,10,40,4,3,'#636e72');rect(ctx,16,40,4,3,'#636e72');
+  rect(ctx,4,18,6,3,'#c4a882');rect(ctx,2,16,4,3,'#deb887');px(ctx,2,15,3,2,'#c4a882');
+};
+
+// #015 Nutflick
+SPRITES[15]=function(ctx){
+  rect(ctx,4,6,14,20,'#d4761a');rect(ctx,6,4,10,24,'#d4761a');
+  rect(ctx,6,8,12,16,'#e8963c');rect(ctx,8,6,8,20,'#e8963c');
+  rect(ctx,8,4,6,4,'#f0b060');
+  rect(ctx,22,18,12,16,'#d4761a');rect(ctx,23,19,10,14,'#e8963c');
+  rect(ctx,24,10,12,10,'#d4761a');rect(ctx,25,11,10,8,'#e8963c');
+  px(ctx,24,8,3,3,'#d4761a');px(ctx,33,8,3,3,'#d4761a');
+  px(ctx,25,9,1,1,'#f0b060');px(ctx,34,9,1,1,'#f0b060');
+  bigEye(ctx,26,12,4,'#111','#74b9ff');bigEye(ctx,32,12,4,'#111','#74b9ff');
+  px(ctx,30,16,2,1,'#654321');
+  px(ctx,29,18,1,1,'#c0392b');px(ctx,30,19,2,1,'#c0392b');px(ctx,32,18,1,1,'#c0392b');
+  rect(ctx,20,24,4,3,'#e8963c');rect(ctx,32,24,4,3,'#e8963c');
+  rect(ctx,26,24,6,5,'#8b6914');rect(ctx,27,25,4,3,'#a0822a');px(ctx,28,24,2,1,'#654321');
+  rect(ctx,24,32,4,4,'#d4761a');rect(ctx,30,32,4,4,'#d4761a');
+  rect(ctx,24,35,4,2,'#c4a882');rect(ctx,30,35,4,2,'#c4a882');
+  rect(ctx,25,26,8,6,'#f0d0a0');
+};
+
+// #016 Coyotrik
+SPRITES[16]=function(ctx){
+  rect(ctx,12,22,22,12,'#c4a882');rect(ctx,13,23,20,10,'#deb887');
+  rect(ctx,28,8,12,16,'#c4a882');rect(ctx,29,9,10,14,'#deb887');
+  rect(ctx,32,4,4,8,'#c4a882');rect(ctx,33,5,2,6,'#deb887');
+  px(ctx,32,8,4,2,'#c0392b');px(ctx,33,7,2,1,'#111');
+  rect(ctx,28,4,4,6,'#c4a882');rect(ctx,36,4,4,6,'#c4a882');
+  rect(ctx,29,5,2,4,'#deb887');rect(ctx,37,5,2,4,'#deb887');
+  rect(ctx,30,12,3,2,'#f39c12');rect(ctx,35,12,3,2,'#f39c12');
+  px(ctx,31,12,1,1,'#111');px(ctx,36,12,1,1,'#111');
+  px(ctx,30,12,1,1,'#fff');px(ctx,35,12,1,1,'#fff');
+  rect(ctx,4,18,10,6,'#c4a882');rect(ctx,2,20,8,4,'#deb887');px(ctx,2,18,3,2,'#f0d0a0');
+  rect(ctx,14,32,3,10,'#c4a882');rect(ctx,20,32,3,10,'#c4a882');rect(ctx,28,32,3,10,'#c4a882');rect(ctx,32,32,3,10,'#c4a882');
+  rect(ctx,14,40,3,2,'#8b6914');rect(ctx,20,40,3,2,'#8b6914');rect(ctx,28,40,3,2,'#8b6914');rect(ctx,32,40,3,2,'#8b6914');
+};
+
+// #017 Marmochunk
+SPRITES[17]=function(ctx){
+  rect(ctx,10,22,28,18,'#8b6914');rect(ctx,8,24,32,14,'#8b6914');
+  rect(ctx,11,23,26,16,'#a0822a');rect(ctx,9,25,30,12,'#a0822a');
+  rect(ctx,16,30,16,8,'#f1c40f');rect(ctx,17,31,14,6,'#f9e547');
+  rect(ctx,16,12,16,12,'#8b6914');rect(ctx,17,13,14,10,'#a0822a');
+  rect(ctx,14,16,4,6,'#c4a882');rect(ctx,30,16,4,6,'#c4a882');
+  px(ctx,16,10,3,3,'#8b6914');px(ctx,29,10,3,3,'#8b6914');
+  rect(ctx,19,16,4,1,'#111');px(ctx,18,15,1,1,'#111');px(ctx,23,15,1,1,'#111');
+  rect(ctx,26,16,4,1,'#111');px(ctx,25,15,1,1,'#111');px(ctx,30,15,1,1,'#111');
+  px(ctx,22,20,1,1,'#654321');rect(ctx,23,21,2,1,'#654321');px(ctx,25,20,1,1,'#654321');
+  rect(ctx,6,38,36,6,'#636e72');rect(ctx,8,37,32,2,'#808b91');
+  rect(ctx,10,36,4,3,'#a0822a');rect(ctx,34,36,4,3,'#a0822a');
+};
+
+// #018 Swifthorn
+SPRITES[18]=function(ctx){
+  rect(ctx,10,22,26,12,'#deb887');rect(ctx,11,23,24,10,'#efe0c8');
+  rect(ctx,14,28,18,5,'#fff');
+  rect(ctx,30,14,6,10,'#deb887');rect(ctx,31,15,4,8,'#efe0c8');
+  rect(ctx,30,6,10,10,'#deb887');rect(ctx,31,7,8,8,'#efe0c8');
+  rect(ctx,32,2,2,5,'#fdcb6e');px(ctx,31,3,1,2,'#fdcb6e');px(ctx,34,4,1,1,'#fdcb6e');
+  rect(ctx,37,2,2,5,'#fdcb6e');px(ctx,36,3,1,2,'#fdcb6e');px(ctx,39,4,1,1,'#fdcb6e');
+  rect(ctx,33,9,3,2,'#111');px(ctx,33,9,1,1,'#fff');
+  px(ctx,38,12,2,1,'#654321');
+  rect(ctx,4,24,6,1,'#fdcb6e');rect(ctx,2,27,5,1,'#fdcb6e');rect(ctx,6,30,4,1,'#fdcb6e');
+  px(ctx,12,34,2,2,'#fdcb6e');px(ctx,20,36,2,2,'#fdcb6e');px(ctx,30,34,2,2,'#fdcb6e');
+  rect(ctx,14,32,3,10,'#deb887');rect(ctx,20,32,3,10,'#deb887');rect(ctx,28,32,3,10,'#deb887');rect(ctx,33,32,3,10,'#deb887');
+  rect(ctx,14,40,3,2,'#654321');rect(ctx,20,40,3,2,'#654321');rect(ctx,28,40,3,2,'#654321');rect(ctx,33,40,3,2,'#654321');
+};
+
+// #019 Buglord
+SPRITES[19]=function(ctx){
+  rect(ctx,10,24,26,14,'#654321');rect(ctx,11,25,24,12,'#8b6914');
+  rect(ctx,30,16,6,10,'#654321');rect(ctx,31,17,4,8,'#8b6914');
+  rect(ctx,30,8,10,10,'#654321');rect(ctx,31,9,8,8,'#8b6914');
+  rect(ctx,28,4,2,6,'#c4a882');rect(ctx,26,2,2,4,'#c4a882');rect(ctx,24,2,2,3,'#c4a882');rect(ctx,22,4,2,2,'#c4a882');
+  rect(ctx,38,4,2,6,'#c4a882');rect(ctx,40,2,2,4,'#c4a882');rect(ctx,42,2,2,3,'#c4a882');rect(ctx,44,4,2,2,'#c4a882');
+  rect(ctx,30,2,2,3,'#c4a882');rect(ctx,36,2,2,3,'#c4a882');
+  px(ctx,22,3,1,1,'#deb887');px(ctx,44,3,1,1,'#deb887');px(ctx,24,1,1,1,'#deb887');px(ctx,42,1,1,1,'#deb887');
+  rect(ctx,33,11,3,2,'#f39c12');px(ctx,34,11,1,1,'#111');px(ctx,33,11,1,1,'#fff');
+  px(ctx,38,14,2,1,'#4a3520');
+  rect(ctx,12,36,4,8,'#654321');rect(ctx,18,36,4,8,'#654321');rect(ctx,28,36,4,8,'#654321');rect(ctx,33,36,4,8,'#654321');
+  rect(ctx,12,42,4,2,'#4a3520');rect(ctx,18,42,4,2,'#4a3520');rect(ctx,28,42,4,2,'#4a3520');rect(ctx,33,42,4,2,'#4a3520');
+  rect(ctx,30,16,6,4,'#8b6914');rect(ctx,28,18,3,4,'#7a5c10');
+};
+
+// #020 Shimmerpi
+SPRITES[20]=function(ctx){
+  rect(ctx,16,20,16,12,'#111');rect(ctx,17,21,14,10,'#222');
+  rect(ctx,20,24,8,8,'#fff');rect(ctx,21,25,6,6,'#eee');
+  rect(ctx,26,12,10,10,'#111');rect(ctx,27,13,8,8,'#222');
+  rect(ctx,12,22,6,6,'#0984e3');rect(ctx,13,23,4,4,'#00b894');
+  rect(ctx,6,26,10,3,'#111');rect(ctx,2,28,6,2,'#111');rect(ctx,2,28,4,2,'#222');
+  rect(ctx,30,15,4,3,'#fff');rect(ctx,32,16,2,1,'#111');px(ctx,30,15,1,1,'#74b9ff');
+  rect(ctx,34,17,4,2,'#333');rect(ctx,36,18,2,1,'#444');
+  rect(ctx,20,30,2,6,'#636e72');rect(ctx,26,30,2,6,'#636e72');
+  rect(ctx,18,34,3,2,'#636e72');rect(ctx,24,34,3,2,'#636e72');
+  rect(ctx,14,20,4,3,'#333');
+};
+
+// #021 Redgale
+SPRITES[21]=function(ctx){
+  rect(ctx,16,20,16,12,'#8b4513');rect(ctx,17,21,14,10,'#a0522d');
+  rect(ctx,6,18,12,8,'#8b4513');rect(ctx,30,18,12,8,'#8b4513');
+  rect(ctx,8,19,8,6,'#a0522d');rect(ctx,32,19,8,6,'#a0522d');
+  rect(ctx,18,30,12,6,'#c0392b');rect(ctx,19,31,10,4,'#e74c3c');
+  rect(ctx,18,10,12,12,'#8b4513');rect(ctx,19,11,10,10,'#a0522d');
+  rect(ctx,28,14,4,3,'#f1c40f');rect(ctx,30,15,3,2,'#daa520');px(ctx,32,16,1,1,'#654321');
+  rect(ctx,20,13,4,3,'#f1c40f');rect(ctx,21,14,2,1,'#111');px(ctx,20,13,1,1,'#fff');
+  px(ctx,19,23,2,1,'#654321');px(ctx,22,25,2,1,'#654321');px(ctx,25,23,2,1,'#654321');
+  rect(ctx,18,34,3,4,'#f1c40f');rect(ctx,27,34,3,4,'#f1c40f');
+  px(ctx,17,37,1,2,'#654321');px(ctx,21,37,1,2,'#654321');px(ctx,26,37,1,2,'#654321');px(ctx,30,37,1,2,'#654321');
+};
+
+// #022 Dusktalon
+SPRITES[22]=function(ctx){
+  rect(ctx,14,22,20,18,'#2d3436');rect(ctx,15,23,18,16,'#3d4a4d');
+  rect(ctx,18,26,12,10,'#4a5a5e');
+  px(ctx,19,28,2,1,'#636e72');px(ctx,23,30,2,1,'#636e72');px(ctx,27,28,2,1,'#636e72');px(ctx,21,32,2,1,'#636e72');px(ctx,25,34,2,1,'#636e72');
+  rect(ctx,4,20,12,14,'#2d3436');rect(ctx,32,20,12,14,'#2d3436');
+  rect(ctx,6,22,8,10,'#3d4a4d');rect(ctx,34,22,8,10,'#3d4a4d');
+  px(ctx,4,32,3,2,'#222');px(ctx,41,32,3,2,'#222');
+  rect(ctx,16,8,16,16,'#2d3436');rect(ctx,17,9,14,14,'#3d4a4d');
+  rect(ctx,14,2,4,8,'#2d3436');rect(ctx,30,2,4,8,'#2d3436');
+  rect(ctx,15,3,2,6,'#3d4a4d');rect(ctx,31,3,2,6,'#3d4a4d');
+  rect(ctx,18,12,5,4,'#e17055');rect(ctx,25,12,5,4,'#e17055');
+  rect(ctx,19,13,3,2,'#f39c12');rect(ctx,26,13,3,2,'#f39c12');
+  rect(ctx,20,13,1,2,'#111');rect(ctx,27,13,1,2,'#111');
+  px(ctx,19,12,1,1,'#fff');px(ctx,26,12,1,1,'#fff');
+  rect(ctx,22,16,4,3,'#f1c40f');px(ctx,23,18,2,1,'#daa520');
+  rect(ctx,17,10,2,8,'#4a5a5e');rect(ctx,29,10,2,8,'#4a5a5e');
+  rect(ctx,18,38,3,4,'#f1c40f');rect(ctx,27,38,3,4,'#f1c40f');
+  px(ctx,17,41,1,2,'#654321');px(ctx,21,41,1,2,'#654321');px(ctx,26,41,1,2,'#654321');px(ctx,30,41,1,2,'#654321');
+};
+
+// #023 Melodark
+SPRITES[23]=function(ctx){
+  rect(ctx,20,34,8,12,'#8b6914');rect(ctx,21,34,6,12,'#a0822a');
+  rect(ctx,16,22,16,14,'#8b4513');rect(ctx,17,23,14,12,'#a0522d');
+  rect(ctx,18,24,12,10,'#f1c40f');rect(ctx,19,25,10,8,'#f9e547');
+  px(ctx,22,26,1,2,'#111');px(ctx,25,26,1,2,'#111');px(ctx,23,28,2,1,'#111');
+  rect(ctx,18,14,12,10,'#8b4513');rect(ctx,19,15,10,8,'#a0522d');
+  rect(ctx,20,16,8,4,'#f1c40f');
+  rect(ctx,28,17,5,2,'#f1c40f');rect(ctx,28,19,4,1,'#daa520');
+  rect(ctx,22,16,3,2,'#111');px(ctx,22,16,1,1,'#fff');
+  rect(ctx,19,15,10,1,'#f1c40f');
+  px(ctx,36,12,2,2,'#a29bfe');px(ctx,38,11,1,1,'#a29bfe');
+  px(ctx,40,8,2,2,'#a29bfe');px(ctx,42,7,1,1,'#a29bfe');
+  px(ctx,34,16,2,2,'#74b9ff');px(ctx,36,15,1,1,'#74b9ff');
+  rect(ctx,14,28,4,4,'#654321');
+};
+
+// #024 Hummbuzz
+SPRITES[24]=function(ctx){
+  rect(ctx,20,20,10,10,'#27ae60');rect(ctx,21,21,8,8,'#2ecc71');
+  rect(ctx,22,14,8,8,'#27ae60');rect(ctx,23,15,6,6,'#2ecc71');
+  rect(ctx,24,20,4,3,'#c0392b');rect(ctx,25,21,2,1,'#e74c3c');
+  rect(ctx,28,16,8,2,'#333');rect(ctx,30,17,6,1,'#444');
+  rect(ctx,25,16,3,2,'#111');px(ctx,25,16,1,1,'#fff');
+  rect(ctx,14,14,8,4,'#5dde8e');rect(ctx,12,16,6,3,'#5dde8e');
+  rect(ctx,16,18,6,3,'#5dde8e');rect(ctx,14,20,4,2,'#5dde8e');
+  rect(ctx,18,28,4,4,'#1e7a34');rect(ctx,16,30,3,3,'#27ae60');
+  px(ctx,14,12,2,2,'#fdcb6e');px(ctx,32,14,2,2,'#fdcb6e');px(ctx,18,30,2,2,'#fdcb6e');px(ctx,28,26,2,2,'#fdcb6e');
+  px(ctx,10,18,1,1,'#fdcb6e');px(ctx,34,22,1,1,'#fdcb6e');
+  px(ctx,22,16,1,1,'#74b9ff');px(ctx,21,22,1,1,'#74b9ff');
+};
+
+// #025 Liberion
+SPRITES[25]=function(ctx){
+  rect(ctx,10,20,28,16,'#3d2b1f');rect(ctx,11,21,26,14,'#5c4033');
+  rect(ctx,4,18,8,10,'#3d2b1f');rect(ctx,36,18,8,10,'#3d2b1f');
+  rect(ctx,2,20,6,6,'#5c4033');rect(ctx,38,20,6,6,'#5c4033');
+  rect(ctx,20,6,12,16,'#fff');rect(ctx,21,7,10,14,'#f5f5f5');
+  rect(ctx,30,12,6,3,'#f1c40f');rect(ctx,34,13,3,2,'#daa520');px(ctx,36,14,1,1,'#654321');
+  rect(ctx,23,10,4,3,'#f1c40f');rect(ctx,24,11,2,1,'#111');px(ctx,23,10,1,1,'#fff');
+  rect(ctx,14,34,20,4,'#3d2b1f');rect(ctx,16,36,16,3,'#5c4033');
+  rect(ctx,18,34,4,6,'#f1c40f');rect(ctx,26,34,4,6,'#f1c40f');
+  px(ctx,16,38,2,2,'#f1c40f');px(ctx,22,38,2,2,'#f1c40f');px(ctx,24,38,2,2,'#f1c40f');px(ctx,30,38,2,2,'#f1c40f');
+  px(ctx,16,40,1,2,'#654321');px(ctx,21,40,1,2,'#654321');px(ctx,25,40,1,2,'#654321');px(ctx,30,40,1,2,'#654321');
+  px(ctx,2,26,3,2,'#2d1810');px(ctx,41,26,3,2,'#2d1810');
+};
+
+// #026 Obsidiwing
+SPRITES[26]=function(ctx){
+  rect(ctx,16,20,16,14,'#111');rect(ctx,17,21,14,12,'#222');
+  rect(ctx,8,10,10,14,'#111');rect(ctx,30,10,10,14,'#111');
+  rect(ctx,10,12,6,10,'#222');rect(ctx,32,12,6,10,'#222');
+  rect(ctx,10,16,6,4,'#fff');rect(ctx,32,16,6,4,'#fff');
+  rect(ctx,11,17,4,2,'#eee');rect(ctx,33,17,4,2,'#eee');
+  rect(ctx,18,12,12,10,'#111');rect(ctx,19,13,10,8,'#222');
+  rect(ctx,22,15,3,2,'#fff');px(ctx,23,15,1,1,'#111');px(ctx,22,15,1,1,'#74b9ff');
+  rect(ctx,28,16,4,2,'#f1c40f');px(ctx,30,17,2,1,'#daa520');
+  rect(ctx,18,32,12,4,'#111');rect(ctx,20,34,8,3,'#222');
+  px(ctx,6,12,2,2,'#222');px(ctx,40,12,2,2,'#222');
+  rect(ctx,20,34,2,4,'#636e72');rect(ctx,26,34,2,4,'#636e72');
+};
+
+// #027 Dipplet
+SPRITES[27]=function(ctx){
+  rect(ctx,8,36,32,6,'#0984e3');rect(ctx,10,34,28,4,'#74b9ff');
+  px(ctx,12,32,3,2,'#74b9ff');px(ctx,28,32,3,2,'#74b9ff');
+  px(ctx,16,30,2,2,'#a4d4ff');px(ctx,32,30,2,2,'#a4d4ff');
+  rect(ctx,16,22,16,14,'#636e72');rect(ctx,17,23,14,12,'#808b91');
+  rect(ctx,20,28,8,6,'#b2bec3');
+  rect(ctx,18,14,12,10,'#636e72');rect(ctx,19,15,10,8,'#808b91');
+  rect(ctx,20,16,8,4,'#74b9ff');rect(ctx,21,17,6,2,'#a4d4ff');
+  rect(ctx,21,17,3,2,'#111');px(ctx,21,17,1,1,'#fff');
+  rect(ctx,25,17,3,2,'#111');px(ctx,25,17,1,1,'#fff');
+  rect(ctx,28,18,4,2,'#333');px(ctx,30,19,2,1,'#444');
+  rect(ctx,14,22,4,4,'#636e72');rect(ctx,12,20,3,3,'#808b91');
+  px(ctx,14,18,2,2,'#74b9ff');px(ctx,34,20,2,2,'#74b9ff');px(ctx,10,28,2,2,'#a4d4ff');
+  rect(ctx,20,34,2,4,'#f1c40f');rect(ctx,26,34,2,4,'#f1c40f');
+};
+
+// #028 Bullcoil
+SPRITES[28]=function(ctx){
+  rect(ctx,12,24,24,12,'#c4a882');rect(ctx,10,28,28,6,'#c4a882');rect(ctx,14,20,20,6,'#c4a882');
+  rect(ctx,13,25,22,10,'#deb887');rect(ctx,11,29,26,4,'#deb887');rect(ctx,15,21,18,4,'#deb887');
+  px(ctx,16,26,3,2,'#8b6914');px(ctx,22,24,3,2,'#8b6914');px(ctx,28,26,3,2,'#8b6914');
+  px(ctx,14,30,3,2,'#8b6914');px(ctx,20,28,3,2,'#8b6914');px(ctx,26,30,3,2,'#8b6914');px(ctx,32,28,3,2,'#8b6914');
+  rect(ctx,22,10,10,12,'#c4a882');rect(ctx,23,11,8,10,'#deb887');
+  bigEye(ctx,24,13,4,'#111','#74b9ff');
+  rect(ctx,29,14,3,1,'#111');px(ctx,28,15,1,1,'#111');px(ctx,32,15,1,1,'#111');
+  px(ctx,25,19,1,1,'#c0392b');rect(ctx,26,20,3,1,'#c0392b');px(ctx,29,19,1,1,'#c0392b');
+  rect(ctx,30,18,4,1,'#e74c3c');px(ctx,34,17,1,1,'#e74c3c');px(ctx,34,19,1,1,'#e74c3c');
+  rect(ctx,8,34,6,3,'#c4a882');px(ctx,6,35,2,2,'#deb887');
+  px(ctx,4,33,2,1,'#636e72');px(ctx,4,37,2,1,'#636e72');px(ctx,5,35,1,1,'#636e72');
+};
+
+// #029 Venomrattle
+SPRITES[29]=function(ctx){
+  rect(ctx,10,22,28,14,'#6b6b3b');rect(ctx,8,26,32,8,'#6b6b3b');
+  rect(ctx,11,23,26,12,'#8b8b4b');rect(ctx,9,27,30,6,'#8b8b4b');
+  px(ctx,14,24,4,3,'#4a4a2a');px(ctx,20,26,4,3,'#4a4a2a');px(ctx,26,24,4,3,'#4a4a2a');px(ctx,32,26,4,3,'#4a4a2a');
+  px(ctx,15,25,2,1,'#8b8b4b');px(ctx,21,27,2,1,'#8b8b4b');px(ctx,27,25,2,1,'#8b8b4b');px(ctx,33,27,2,1,'#8b8b4b');
+  rect(ctx,24,10,12,12,'#6b6b3b');rect(ctx,25,11,10,10,'#8b8b4b');
+  rect(ctx,22,14,4,6,'#6b6b3b');
+  rect(ctx,27,13,3,3,'#f1c40f');rect(ctx,32,13,3,3,'#f1c40f');
+  px(ctx,28,14,1,1,'#111');px(ctx,33,14,1,1,'#111');
+  rect(ctx,34,16,4,1,'#e74c3c');px(ctx,38,15,1,1,'#e74c3c');px(ctx,38,17,1,1,'#e74c3c');
+  rect(ctx,6,32,6,4,'#deb887');rect(ctx,4,33,3,2,'#c4a882');
+  rect(ctx,7,33,4,2,'#f1c40f');px(ctx,4,32,2,1,'#c4a882');px(ctx,4,36,2,1,'#c4a882');
+  rect(ctx,14,32,20,4,'#a0a060');
+};
+
+// #030 Tortaura
+SPRITES[30]=function(ctx){
+  rect(ctx,10,18,28,16,'#6b6b3b');rect(ctx,12,16,24,20,'#6b6b3b');
+  rect(ctx,12,20,24,12,'#8b8b4b');rect(ctx,14,18,20,16,'#8b8b4b');
+  rect(ctx,14,18,4,4,'#c0392b');rect(ctx,20,20,4,4,'#f1c40f');rect(ctx,26,18,4,4,'#c0392b');rect(ctx,32,20,4,4,'#f1c40f');
+  rect(ctx,16,26,4,4,'#f1c40f');rect(ctx,22,24,4,4,'#c0392b');rect(ctx,28,26,4,4,'#f1c40f');
+  rect(ctx,10,18,2,16,'#c0392b');rect(ctx,36,18,2,16,'#c0392b');rect(ctx,12,16,24,2,'#c0392b');rect(ctx,12,34,24,2,'#c0392b');
+  rect(ctx,34,20,8,8,'#3cb371');rect(ctx,35,21,6,6,'#5dde8e');
+  bigEye(ctx,36,22,3,'#111','#74b9ff');bigEye(ctx,40,22,3,'#111','#74b9ff');
+  px(ctx,38,26,3,1,'#27ae60');
+  rect(ctx,12,34,4,4,'#3cb371');rect(ctx,32,34,4,4,'#3cb371');
+  rect(ctx,12,32,4,2,'#3cb371');rect(ctx,32,32,4,2,'#3cb371');
+  px(ctx,8,28,3,2,'#3cb371');
+};
+
+// #031 Tigermander
+SPRITES[31]=function(ctx){
+  rect(ctx,10,22,28,10,'#111');rect(ctx,11,23,26,8,'#222');
+  px(ctx,14,24,3,2,'#f1c40f');px(ctx,20,23,3,3,'#f1c40f');px(ctx,26,24,3,2,'#f1c40f');px(ctx,32,23,3,3,'#f1c40f');
+  px(ctx,16,28,3,2,'#f1c40f');px(ctx,24,28,3,2,'#f1c40f');px(ctx,30,28,2,2,'#f1c40f');
+  rect(ctx,32,16,10,10,'#111');rect(ctx,33,17,8,8,'#222');
+  bigEye(ctx,34,18,4,'#111','#74b9ff');bigEye(ctx,39,18,4,'#111','#74b9ff');
+  rect(ctx,32,12,3,6,'#c0392b');rect(ctx,36,10,2,6,'#c0392b');rect(ctx,40,12,3,6,'#c0392b');
+  px(ctx,31,12,1,2,'#e74c3c');px(ctx,36,9,2,2,'#e74c3c');px(ctx,43,12,1,2,'#e74c3c');
+  px(ctx,36,23,4,1,'#654321');
+  rect(ctx,12,30,4,6,'#111');rect(ctx,20,30,4,6,'#111');rect(ctx,30,30,4,6,'#111');rect(ctx,36,28,4,6,'#111');
+  px(ctx,11,35,2,1,'#f1c40f');px(ctx,15,35,2,1,'#f1c40f');px(ctx,19,35,2,1,'#f1c40f');px(ctx,23,35,2,1,'#f1c40f');
+  rect(ctx,6,24,6,3,'#111');rect(ctx,4,25,3,2,'#222');px(ctx,4,26,2,1,'#f1c40f');
+  px(ctx,35,17,4,1,'#f1c40f');
+};
+
+// #032 Croakini
+SPRITES[32]=function(ctx){
+  rect(ctx,12,34,24,6,'#27ae60');rect(ctx,14,32,20,4,'#3cb371');rect(ctx,10,36,28,2,'#27ae60');
+  rect(ctx,18,22,12,12,'#27ae60');rect(ctx,16,24,16,8,'#27ae60');
+  rect(ctx,19,23,10,10,'#3cb371');rect(ctx,17,25,14,6,'#3cb371');
+  rect(ctx,16,18,16,8,'#27ae60');rect(ctx,17,19,14,6,'#3cb371');
+  rect(ctx,16,14,6,6,'#27ae60');rect(ctx,26,14,6,6,'#27ae60');
+  bigEye(ctx,17,15,5,'#111','#74b9ff');bigEye(ctx,27,15,5,'#111','#74b9ff');
+  rect(ctx,20,30,8,5,'#5dde8e');rect(ctx,21,31,6,3,'#a0f0b0');
+  px(ctx,22,28,4,1,'#1e7a34');
+  rect(ctx,14,28,4,3,'#27ae60');rect(ctx,30,28,4,3,'#27ae60');
+  px(ctx,12,30,2,1,'#3cb371');px(ctx,33,30,2,1,'#3cb371');
+  px(ctx,10,20,2,1,'#a29bfe');px(ctx,36,20,2,1,'#a29bfe');px(ctx,8,22,2,1,'#a29bfe');px(ctx,38,22,2,1,'#a29bfe');
+};
+
+// #033 Emperorfly
+SPRITES[33]=function(ctx){
+  rect(ctx,22,14,4,22,'#111');rect(ctx,23,15,2,20,'#222');
+  rect(ctx,21,8,2,6,'#111');rect(ctx,25,8,2,6,'#111');
+  px(ctx,19,6,3,3,'#f39c12');px(ctx,26,6,3,3,'#f39c12');
+  px(ctx,20,7,1,1,'#fdcb6e');px(ctx,27,7,1,1,'#fdcb6e');
+  rect(ctx,6,12,16,18,'#e17055');rect(ctx,4,14,14,14,'#e17055');
+  rect(ctx,8,14,12,14,'#f39c12');rect(ctx,6,16,10,10,'#f39c12');
+  rect(ctx,4,12,2,20,'#111');rect(ctx,6,10,16,2,'#111');rect(ctx,4,30,18,2,'#111');
+  px(ctx,5,14,1,1,'#fff');px(ctx,5,18,1,1,'#fff');px(ctx,5,22,1,1,'#fff');px(ctx,5,26,1,1,'#fff');
+  px(ctx,8,10,1,1,'#fff');px(ctx,12,10,1,1,'#fff');px(ctx,16,10,1,1,'#fff');
+  px(ctx,8,31,1,1,'#fff');px(ctx,12,31,1,1,'#fff');px(ctx,16,31,1,1,'#fff');
+  rect(ctx,26,12,16,18,'#e17055');rect(ctx,30,14,14,14,'#e17055');
+  rect(ctx,28,14,12,14,'#f39c12');rect(ctx,32,16,10,10,'#f39c12');
+  rect(ctx,42,12,2,20,'#111');rect(ctx,26,10,16,2,'#111');rect(ctx,26,30,18,2,'#111');
+  px(ctx,42,14,1,1,'#fff');px(ctx,42,18,1,1,'#fff');px(ctx,42,22,1,1,'#fff');px(ctx,42,26,1,1,'#fff');
+  px(ctx,28,10,1,1,'#fff');px(ctx,32,10,1,1,'#fff');px(ctx,36,10,1,1,'#fff');
+  px(ctx,28,31,1,1,'#fff');px(ctx,32,31,1,1,'#fff');px(ctx,36,31,1,1,'#fff');
+  rect(ctx,14,14,2,14,'#111');rect(ctx,8,20,14,2,'#111');
+  rect(ctx,32,14,2,14,'#111');rect(ctx,26,20,14,2,'#111');
+  eye(ctx,22,14,2,'#fff','#74b9ff');eye(ctx,24,14,2,'#fff','#74b9ff');
+  rect(ctx,21,34,2,4,'#111');rect(ctx,25,34,2,4,'#111');
+};
+
+// #034 Purplewing
+SPRITES[34]=function(ctx){
+  rect(ctx,22,16,4,18,'#6c5ce7');rect(ctx,23,17,2,16,'#7d6ef0');
+  rect(ctx,21,10,1,6,'#6c5ce7');rect(ctx,26,10,1,6,'#6c5ce7');
+  px(ctx,20,8,2,2,'#7d6ef0');px(ctx,26,8,2,2,'#7d6ef0');
+  rect(ctx,8,14,14,14,'#6c5ce7');rect(ctx,6,16,12,10,'#6c5ce7');
+  rect(ctx,10,16,10,10,'#7d6ef0');rect(ctx,8,18,8,6,'#9b8ee8');
+  px(ctx,10,18,3,3,'#e17055');px(ctx,14,22,3,2,'#e17055');px(ctx,8,24,2,2,'#e17055');
+  rect(ctx,26,14,14,14,'#6c5ce7');rect(ctx,30,16,12,10,'#6c5ce7');
+  rect(ctx,28,16,10,10,'#7d6ef0');rect(ctx,32,18,8,6,'#9b8ee8');
+  px(ctx,35,18,3,3,'#e17055');px(ctx,31,22,3,2,'#e17055');px(ctx,38,24,2,2,'#e17055');
+  eye(ctx,22,17,2,'#111','#fd79a8');eye(ctx,24,17,2,'#111','#fd79a8');
+  px(ctx,23,20,2,1,'#5a4cc7');px(ctx,24,19,1,1,'#5a4cc7');
+  rect(ctx,6,14,2,16,'#5a4cc7');rect(ctx,40,14,2,16,'#5a4cc7');
+  rect(ctx,20,32,2,4,'#6c5ce7');rect(ctx,26,32,2,4,'#6c5ce7');
+  px(ctx,19,35,1,2,'#e17055');px(ctx,27,35,1,2,'#e17055');
+};
+
+// #035 Millerva
+SPRITES[35]=function(ctx){
+  rect(ctx,20,18,8,16,'#8b8b7a');rect(ctx,21,19,6,14,'#a0a090');
+  px(ctx,19,20,1,2,'#9a9a8a');px(ctx,28,22,1,2,'#9a9a8a');px(ctx,19,26,1,2,'#9a9a8a');px(ctx,28,28,1,2,'#9a9a8a');
+  rect(ctx,21,12,1,6,'#8b8b7a');rect(ctx,26,12,1,6,'#8b8b7a');
+  px(ctx,19,10,3,3,'#a0a090');px(ctx,26,10,3,3,'#a0a090');
+  rect(ctx,8,16,12,14,'#7a7a6a');rect(ctx,6,18,10,10,'#7a7a6a');
+  rect(ctx,10,18,8,10,'#8b8b7a');rect(ctx,8,20,6,6,'#9a9a8a');
+  rect(ctx,28,16,12,14,'#7a7a6a');rect(ctx,32,18,10,10,'#7a7a6a');
+  rect(ctx,30,18,8,10,'#8b8b7a');rect(ctx,34,20,6,6,'#9a9a8a');
+  px(ctx,6,16,1,1,'#ddd');px(ctx,14,14,1,1,'#ddd');px(ctx,40,16,1,1,'#ddd');px(ctx,34,14,1,1,'#ddd');
+  px(ctx,4,22,1,1,'#ccc');px(ctx,42,24,1,1,'#ccc');
+  rect(ctx,20,14,8,6,'#8b8b7a');rect(ctx,21,15,6,4,'#a0a090');
+  bigEye(ctx,21,15,4,'#111','#74b9ff');bigEye(ctx,25,15,4,'#111','#74b9ff');
+  px(ctx,20,14,1,1,'#555');px(ctx,25,14,1,1,'#555');
+  px(ctx,21,13,1,1,'#555');px(ctx,26,13,1,1,'#555');
+  px(ctx,23,19,2,1,'#6b6b5b');
+};
+
+/* ===== Evolution Mini Sprites (24x24) ===== */
+const EVO_SPRITES={};
+
+EVO_SPRITES['Sproutice']=function(ctx){
+  rect(ctx,10,14,4,8,'#3cb371');rect(ctx,11,14,2,8,'#5dde8e');
+  rect(ctx,8,8,8,6,'#74b9ff');rect(ctx,9,9,6,4,'#a4d4ff');
+  px(ctx,6,10,2,2,'#74b9ff');px(ctx,16,10,2,2,'#74b9ff');px(ctx,10,6,4,2,'#74b9ff');
+  bigEye(ctx,9,10,3,'#111','#74b9ff');bigEye(ctx,13,10,3,'#111','#74b9ff');
+  rect(ctx,8,20,8,2,'#8b6914');
+};
+EVO_SPRITES['Frostpine']=function(ctx){
+  rect(ctx,10,14,4,8,'#654321');rect(ctx,11,14,2,8,'#8b6914');
+  rect(ctx,6,10,12,6,'#5b8cff');rect(ctx,8,8,8,4,'#5b8cff');rect(ctx,10,6,4,3,'#5b8cff');
+  rect(ctx,7,11,10,4,'#74b9ff');rect(ctx,9,8,6,3,'#74b9ff');
+  px(ctx,8,6,8,1,'#eef');px(ctx,6,10,12,1,'#eef');
+  eye(ctx,10,14,2,'#74b9ff','#fff');eye(ctx,13,14,2,'#74b9ff','#fff');
+};
+EVO_SPRITES['Glacitree']=function(ctx){
+  rect(ctx,10,14,4,8,'#654321');
+  rect(ctx,6,10,12,6,'#5b8cff');rect(ctx,8,7,8,5,'#5b8cff');rect(ctx,10,5,4,3,'#5b8cff');
+  rect(ctx,7,11,10,4,'#74b9ff');rect(ctx,9,8,6,3,'#74b9ff');
+  px(ctx,8,5,8,1,'#fff');px(ctx,6,10,12,1,'#eef');
+  px(ctx,4,12,2,2,'#a4d4ff');px(ctx,18,12,2,2,'#a4d4ff');
+  eye(ctx,10,14,2,'#74b9ff','#fff');eye(ctx,13,14,2,'#74b9ff','#fff');
+  rect(ctx,11,18,3,1,'#4a3520');
+};
+EVO_SPRITES['Cubark']=function(ctx){
+  rect(ctx,7,8,10,12,'#654321');rect(ctx,8,9,8,10,'#8b6914');
+  px(ctx,6,6,3,3,'#654321');px(ctx,15,6,3,3,'#654321');
+  px(ctx,7,7,1,1,'#8b6914');px(ctx,16,7,1,1,'#8b6914');
+  bigEye(ctx,9,10,3,'#111','#74b9ff');bigEye(ctx,14,10,3,'#111','#74b9ff');
+  px(ctx,11,14,2,1,'#4a3520');
+  px(ctx,11,15,1,1,'#c0392b');px(ctx,12,16,1,1,'#c0392b');px(ctx,13,15,1,1,'#c0392b');
+  rect(ctx,8,18,3,3,'#654321');rect(ctx,14,18,3,3,'#654321');
+};
+EVO_SPRITES['Ursapine']=function(ctx){
+  rect(ctx,6,8,12,12,'#654321');rect(ctx,7,9,10,10,'#8b6914');
+  px(ctx,5,6,3,3,'#654321');px(ctx,16,6,3,3,'#654321');
+  rect(ctx,4,8,3,3,'#636e72');rect(ctx,17,8,3,3,'#636e72');
+  eye(ctx,8,10,3,'#111','#fdcb6e');eye(ctx,14,10,3,'#111','#fdcb6e');
+  px(ctx,11,14,2,1,'#4a3520');rect(ctx,10,16,4,1,'#111');
+  rect(ctx,6,18,4,4,'#654321');rect(ctx,14,18,4,4,'#654321');
+};
+EVO_SPRITES['Grizzmont']=function(ctx){
+  rect(ctx,5,6,14,14,'#4a3520');rect(ctx,6,7,12,12,'#654321');
+  rect(ctx,4,6,3,3,'#636e72');rect(ctx,17,6,3,3,'#636e72');
+  rect(ctx,7,4,4,4,'#4a3520');rect(ctx,13,4,4,4,'#4a3520');
+  rect(ctx,7,10,4,3,'#fdcb6e');rect(ctx,13,10,4,3,'#fdcb6e');
+  px(ctx,8,11,2,1,'#111');px(ctx,14,11,2,1,'#111');
+  rect(ctx,10,14,4,1,'#111');
+  rect(ctx,4,12,3,6,'#4a3520');rect(ctx,17,12,3,6,'#4a3520');
+  rect(ctx,7,18,4,3,'#4a3520');rect(ctx,13,18,4,3,'#4a3520');
+};
+EVO_SPRITES['Pumakitten']=function(ctx){
+  rect(ctx,7,8,10,10,'#deb887');rect(ctx,8,9,8,8,'#efe0c8');
+  px(ctx,6,6,3,3,'#deb887');px(ctx,15,6,3,3,'#deb887');
+  bigEye(ctx,8,10,4,'#111','#74b9ff');bigEye(ctx,13,10,4,'#111','#74b9ff');
+  px(ctx,11,14,2,1,'#c4a882');
+  px(ctx,8,12,1,1,'#c4a882');px(ctx,14,9,1,1,'#c4a882');px(ctx,10,15,1,1,'#c4a882');
+  rect(ctx,7,16,3,4,'#deb887');rect(ctx,14,16,3,4,'#deb887');
+};
+EVO_SPRITES['Cougarock']=function(ctx){
+  rect(ctx,6,8,12,10,'#c4a882');rect(ctx,7,9,10,8,'#deb887');
+  px(ctx,5,6,3,3,'#c4a882');px(ctx,16,6,3,3,'#c4a882');
+  rect(ctx,6,16,3,3,'#636e72');rect(ctx,15,16,3,3,'#636e72');
+  eye(ctx,8,10,3,'#27ae60','#fff');eye(ctx,14,10,3,'#27ae60','#fff');
+  px(ctx,9,11,1,1,'#111');px(ctx,15,11,1,1,'#111');
+  px(ctx,11,14,2,1,'#654321');
+  rect(ctx,6,16,3,5,'#c4a882');rect(ctx,15,16,3,5,'#c4a882');
+};
+EVO_SPRITES['Peaklion']=function(ctx){
+  rect(ctx,4,10,16,8,'#c4a882');rect(ctx,5,11,14,6,'#deb887');
+  rect(ctx,14,6,8,8,'#c4a882');rect(ctx,15,7,6,6,'#deb887');
+  eye(ctx,16,8,3,'#27ae60','#fff');px(ctx,17,9,1,1,'#111');
+  px(ctx,20,11,2,1,'#654321');
+  rect(ctx,6,8,3,2,'#636e72');rect(ctx,12,8,3,2,'#636e72');rect(ctx,18,8,3,2,'#636e72');
+  rect(ctx,6,16,2,5,'#c4a882');rect(ctx,10,16,2,5,'#c4a882');rect(ctx,14,16,2,5,'#c4a882');rect(ctx,18,16,2,5,'#c4a882');
+  rect(ctx,2,10,3,2,'#deb887');px(ctx,1,9,2,2,'#c4a882');
+};
+EVO_SPRITES['Howlpup']=function(ctx){
+  rect(ctx,7,8,10,10,'#c4a882');rect(ctx,8,9,8,8,'#deb887');
+  rect(ctx,6,4,4,6,'#c4a882');rect(ctx,14,4,4,6,'#c4a882');
+  rect(ctx,7,5,2,4,'#deb887');rect(ctx,15,5,2,4,'#deb887');
+  rect(ctx,10,6,4,4,'#deb887');px(ctx,11,5,2,2,'#deb887');
+  bigEye(ctx,8,10,4,'#111','#74b9ff');bigEye(ctx,13,10,4,'#111','#74b9ff');
+  px(ctx,11,14,2,1,'#654321');
+  px(ctx,11,15,1,1,'#c0392b');rect(ctx,12,16,1,1,'#c0392b');
+  rect(ctx,8,17,3,4,'#c4a882');rect(ctx,14,17,3,4,'#c4a882');
+  px(ctx,5,14,3,2,'#deb887');
+};
+EVO_SPRITES['Coyotrik']=function(ctx){
+  rect(ctx,6,10,12,8,'#c4a882');rect(ctx,7,11,10,6,'#deb887');
+  rect(ctx,14,4,8,8,'#c4a882');rect(ctx,15,5,6,6,'#deb887');
+  rect(ctx,14,2,3,4,'#c4a882');rect(ctx,19,2,3,4,'#c4a882');
+  rect(ctx,17,2,2,3,'#deb887');
+  eye(ctx,16,6,2,'#f39c12','#fff');eye(ctx,19,6,2,'#f39c12','#fff');
+  px(ctx,17,7,1,1,'#111');px(ctx,20,7,1,1,'#111');
+  px(ctx,20,9,2,1,'#654321');
+  rect(ctx,2,10,5,3,'#deb887');px(ctx,1,11,2,2,'#f0d0a0');
+  rect(ctx,8,16,3,5,'#c4a882');rect(ctx,14,16,3,5,'#c4a882');
+};
+EVO_SPRITES['Elkid']=function(ctx){
+  rect(ctx,8,8,8,10,'#8b6914');rect(ctx,9,9,6,8,'#a0822a');
+  px(ctx,9,6,2,3,'#8b6914');px(ctx,14,6,2,3,'#8b6914');
+  px(ctx,9,4,1,2,'#c4a882');px(ctx,15,4,1,2,'#c4a882');
+  bigEye(ctx,9,9,4,'#111','#74b9ff');bigEye(ctx,13,9,4,'#111','#74b9ff');
+  px(ctx,11,14,2,1,'#654321');
+  rect(ctx,8,16,2,6,'#8b6914');rect(ctx,11,16,2,6,'#8b6914');rect(ctx,14,16,2,6,'#8b6914');
+  px(ctx,8,21,2,1,'#654321');px(ctx,11,21,2,1,'#654321');px(ctx,14,21,2,1,'#654321');
+};
+EVO_SPRITES['Buglord']=function(ctx){
+  rect(ctx,5,10,14,8,'#654321');rect(ctx,6,11,12,6,'#8b6914');
+  rect(ctx,14,6,8,8,'#654321');rect(ctx,15,7,6,6,'#8b6914');
+  px(ctx,14,2,1,4,'#c4a882');px(ctx,13,2,1,2,'#c4a882');px(ctx,12,3,1,1,'#c4a882');
+  px(ctx,20,2,1,4,'#c4a882');px(ctx,21,2,1,2,'#c4a882');px(ctx,22,3,1,1,'#c4a882');
+  px(ctx,16,3,1,2,'#c4a882');px(ctx,18,3,1,2,'#c4a882');
+  eye(ctx,16,8,2,'#f39c12','#fff');px(ctx,17,8,1,1,'#111');
+  px(ctx,20,11,2,1,'#4a3520');
+  rect(ctx,6,16,3,5,'#654321');rect(ctx,10,16,3,5,'#654321');rect(ctx,14,16,3,5,'#654321');rect(ctx,17,16,3,5,'#654321');
+};
+EVO_SPRITES['Owlette']=function(ctx){
+  rect(ctx,6,6,12,14,'#8b6914');rect(ctx,4,8,16,10,'#8b6914');
+  rect(ctx,7,7,10,12,'#a0822a');rect(ctx,5,9,14,8,'#a0822a');
+  bigEye(ctx,6,9,5,'#111','#f1c40f');bigEye(ctx,13,9,5,'#111','#f1c40f');
+  px(ctx,11,14,2,2,'#f1c40f');
+  rect(ctx,3,12,3,4,'#8b6914');rect(ctx,18,12,3,4,'#8b6914');
+  rect(ctx,8,18,3,2,'#f1c40f');rect(ctx,13,18,3,2,'#f1c40f');
+  rect(ctx,4,19,16,2,'#654321');
+};
+EVO_SPRITES['Hornowl']=function(ctx){
+  rect(ctx,6,6,12,14,'#3d2b5e');rect(ctx,7,7,10,12,'#5a3d7a');
+  rect(ctx,6,3,3,4,'#3d2b5e');rect(ctx,15,3,3,4,'#3d2b5e');
+  eye(ctx,8,9,3,'#e17055','#fff');eye(ctx,14,9,3,'#e17055','#fff');
+  rect(ctx,9,10,1,1,'#111');rect(ctx,15,10,1,1,'#111');
+  px(ctx,11,12,2,2,'#f1c40f');
+  rect(ctx,4,10,3,6,'#3d2b5e');rect(ctx,17,10,3,6,'#3d2b5e');
+  rect(ctx,8,18,3,2,'#f1c40f');rect(ctx,13,18,3,2,'#f1c40f');
+};
+EVO_SPRITES['Dusktalon']=function(ctx){
+  rect(ctx,5,6,14,14,'#2d3436');rect(ctx,6,7,12,12,'#3d4a4d');
+  rect(ctx,5,2,3,5,'#2d3436');rect(ctx,16,2,3,5,'#2d3436');
+  rect(ctx,7,8,4,3,'#e17055');rect(ctx,13,8,4,3,'#e17055');
+  px(ctx,8,9,2,1,'#111');px(ctx,14,9,2,1,'#111');
+  px(ctx,7,8,1,1,'#fff');px(ctx,13,8,1,1,'#fff');
+  px(ctx,10,12,3,2,'#f1c40f');
+  rect(ctx,3,10,3,6,'#2d3436');rect(ctx,18,10,3,6,'#2d3436');
+  rect(ctx,7,18,3,3,'#f1c40f');rect(ctx,14,18,3,3,'#f1c40f');
+};
+EVO_SPRITES['Monarchling']=function(ctx){
+  rect(ctx,4,12,16,6,'#111');rect(ctx,5,13,14,4,'#222');
+  px(ctx,6,13,2,4,'#f1c40f');px(ctx,10,13,2,4,'#fff');px(ctx,14,13,2,4,'#f1c40f');
+  rect(ctx,16,10,6,8,'#111');rect(ctx,17,11,4,6,'#222');
+  bigEye(ctx,17,11,3,'#111','#74b9ff');
+  px(ctx,17,8,1,3,'#111');px(ctx,20,8,1,3,'#111');
+  px(ctx,16,7,1,1,'#111');px(ctx,21,7,1,1,'#111');
+  px(ctx,6,18,1,2,'#111');px(ctx,10,18,1,2,'#111');px(ctx,14,18,1,2,'#111');
+  rect(ctx,2,14,3,3,'#27ae60');px(ctx,1,15,1,1,'#3cb371');
+};
+EVO_SPRITES['Chrysalord']=function(ctx){
+  rect(ctx,8,4,8,16,'#27ae60');rect(ctx,7,6,10,12,'#27ae60');
+  rect(ctx,9,5,6,14,'#3cb371');rect(ctx,8,7,8,10,'#3cb371');
+  px(ctx,10,6,1,1,'#f1c40f');px(ctx,13,6,1,1,'#f1c40f');px(ctx,9,10,1,1,'#f1c40f');px(ctx,14,10,1,1,'#f1c40f');
+  rect(ctx,10,12,1,1,'#1e7a34');rect(ctx,13,12,1,1,'#1e7a34');
+  rect(ctx,11,2,2,3,'#8b6914');
+};
+EVO_SPRITES['Emperorfly']=function(ctx){
+  rect(ctx,11,6,2,12,'#111');
+  rect(ctx,3,6,8,8,'#e17055');rect(ctx,4,7,6,6,'#f39c12');
+  rect(ctx,13,6,8,8,'#e17055');rect(ctx,14,7,6,6,'#f39c12');
+  px(ctx,3,6,1,8,'#111');px(ctx,20,6,1,8,'#111');
+  px(ctx,4,14,6,1,'#111');px(ctx,14,14,6,1,'#111');
+  px(ctx,4,6,6,1,'#111');px(ctx,14,6,6,1,'#111');
+  px(ctx,3,8,1,1,'#fff');px(ctx,3,12,1,1,'#fff');px(ctx,20,8,1,1,'#fff');px(ctx,20,12,1,1,'#fff');
+  px(ctx,10,4,1,3,'#111');px(ctx,13,4,1,3,'#111');px(ctx,9,3,2,1,'#f39c12');px(ctx,13,3,2,1,'#f39c12');
+  px(ctx,11,8,1,1,'#fff');px(ctx,12,8,1,1,'#fff');
+};
+
+/* ===== Build Cards ===== */
+function buildTooltip(m,md){
+  if(!md) return '<div class="tooltip">No data available.</div>';
+  const tc=TYPE_COLORS[md.type]||'#636e72';
+  const catIcon=md.cat==='Physical'?'\u2694\uFE0F':md.cat==='Special'?'\u2728':'\uD83D\uDD04';
+  const catClass=md.cat.toLowerCase();
+  const pwrStr=md.power!==null?md.power:'\u2014';
+  const accStr=md.acc!==null?md.acc+'%':'\u2014';
+  return '<div class="tooltip" style="border-color:'+tc+'">'
+    +'<div class="tt-header"><span class="tt-move-name">'+m+'</span><span class="tt-type-badge" style="background:'+tc+'">'+md.type+'</span></div>'
+    +'<div class="tt-stats">Power: '+pwrStr+'&nbsp;&nbsp;Acc: '+accStr+'</div>'
+    +'<div class="tt-category '+catClass+'">'+catIcon+' '+md.cat+'</div>'
+    +'<hr class="tt-divider">'
+    +'<div class="tt-desc">'+md.desc+'</div>'
+    +'</div>';
+}
+
+function buildCards(){
+  const grid=document.getElementById('grid');
+  POKEMON.forEach(p=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.dataset.id=p.id;
+    card.dataset.cat=p.cat;
+    card.dataset.types=p.types.join(',');
+    card.dataset.name=p.name.toLowerCase();
+    card.dataset.realname=(p.real.name+' '+p.real.sci).toLowerCase();
+    card.dataset.wiki=WIKI_MAP[p.id]||'';
+
+    let hdr='<div class="card-header"><span class="card-number">#'+String(p.id).padStart(3,'0')+'</span><div class="type-badges">';
+    p.types.forEach(t=>{hdr+='<span class="type-badge" style="background:'+TYPE_COLORS[t]+'">'+t+'</span>';});
+    hdr+='</div></div>';
+
+    // --- Pokemon Mode Content ---
+    let pokContent='<div class="pokemon-mode-content">';
+    pokContent+='<div class="sprite-container"><img class="pokemon-sprite" src="sprites/'+p.name.toLowerCase()+'.png?v=2" alt="'+p.name+'"></div>';
+    pokContent+='<div class="card-name">'+p.name+'</div><div class="card-title">'+p.title+'</div><div class="card-desc">\u201C'+p.desc+'\u201D</div>';
+
+    let mvs='<div class="moves-list"><div class="move-title">Moves</div>';
+    p.moves.forEach(m=>{
+      const md=MOVES[m];
+      const tc=md?TYPE_COLORS[md.type]:'#636e72';
+      const mtype=md?md.type:'';
+      mvs+='<div class="move-row"><span class="move-name">'+m+'</span><span class="move-type-badge" style="background:'+tc+'">'+mtype+'</span><span class="move-info">\u2139'+buildTooltip(m,md)+'</span></div>';
+    });
+    mvs+='</div>';
+    pokContent+=mvs;
+
+    let evo='';
+    if(p.evo){
+      evo='<div class="evo-chain"><div class="evo-label">Evolution Chain</div><div class="evo-row">';
+      p.evo.chain.forEach((name,i)=>{
+        if(i>0) evo+='<span class="evo-arrow">\u2192</span>';
+        const cls=i===p.evo.current?'evo-sprite current':'evo-sprite';
+        evo+='<div class="'+cls+'"><img class="evo-sprite-img" src="sprites/'+name.toLowerCase()+'.png?v=2" alt="'+name+'"><span>'+name+'</span></div>';
+      });
+      evo+='</div></div>';
+    }
+    pokContent+=evo;
+
+    pokContent+='</div>';
+
+    // --- Real Mode Content ---
+    let realContent='<div class="real-mode-content">';
+    realContent+='<div class="real-hero-img wiki-img-slot-'+p.id+'"><div class="img-spinner"></div></div>';
+    realContent+='<div class="real-main-name">'+p.real.name+'</div>';
+    realContent+='<div class="real-main-sci">'+p.real.sci+'</div>';
+    realContent+='<div class="real-main-fact">\u201C'+p.real.fact+'\u201D</div>';
+
+    realContent+='</div>';
+
+    card.innerHTML=hdr+pokContent+realContent;
+    card.addEventListener('click',function(e){
+      if(e.target.closest('.move-info,.tooltip'))return;
+      this.classList.toggle('flipped');
+    });
+    grid.appendChild(card);
+  });
+}
+
+function drawSprites(){
+  POKEMON.forEach(p=>{
+    const c=document.getElementById('sprite-'+p.id);
+    if(c&&SPRITES[p.id]){
+      const ctx=c.getContext('2d');
+      ctx.clearRect(0,0,48,48);
+      SPRITES[p.id](ctx);
+    }
+    // Draw real-mode mini sprite
+    const rc=document.getElementById('real-sprite-'+p.id);
+    if(rc&&SPRITES[p.id]){
+      const rctx=rc.getContext('2d');
+      rctx.clearRect(0,0,48,48);
+      SPRITES[p.id](rctx);
+    }
+    if(p.evo){
+      p.evo.chain.forEach((name,i)=>{
+        const ec=document.getElementById('evo-'+p.id+'-'+i);
+        if(ec&&EVO_SPRITES[name]){
+          const ectx=ec.getContext('2d');
+          ectx.clearRect(0,0,24,24);
+          EVO_SPRITES[name](ectx);
+        }
+      });
+    }
+  });
+}
+
+/* ===== Filtering & Search ===== */
+function filterCards(){
+  const search=document.getElementById('search').value.toLowerCase();
+  const activeCat=document.querySelector('.filter-btn.active').dataset.cat;
+  const typeVal=document.getElementById('typeFilter').value;
+  const isRealView=document.body.classList.contains('real-view');
+  document.querySelectorAll('.card').forEach(card=>{
+    let show=true;
+    if(activeCat!=='All'&&card.dataset.cat!==activeCat) show=false;
+    if(typeVal!=='All'&&!card.dataset.types.includes(typeVal)) show=false;
+    if(search){
+      const matchPoke=card.dataset.name.includes(search);
+      const matchReal=card.dataset.realname&&card.dataset.realname.includes(search);
+      if(!matchPoke&&!matchReal) show=false;
+    }
+    card.classList.toggle('hidden',!show);
+  });
+}
+
+/* ===== View Toggle ===== */
+function setViewMode(mode){
+  if(mode==='real'){
+    document.body.classList.add('real-view');
+  }else{
+    document.body.classList.remove('real-view');
+  }
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('flipped'));
+  document.querySelectorAll('#viewToggle button').forEach(btn=>{
+    btn.classList.toggle('active',btn.dataset.view===mode);
+  });
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  buildCards();
+  drawSprites();
+  loadAllWikiImages();
+
+  document.querySelectorAll('.filter-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      filterCards();
+    });
+  });
+
+  document.getElementById('typeFilter').addEventListener('change',filterCards);
+  document.getElementById('search').addEventListener('input',filterCards);
+
+  document.querySelectorAll('#viewToggle button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      setViewMode(btn.dataset.view);
+    });
+  });
+});
+
+</script>
+
+<!-- Scanner Modal -->
+<div id="scanModal">
+<div class="scan-box">
+  <button class="scan-close" id="scanClose">&times;</button>
+  <h2>&#128270; SPECIES SCANNER</h2>
+  <div class="scan-api-setup" id="apiSetup">
+    <label>Anthropic API Key</label>
+    <input type="password" id="claudeKey" placeholder="Paste your API key...">
+    <div class="api-hint">Get one at <span style="color:#00b894">console.anthropic.com</span></div>
+  </div>
+  <div class="scan-drop" id="scanDrop">
+    <div class="scan-drop-text">&#128444;&#65039; Drop a photo here or <span>browse</span></div>
+    <input type="file" id="scanFile" accept="image/*" style="display:none">
+  </div>
+  <div class="scan-or">— or —</div>
+  <button class="scan-cam-btn" id="scanCamBtn">&#128247; Use Camera</button>
+  <div class="scan-preview" id="scanPreview">
+    <img id="scanImg">
+    <video id="scanVideo" autoplay playsinline></video>
+    <canvas id="scanCanvas"></canvas>
+    <button class="scan-cam-btn" id="scanCapture" style="display:none;margin-top:10px;">&#128248; Capture</button>
+  </div>
+  <button class="scan-go" id="scanGo">IDENTIFY</button>
+  <div class="scan-result" id="scanResult"></div>
+</div>
+</div>
+
+<script>
+(function(){
+  const CLAUDE_MODEL='claude-sonnet-4-20250514';
+  const KEY_STORAGE='denver_pokedex_claude_key';
+
+  const speciesList=POKEMON.map(p=>({
+    id:p.id,name:p.name,realName:p.real.name,sci:p.real.sci,
+    cat:p.cat,types:p.types
+  }));
+
+  const modal=document.getElementById('scanModal');
+  const scanBtn=document.getElementById('scanBtn');
+  const scanClose=document.getElementById('scanClose');
+  const scanDrop=document.getElementById('scanDrop');
+  const scanFile=document.getElementById('scanFile');
+  const scanCamBtn=document.getElementById('scanCamBtn');
+  const scanPreview=document.getElementById('scanPreview');
+  const scanImg=document.getElementById('scanImg');
+  const scanVideo=document.getElementById('scanVideo');
+  const scanCanvas=document.getElementById('scanCanvas');
+  const scanCapture=document.getElementById('scanCapture');
+  const scanGo=document.getElementById('scanGo');
+  const scanResult=document.getElementById('scanResult');
+  const claudeKeyInput=document.getElementById('claudeKey');
+
+  let currentImageBase64=null;
+  let currentMediaType=null;
+  let cameraStream=null;
+
+  // Restore saved key
+  const savedKey=localStorage.getItem(KEY_STORAGE);
+  if(savedKey)claudeKeyInput.value=savedKey;
+
+  claudeKeyInput.addEventListener('change',()=>{
+    localStorage.setItem(KEY_STORAGE,claudeKeyInput.value.trim());
+  });
+
+  scanBtn.addEventListener('click',()=>{
+    modal.classList.add('open');
+    resetScanner();
+  });
+  scanClose.addEventListener('click',closeModal);
+  modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+
+  function closeModal(){
+    modal.classList.remove('open');
+    stopCamera();
+    resetScanner();
+  }
+  function resetScanner(){
+    currentImageBase64=null;
+    currentMediaType=null;
+    scanPreview.style.display='none';
+    scanImg.style.display='none';
+    scanVideo.style.display='none';
+    scanCapture.style.display='none';
+    scanGo.style.display='none';
+    scanResult.classList.remove('show');
+    scanResult.innerHTML='';
+  }
+
+  // Drag & drop
+  scanDrop.addEventListener('click',()=>scanFile.click());
+  scanDrop.addEventListener('dragover',e=>{e.preventDefault();scanDrop.classList.add('dragover');});
+  scanDrop.addEventListener('dragleave',()=>scanDrop.classList.remove('dragover'));
+  scanDrop.addEventListener('drop',e=>{
+    e.preventDefault();scanDrop.classList.remove('dragover');
+    if(e.dataTransfer.files.length)handleFile(e.dataTransfer.files[0]);
+  });
+  scanFile.addEventListener('change',e=>{
+    if(e.target.files.length)handleFile(e.target.files[0]);
+  });
+
+  function handleFile(file){
+    if(!file.type.startsWith('image/'))return;
+    stopCamera();
+    const reader=new FileReader();
+    reader.onload=e=>{
+      scanImg.src=e.target.result;
+      scanImg.style.display='block';
+      scanVideo.style.display='none';
+      scanCapture.style.display='none';
+      scanPreview.style.display='block';
+      scanGo.style.display='inline-block';
+      const parts=e.target.result.split(',');
+      const mimeMatch=parts[0].match(/data:(image\/[^;]+)/);
+      currentMediaType=mimeMatch?mimeMatch[1]:'image/jpeg';
+      currentImageBase64=parts[1];
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Camera
+  scanCamBtn.addEventListener('click',async()=>{
+    try{
+      cameraStream=await navigator.mediaDevices.getUserMedia({
+        video:{facingMode:'environment',width:{ideal:1280},height:{ideal:960}}
+      });
+      scanVideo.srcObject=cameraStream;
+      scanVideo.style.display='block';
+      scanImg.style.display='none';
+      scanCapture.style.display='inline-block';
+      scanPreview.style.display='block';
+      scanGo.style.display='none';
+    }catch(err){
+      alert('Camera access denied. Try uploading a photo instead.');
+    }
+  });
+
+  scanCapture.addEventListener('click',()=>{
+    const canvas=scanCanvas;
+    canvas.width=scanVideo.videoWidth;
+    canvas.height=scanVideo.videoHeight;
+    canvas.getContext('2d').drawImage(scanVideo,0,0);
+    const dataUrl=canvas.toDataURL('image/jpeg',0.85);
+    scanImg.src=dataUrl;
+    scanImg.style.display='block';
+    scanVideo.style.display='none';
+    scanCapture.style.display='none';
+    scanGo.style.display='inline-block';
+    currentMediaType='image/jpeg';
+    currentImageBase64=dataUrl.split(',')[1];
+    stopCamera();
+  });
+
+  function stopCamera(){
+    if(cameraStream){
+      cameraStream.getTracks().forEach(t=>t.stop());
+      cameraStream=null;
+    }
+  }
+
+  // Identify
+  scanGo.addEventListener('click',async()=>{
+    const apiKey=claudeKeyInput.value.trim();
+    if(!apiKey){
+      claudeKeyInput.style.borderColor='#e17055';
+      claudeKeyInput.focus();
+      return;
+    }
+    if(!currentImageBase64)return;
+
+    scanGo.disabled=true;
+    scanGo.innerHTML='<span class="scan-spinner"></span>Scanning...';
+    scanResult.classList.remove('show');
+
+    const prompt=`You are a species identification expert for Denver/Front Range Colorado wildlife.
+
+Look at this photo and determine if it matches ANY of these 35 local species:
+
+${speciesList.map(s=>`ID:${s.id} — ${s.realName} (${s.sci}) [${s.cat}]`).join('\n')}
+
+IMPORTANT — Watch for commonly confused species. Use these distinguishing features:
+
+BEARS: Black Bear (ID:12) has a FLAT facial profile, NO shoulder hump, tall pointed ears, shorter curved claws. REJECT Grizzly Bears which have a concave dish-shaped face, prominent shoulder hump, small rounded ears, and long straight claws.
+
+DEER: Mule Deer (ID:11) has very large mule-like ears (3/4 head length), forking/bifurcating antlers, rope-like tail with black tip, and white rump patch. REJECT White-tailed Deer which have smaller ears, single-beam antlers with tines off one main beam, and a broad brown tail with white underside they "flag" when alarmed.
+
+BUTTERFLIES: Monarch (ID:33) has NO black line across the hindwing, wingspan 3.5-5 inches, three orange patches at forewing top edge. REJECT Viceroy Butterflies which have a distinctive extra BLACK LINE running across the hindwing, are smaller (2.5-3.5 inch wingspan), and have four orange patches at the forewing edge.
+
+SNAKES: Bull Snake (ID:28) has a NARROW head streamlined with body, ROUND pupils, no facial pits, pale yellow/cream base color. Prairie Rattlesnake (ID:29) has a TRIANGULAR head wider than body, VERTICAL slit pupils, heat-sensing pits above nostrils, darker coloring, and a RATTLE on the tail tip.
+
+PLANTS: Prickly Pear Cactus (ID:3) has flat oval paddle-shaped pads with spines. Yucca (ID:4) has long narrow sword-like leaves in a rosette. Blanket Flower (ID:5) has daisy-like flowers with red/orange petals and yellow tips. These look nothing alike — check carefully.
+
+Respond in EXACTLY this JSON format, nothing else:
+{"matched":true,"id":NUMBER,"confidence":"high|medium|low","reason":"Brief explanation of why this matches, citing the distinguishing features you used"}
+
+Or if it does NOT match any of the 35 species:
+{"matched":false,"id":null,"confidence":null,"reason":"Brief explanation of what the photo shows and why it doesn't match any species"}
+
+CRITICAL: Most photos will NOT match any of these 35 species. Default to "no match" unless you can positively identify the EXACT species. Do NOT match based on broad category alone:
+- A snake photo is NOT automatically a Bull Snake or Rattlesnake — there are thousands of snake species. Only match if you see specific identifying features.
+- A frog photo is NOT automatically a Boreal Chorus Frog — only match if it's clearly a tiny (~1 inch) brown/gray frog with dorsal stripes.
+- A tree photo is NOT automatically a Quaking Aspen — only match if you see the distinctive white bark with black knots and round trembling leaves.
+- A canid photo is NOT automatically a Coyote — dogs, wolves, and foxes should not match.
+- Any bird, insect, plant, or mammal must match the SPECIFIC species listed, not just the general type.
+
+If unsure, return matched:false. A false negative (missing a real match) is much better than a false positive (matching the wrong species).`;
+
+    try{
+      const resp=await fetch('/api/identify',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          api_key:apiKey,
+          model:CLAUDE_MODEL,
+          image:currentImageBase64,
+          media_type:currentMediaType||'image/jpeg',
+          prompt:prompt
+        })
+      });
+      const data=await resp.json();
+
+      if(data.error){
+        throw new Error(data.error.message||'API error');
+      }
+
+      const text=data.content[0].text;
+      const jsonMatch=text.match(/\{[\s\S]*\}/);
+      if(!jsonMatch)throw new Error('Could not parse response');
+
+      const result=JSON.parse(jsonMatch[0]);
+      showResult(result);
+    }catch(err){
+      scanResult.innerHTML=`<div class="match-none">Error: ${err.message}</div>`;
+      scanResult.classList.add('show');
+    }
+
+    scanGo.disabled=false;
+    scanGo.innerHTML='IDENTIFY';
+  });
+
+  function showResult(result){
+    if(result.matched&&result.id){
+      const p=POKEMON.find(x=>x.id===result.id);
+      if(p){
+        const confColor=result.confidence==='high'?'#00b894':result.confidence==='medium'?'#fdcb6e':'#e17055';
+        scanResult.innerHTML=`
+          <div class="match-name">#${String(p.id).padStart(3,'0')} ${p.name}</div>
+          <div class="match-real">${p.real.name} <span style="color:#a29bfe;font-style:italic">(${p.real.sci})</span></div>
+          <div class="match-conf" style="color:${confColor}">Confidence: ${result.confidence.toUpperCase()}</div>
+          <div class="match-reason">${result.reason}</div>
+          <button class="match-go-btn" onclick="document.getElementById('scanModal').classList.remove('open');
+            document.querySelector('[data-id=\\'${p.id}\\']').scrollIntoView({behavior:'smooth',block:'center'});
+            document.querySelector('[data-id=\\'${p.id}\\']').style.boxShadow='0 0 30px rgba(0,184,148,.6)';
+            setTimeout(()=>document.querySelector('[data-id=\\'${p.id}\\']').style.boxShadow='',3000);">
+            &#8594; View in Pokedex
+          </button>`;
+      }else{
+        scanResult.innerHTML=`<div class="match-none">Matched ID ${result.id} but couldn't find entry.</div>`;
+      }
+    }else{
+      scanResult.innerHTML=`
+        <div class="match-none">No match found in Denver Pokedex</div>
+        <div class="match-reason">${result.reason||'This species is not in the Denver Pokedex.'}</div>`;
+    }
+    scanResult.classList.add('show');
+  }
+})();
+</script>
+</body>
+</html>

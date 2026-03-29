@@ -269,6 +269,16 @@ def generate_mon(mon, dep_future=None):
     }
     bindpose_desc = bindpose_prompts.get(rig_type, bindpose_prompts["biped"])
 
+    # Body-type context that applies to ALL sprites (battle + bind pose)
+    body_type_context = {
+        "biped": "This creature walks upright on two legs and has arms. It should be shown standing on two legs in all views.",
+        "quadruped": "This creature walks on ALL FOUR LEGS. It must NOT stand upright like a human — it should be on all fours in every view, like a real animal.",
+        "flying": "This creature is primarily airborne with prominent wings. It should be shown in flight or hovering in battle views.",
+        "serpentine": "This creature has an elongated body with NO legs. It should be shown slithering/coiling in battle views.",
+        "amorphous": "This creature has no standard limbed body plan. Show its natural resting posture in battle views.",
+    }
+    body_desc = body_type_context.get(rig_type, "")
+
     prompt_text = (
         f"Generate a sprite sheet of a Pokemon in the style of Gen 4 (Diamond/Pearl/Platinum) pixel art. "
         f"The image must contain EXACTLY 3 sprites — no more, no less — of the SAME Pokemon arranged in ONE SINGLE HORIZONTAL ROW on a plain solid flat bright magenta (#FF00FF) background. "
@@ -278,6 +288,7 @@ def generate_mon(mon, dep_future=None):
         f"Each sprite should be roughly the same size and centered within its column. "
         f"CONSISTENCY: All three sprites must depict the EXACT same creature with identical colors, patterns, markings, and proportions — "
         f"they are three views of ONE design, not three different interpretations. "
+        f"BODY TYPE: {body_desc} "
         f"Left column: one front-facing battle sprite (3/4 view from the front, idle combat stance). "
         f"Center column: one back-facing battle sprite (3/4 view from behind, same combat stance as the front sprite). "
         f"{bindpose_desc} "

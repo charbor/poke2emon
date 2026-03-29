@@ -285,6 +285,8 @@ def generate_mon(mon, dep_future=None):
         f"Generate a sprite sheet of a Pokemon in the style of Gen 4 (Diamond/Pearl/Platinum) pixel art. "
         f"The image must contain EXACTLY 3 sprites — no more, no less — of the SAME Pokemon arranged in ONE SINGLE HORIZONTAL ROW on a plain solid flat bright magenta (#FF00FF) background. "
         f"BACKGROUND: The background MUST be solid magenta #FF00FF — NOT white, NOT grey, NOT any other color. Every pixel that is not part of a sprite must be exactly magenta. "
+        f"IMPORTANT: Do NOT use any transparency, semi-transparency, or alpha blending in the sprites. All pixels must be fully opaque. "
+        f"Effects like fog, mist, smoke, auras, or glows must be drawn as solid opaque pixels — not as translucent layers. "
         f"The image should be wide/landscape — roughly 3x wider than it is tall. "
         f"LAYOUT: Divide the image into 3 equal-width columns side by side. Each sprite must fit entirely within its column — "
         f"no part of any sprite may cross into an adjacent column. Leave a visible vertical magenta gap between columns. "

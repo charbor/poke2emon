@@ -7,6 +7,7 @@ version = "0.1.0"
 
 [tasks]
 generate-mesh = { cmd = "python scripts/generate_mesh.py", depends-on = [] }
+pokemonify = { cmd = "python scripts/pokemonify.py" }
 
 [dependencies]
 python = "3.11.*"
@@ -18,3 +19,4 @@ pillow = ">=12.1.1,<13"
 
 [pypi-dependencies]
 hy3dgen = { git = "https://github.com/Tencent-Hunyuan/Hunyuan3D-2.git" }
+google-genai = "*"

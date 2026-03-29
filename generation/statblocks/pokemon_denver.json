@@ -40,7 +40,8 @@
     ],
     "overworld_description": "A tiny prismatic blur that darts and hovers, leaving faint fractal afterimages. 16x16: lavender teardrop shape with two bright amber eye dots and tiny rainbow wing-blur on each side.",
     "battle_sprite_facing": "right",
-    "art_notes": "The core concept is MATHEMATICAL BEAUTY MADE ALIVE. Every surface should hint at recursive structure the wings are the star, built from visible fractal geometry rather than feathers, translucent and glowing. The body reads as a living gemstone. The aura of orbiting golden spirals should feel like code executing in real-time, like a living simulation. Despite the complexity, the overall silhouette stays compact and cute hummingbird proportions, big curious eyes, a tiny frame doing extraordinary things. Think: what if a Mandelbrot set hatched from an egg and learned to fly. Contrast with pre-evolution Glyphlet (a grounded, wide-eyed chick scratching simple patterns in the dirt) and final evolution Mandelbright (a majestic phoenix-scale entity whose entire body IS a living fractal dimension). Fractyl is the sweet spot small, fast, brilliant, playful, and already generating patterns that hint at something much larger. It learns new moves after seeing them only once (Pok\u00e9dex lore: 'Fractyl can replicate any pattern it observes, but prefers to create its own. Researchers note it needs remarkably little data to master new techniques a single demonstration suffices.'). Named for fractal + crystal."
+    "art_notes": "The core concept is MATHEMATICAL BEAUTY MADE ALIVE. Every surface should hint at recursive structure the wings are the star, built from visible fractal geometry rather than feathers, translucent and glowing. The body reads as a living gemstone. The aura of orbiting golden spirals should feel like code executing in real-time, like a living simulation. Despite the complexity, the overall silhouette stays compact and cute hummingbird proportions, big curious eyes, a tiny frame doing extraordinary things. Think: what if a Mandelbrot set hatched from an egg and learned to fly. Contrast with pre-evolution Glyphlet (a grounded, wide-eyed chick scratching simple patterns in the dirt) and final evolution Mandelbright (a majestic phoenix-scale entity whose entire body IS a living fractal dimension). Fractyl is the sweet spot small, fast, brilliant, playful, and already generating patterns that hint at something much larger. It learns new moves after seeing them only once (Pokédex lore: 'Fractyl can replicate any pattern it observes, but prefers to create its own. Researchers note it needs remarkably little data to master new techniques a single demonstration suffices.'). Named for fractal + crystal.",
+    "rig_type": "flying"
   },
   {
     "id": "confomorph",
@@ -62,7 +63,7 @@
       "evolution_method": "Level up while holding a Prism Scale in an area with a magnetic field (conformal mapping requires both geometric transformation and an ambient field)"
     },
     "evolution_stage": "middle",
-    "sprite_description": "A medium-sized glass octopus hovering elegantly, body almost entirely translucent. The mantle is a smooth, rounded bell shape rendered in crystal-clear pale blue (#b3e5fc) with visible internal geometric lattice structures triangulated mesh patterns glow faintly through the transparent flesh like a living wireframe model. Eight tentacles of varying lengths trail downward and to the sides, each one covered in tiny luminous nodes arranged in perfect geometric tessellations the nodes shift color slowly between ice blue (#81d4fa), soft violet (#ce93d8), and gold (#ffd54f), representing conformal transformations. The eyes are large and deeply intelligent dark indigo (#1a237e) with a faint golden phi-spiral pattern in the iris. On the surface of the mantle, faint M\u00f6bius-strip-like patterns trace and retrace themselves continuously, as if the creature's skin IS a manifold being actively mapped. A soft bioluminescent aura surrounds the body pale gold, suggesting moonshine (the mathematical kind). The overall impression is of living mathematics beautiful, translucent, and impossibly precise.",
+    "sprite_description": "A medium-sized glass octopus hovering elegantly, body almost entirely translucent. The mantle is a smooth, rounded bell shape rendered in crystal-clear pale blue (#b3e5fc) with visible internal geometric lattice structures triangulated mesh patterns glow faintly through the transparent flesh like a living wireframe model. Eight tentacles of varying lengths trail downward and to the sides, each one covered in tiny luminous nodes arranged in perfect geometric tessellations the nodes shift color slowly between ice blue (#81d4fa), soft violet (#ce93d8), and gold (#ffd54f), representing conformal transformations. The eyes are large and deeply intelligent dark indigo (#1a237e) with a faint golden phi-spiral pattern in the iris. On the surface of the mantle, faint Möbius-strip-like patterns trace and retrace themselves continuously, as if the creature's skin IS a manifold being actively mapped. A soft bioluminescent aura surrounds the body pale gold, suggesting moonshine (the mathematical kind). The overall impression is of living mathematics beautiful, translucent, and impossibly precise.",
     "color_palette": {
       "primary": "#b3e5fc",
       "secondary": "#ce93d8",
@@ -77,13 +78,14 @@
       "Fully translucent body revealing internal geometric lattice",
       "Triangulated mesh patterns visible through skin",
       "Tentacle nodes in tessellated arrangements",
-      "M\u00f6bius-strip surface traces on mantle",
+      "Möbius-strip surface traces on mantle",
       "Golden moonshine bioluminescent aura",
       "Phi-spiral iris pattern"
     ],
     "overworld_description": "A translucent floating form that leaves faint geometric trail patterns on every surface it passes over. 16x16: pale blue transparent bell shape with trailing tendrils and two dark indigo eye dots, faint gold shimmer.",
     "battle_sprite_facing": "right",
-    "art_notes": "The core concept is LIVING TOPOLOGY. Every surface of this creature should read as a mathematical manifold being actively mapped triangulated meshes visible through transparent flesh, conformal transformations playing out in real-time on its skin. The octopus body plan is perfect because octopuses can conform to ANY surface (conformal mapping made literal), are boneless (pure topology, no rigid structure), and the glass octopus species adds the transparency that lets you see the math inside. The golden 'moonshine' aura is a nod to the Borcherds family's most famous mathematical contribution the proof of the monstrous moonshine conjecture. The final evolution Moonshyne should be a massive, reality-warping entity whose body IS a portal between mathematical dimensions, covered in monster group symmetries. Confomorph is the elegant middle stage clearly brilliant, clearly powerful, but still compact and precise. Think: what if a topology textbook became sentient and chose to be beautiful. Pok\u00e9dex lore: 'Confomorph can flatten any three-dimensional surface into a two-dimensional map without distortion. Mathematicians who observe it working have been known to weep.'"
+    "art_notes": "The core concept is LIVING TOPOLOGY. Every surface of this creature should read as a mathematical manifold being actively mapped triangulated meshes visible through transparent flesh, conformal transformations playing out in real-time on its skin. The octopus body plan is perfect because octopuses can conform to ANY surface (conformal mapping made literal), are boneless (pure topology, no rigid structure), and the glass octopus species adds the transparency that lets you see the math inside. The golden 'moonshine' aura is a nod to the Borcherds family's most famous mathematical contribution the proof of the monstrous moonshine conjecture. The final evolution Moonshyne should be a massive, reality-warping entity whose body IS a portal between mathematical dimensions, covered in monster group symmetries. Confomorph is the elegant middle stage clearly brilliant, clearly powerful, but still compact and precise. Think: what if a topology textbook became sentient and chose to be beautiful. Pokédex lore: 'Confomorph can flatten any three-dimensional surface into a two-dimensional map without distortion. Mathematicians who observe it working have been known to weep.'",
+    "rig_type": "amorphous"
   },
   {
     "id": "celeraptyx",
@@ -126,7 +128,8 @@
     ],
     "overworld_description": "A steel blur that crosses the screen before you register it moved. 16x16: gunmetal gray angular bird silhouette with amber eye dot and a single green pixel pulse on the chest.",
     "battle_sprite_facing": "right",
-    "art_notes": "The design philosophy IS the person: NO WASTED CYCLES. Every element serves a purpose. The heatsink feathers dissipate heat from processing. The circuit traces carry signals. The system-clock chest pulse keeps time. The stoop-dive pose is permanent because this creature is ALWAYS in the critical path. The peregrine falcon is the perfect species: fastest animal alive (matching engine latency), precision predator (protocol parsing), and they literally calculate intercept trajectories mid-dive (branch prediction). The steel typing represents bare metal no abstraction layers, no VM overhead, direct hardware access. The amber glow on wing edges is the hot path the critical code path that must be optimized above all else. Pre-evolution Kernchick is a fluffy steel chick that boots up slowly but methodically (kernel initialization). Final evolution Matchengyne is a massive steel raptor whose wings create sonic booms on each flap it processes eight parallel attacks simultaneously (tensor parallelism) and its talons match buy/sell orders in price-time priority. Pok\u00e9dex lore: 'Celeraptyx processes information in 4 nanoseconds. By the time its opponent decides to attack, Celeraptyx has already executed, confirmed, and sent the acknowledgment.'"
+    "art_notes": "The design philosophy IS the person: NO WASTED CYCLES. Every element serves a purpose. The heatsink feathers dissipate heat from processing. The circuit traces carry signals. The system-clock chest pulse keeps time. The stoop-dive pose is permanent because this creature is ALWAYS in the critical path. The peregrine falcon is the perfect species: fastest animal alive (matching engine latency), precision predator (protocol parsing), and they literally calculate intercept trajectories mid-dive (branch prediction). The steel typing represents bare metal no abstraction layers, no VM overhead, direct hardware access. The amber glow on wing edges is the hot path the critical code path that must be optimized above all else. Pre-evolution Kernchick is a fluffy steel chick that boots up slowly but methodically (kernel initialization). Final evolution Matchengyne is a massive steel raptor whose wings create sonic booms on each flap it processes eight parallel attacks simultaneously (tensor parallelism) and its talons match buy/sell orders in price-time priority. Pokédex lore: 'Celeraptyx processes information in 4 nanoseconds. By the time its opponent decides to attack, Celeraptyx has already executed, confirmed, and sent the acknowledgment.'",
+    "rig_type": "flying"
   },
   {
     "id": "corvindex",
@@ -169,7 +172,8 @@
     ],
     "overworld_description": "A dark iridescent bird that hops methodically, occasionally flourishing glowing cards between its talons. 16x16: dark blue-black bird silhouette with bright cyan eye dots and tiny orbiting pixel-cards around the head.",
     "battle_sprite_facing": "right",
-    "art_notes": "The core concept is RETRIEVAL MEETS SHOWMANSHIP. The crow/corvid species is perfect: corvids are the ultimate retrievers (they cache and retrieve thousands of items from memory), tool-users (benchmarking = building tools to measure other tools), vocal mimics (Speech-N-LlaMA), and problem-solvers (USACO competitive programming). But the secret sauce is the CARDISTRY Michael's real-life interest in card flourishing transforms this from a generic smart bird into something with genuine flair. The card-fan in the talons, the flourish pose, the showman's half-smirk this creature doesn't just find information, it PRESENTS it with style. The multi-colored feather tips represent the extraordinary breadth of research (NLP, RL, retrieval, speech, benchmarking five different subfields as an undergrad). The orbiting index-card halo is the creature's external memory its personal retrieval-augmented generation system. Pre-evolution Quervlet is a tiny curious chick that compulsively collects and categorizes shiny objects. Final evolution Benchlord is a massive raven whose wings span wide enough to cast a shadow that benchmarks everything beneath it it establishes the standard by which all other Pokemon are measured. Pok\u00e9dex lore: 'Corvindex can retrieve any piece of information it has ever encountered by finding shortcuts through its mental representation space. It communicates in perfect mimicry of any voice it has heard. Trainers report that it shuffles objects between its talons when thinking a habit no one has been able to explain.'"
+    "art_notes": "The core concept is RETRIEVAL MEETS SHOWMANSHIP. The crow/corvid species is perfect: corvids are the ultimate retrievers (they cache and retrieve thousands of items from memory), tool-users (benchmarking = building tools to measure other tools), vocal mimics (Speech-N-LlaMA), and problem-solvers (USACO competitive programming). But the secret sauce is the CARDISTRY Michael's real-life interest in card flourishing transforms this from a generic smart bird into something with genuine flair. The card-fan in the talons, the flourish pose, the showman's half-smirk this creature doesn't just find information, it PRESENTS it with style. The multi-colored feather tips represent the extraordinary breadth of research (NLP, RL, retrieval, speech, benchmarking five different subfields as an undergrad). The orbiting index-card halo is the creature's external memory its personal retrieval-augmented generation system. Pre-evolution Quervlet is a tiny curious chick that compulsively collects and categorizes shiny objects. Final evolution Benchlord is a massive raven whose wings span wide enough to cast a shadow that benchmarks everything beneath it it establishes the standard by which all other Pokemon are measured. Pokédex lore: 'Corvindex can retrieve any piece of information it has ever encountered by finding shortcuts through its mental representation space. It communicates in perfect mimicry of any voice it has heard. Trainers report that it shuffles objects between its talons when thinking a habit no one has been able to explain.'",
+    "rig_type": "biped"
   },
   {
     "id": "cubark",
@@ -210,7 +214,8 @@
     ],
     "overworld_description": "Tiny round dark brown blob that waddles. 16x16: brown circle with two tiny ear bumps and two giant white eye dots.",
     "battle_sprite_facing": "right",
-    "art_notes": "This must be the cutest thing. Think Teddiursa meets a real bear cub. The eyes should be irresistibly large. The reaching-up pose makes it look like it wants to be cuddled. Stark contrast with its final evolution Grizzmont."
+    "art_notes": "This must be the cutest thing. Think Teddiursa meets a real bear cub. The eyes should be irresistibly large. The reaching-up pose makes it look like it wants to be cuddled. Stark contrast with its final evolution Grizzmont.",
+    "rig_type": "biped"
   },
   {
     "id": "ursapine",
@@ -251,7 +256,8 @@
     ],
     "overworld_description": "Medium bipedal bear shape, grey shoulder patches visible, confident walk. 16x16: dark brown biped shape with grey shoulder pixels.",
     "battle_sprite_facing": "right",
-    "art_notes": "The transitional design is key no longer a baby but not yet the mountain king. The rocky armor patches are starting to form. Should feel like a teenager coming into power."
+    "art_notes": "The transitional design is key no longer a baby but not yet the mountain king. The rocky armor patches are starting to form. Should feel like a teenager coming into power.",
+    "rig_type": "biped"
   },
   {
     "id": "grizzmont",
@@ -293,7 +299,8 @@
     ],
     "overworld_description": "Large imposing dark shape with grey armor patches, heavy powerful walk. 16x16: big dark brown shape with grey shoulders, amber eye dots.",
     "battle_sprite_facing": "right",
-    "art_notes": "The contrast with baby Cubark should be DRAMATIC. Where Cubark is round and cute, Grizzmont is angular and powerful. But keep the noble quality this is a protective mountain king, not a villain. The stone armor is the signature evolution feature."
+    "art_notes": "The contrast with baby Cubark should be DRAMATIC. Where Cubark is round and cute, Grizzmont is angular and powerful. But keep the noble quality this is a protective mountain king, not a villain. The stone armor is the signature evolution feature.",
+    "rig_type": "biped"
   },
   {
     "id": "muledoe",
@@ -326,7 +333,8 @@
     ],
     "overworld_description": "Brown deer shape with huge ear outlines, bouncy walk. 16x16: brown body with two large ear triangles, dot eyes.",
     "battle_sprite_facing": "right",
-    "art_notes": "The ears are EVERYTHING. They should be almost as big as the body. The overall vibe is 'adorably awkward deer that's always listening.' The stotting bounce gait could be hinted at in the pose."
+    "art_notes": "The ears are EVERYTHING. They should be almost as big as the body. The overall vibe is 'adorably awkward deer that's always listening.' The stotting bounce gait could be hinted at in the pose.",
+    "rig_type": "quadruped"
   },
   {
     "id": "prairipal",
@@ -359,7 +367,8 @@
     ],
     "overworld_description": "Tiny tan upright rodent, bounces enthusiastically. 16x16: small tan upright shape with open mouth circle.",
     "battle_sprite_facing": "right",
-    "art_notes": "The chatty personality is key this Pokemon never shuts up. The open mouth and gesturing paws should convey constant communication. Very social and friendly."
+    "art_notes": "The chatty personality is key this Pokemon never shuts up. The open mouth and gesturing paws should convey constant communication. Very social and friendly.",
+    "rig_type": "biped"
   },
   {
     "id": "pumakitten",
@@ -400,7 +409,8 @@
     ],
     "overworld_description": "Tiny tan kitten shape with spots, bouncy playful walk. 16x16: small tan shape with dark dots, big green eye pixels.",
     "battle_sprite_facing": "right",
-    "art_notes": "The oversized paws are key they hint at the massive predator this will become (Peaklion). The spotted baby coat is temporary. The play-pounce pose is adorable. Think real cougar kitten but even cuter."
+    "art_notes": "The oversized paws are key they hint at the massive predator this will become (Peaklion). The spotted baby coat is temporary. The play-pounce pose is adorable. Think real cougar kitten but even cuter.",
+    "rig_type": "quadruped"
   },
   {
     "id": "cougarock",
@@ -442,7 +452,8 @@
     ],
     "overworld_description": "Sleek tan cat shape with grey leg patches, smooth stalking walk. 16x16: tan cat silhouette with grey feet pixels.",
     "battle_sprite_facing": "right",
-    "art_notes": "Transitional design losing cute kitten features, gaining predatory power. The rocky patches are developing. Should feel fast, agile, and dangerous but not yet at full power."
+    "art_notes": "Transitional design losing cute kitten features, gaining predatory power. The rocky patches are developing. Should feel fast, agile, and dangerous but not yet at full power.",
+    "rig_type": "quadruped"
   },
   {
     "id": "peaklion",
@@ -485,7 +496,8 @@
     ],
     "overworld_description": "Large sleek tan cat with grey feet/claws, powerful confident walk. 16x16: large tan cat shape with grey legs, green eye dot.",
     "battle_sprite_facing": "right",
-    "art_notes": "The apex predator of the mountains. Stark contrast with cute baby Pumakitten. The stone armor on legs/spine is the key evolution feature. Should look like it could take down anything but has a noble bearing a king, not a bully. The green eyes are the through-line across all three stages."
+    "art_notes": "The apex predator of the mountains. Stark contrast with cute baby Pumakitten. The stone armor on legs/spine is the key evolution feature. Should look like it could take down anything but has a noble bearing a king, not a bully. The green eyes are the through-line across all three stages.",
+    "rig_type": "quadruped"
   },
   {
     "id": "nutflick",
@@ -518,7 +530,8 @@
     ],
     "overworld_description": "Small orange body with MASSIVE fluffy tail behind it, zippy fast walk. 16x16: small orange dot with huge orange tail curve.",
     "battle_sprite_facing": "right",
-    "art_notes": "THE TAIL IS EVERYTHING. It should be comically oversized at least 150% of the body size. The energy and enthusiasm should radiate from the pose and expression. Holding the nut is important."
+    "art_notes": "THE TAIL IS EVERYTHING. It should be comically oversized at least 150% of the body size. The energy and enthusiasm should radiate from the pose and expression. Holding the nut is important.",
+    "rig_type": "quadruped"
   },
   {
     "id": "howlpup",
@@ -559,7 +572,8 @@
     ],
     "overworld_description": "Tiny grey-tan pup shape with floppy ears, curious bouncy walk. 16x16: small tan shape with two floppy ear lines.",
     "battle_sprite_facing": "right",
-    "art_notes": "The head tilt is the key cute factor. The floppy ears haven't stiffened yet. The baby howl should look endearing, not menacing. Contrast with evolved Coyotrik's sly cunning."
+    "art_notes": "The head tilt is the key cute factor. The floppy ears haven't stiffened yet. The baby howl should look endearing, not menacing. Contrast with evolved Coyotrik's sly cunning.",
+    "rig_type": "quadruped"
   },
   {
     "id": "coyotrik",
@@ -602,7 +616,8 @@
     ],
     "overworld_description": "Lean grey canine with pointed ears and raised tail, smooth confident trot. 16x16: grey dog shape with pointed ears and tail line.",
     "battle_sprite_facing": "right",
-    "art_notes": "The intelligence and trickster personality must come through. This coyote is CLEVER and knows it. The sly grin is essential. Contrast with baby Howlpup's innocent curiosity."
+    "art_notes": "The intelligence and trickster personality must come through. This coyote is CLEVER and knows it. The sly grin is essential. Contrast with baby Howlpup's innocent curiosity.",
+    "rig_type": "quadruped"
   },
   {
     "id": "marmochunk",
@@ -636,7 +651,8 @@
     ],
     "overworld_description": "Round brown blob on short legs, waddles slowly and contentedly. 16x16: brown circle with yellow belly stripe, tiny legs.",
     "battle_sprite_facing": "right",
-    "art_notes": "The roundness and laziness are key. This Pokemon hibernates 8 months a year and it shows. The yellow belly should be prominently displayed. Maximum chonk."
+    "art_notes": "The roundness and laziness are key. This Pokemon hibernates 8 months a year and it shows. The yellow belly should be prominently displayed. Maximum chonk.",
+    "rig_type": "amorphous"
   },
   {
     "id": "swifthorn",
@@ -670,7 +686,8 @@
     ],
     "overworld_description": "Sleek tan antelope with yellow horn lightning bolts, very fast movement speed. 16x16: tan shape with yellow zigzag horns, moves faster than other sprites.",
     "battle_sprite_facing": "right",
-    "art_notes": "SPEED is the concept. Everything about this design should convey velocity. The lightning-bolt horns are the key creative feature bridging pronghorn and Electric type. The sparking hooves add dynamism."
+    "art_notes": "SPEED is the concept. Everything about this design should convey velocity. The lightning-bolt horns are the key creative feature bridging pronghorn and Electric type. The sparking hooves add dynamism.",
+    "rig_type": "quadruped"
   },
   {
     "id": "elkid",
@@ -711,7 +728,8 @@
     ],
     "overworld_description": "Small tan shape on long thin legs, wobbly walk animation. 16x16: tan body on four thin leg lines with two tiny dots for antler nubs.",
     "battle_sprite_facing": "right",
-    "art_notes": "The gangly legs are key real elk calves have absurdly long legs for their body. The tiny antler nubs should be just barely visible bumps. The contrast with massive-antlered Buglord should be dramatic."
+    "art_notes": "The gangly legs are key real elk calves have absurdly long legs for their body. The tiny antler nubs should be just barely visible bumps. The contrast with massive-antlered Buglord should be dramatic.",
+    "rig_type": "quadruped"
   },
   {
     "id": "buglord",
@@ -753,7 +771,8 @@
     ],
     "overworld_description": "Large dark brown shape with massive antler rack on top, stately walk. 16x16: large brown body with prominent tan antler branches.",
     "battle_sprite_facing": "right",
-    "art_notes": "The antlers are EVERYTHING they should be impressively large and detailed. The bugling pose (head back, mouth open) conveys power. Contrast with wobbly baby Elkid is dramatic. This is the king of the forest."
+    "art_notes": "The antlers are EVERYTHING they should be impressively large and detailed. The bugling pose (head back, mouth open) conveys power. Contrast with wobbly baby Elkid is dramatic. This is the king of the forest.",
+    "rig_type": "quadruped"
   },
   {
     "id": "shimmerpi",
@@ -787,7 +806,8 @@
     ],
     "overworld_description": "Black and white bird with long trailing tail, hops along. 16x16: black/white bird shape with long tail line trailing behind.",
     "battle_sprite_facing": "right",
-    "art_notes": "The intelligence should come through in the eyes and head tilt. The long tail is the signature feature. The iridescent patch should shimmer with blue-green color."
+    "art_notes": "The intelligence should come through in the eyes and head tilt. The long tail is the signature feature. The iridescent patch should shimmer with blue-green color.",
+    "rig_type": "flying"
   },
   {
     "id": "redgale",
@@ -821,7 +841,8 @@
     ],
     "overworld_description": "Brown bird with red tail flash, alert perched pose. 16x16: brown bird shape with red tail pixels and yellow eye dots.",
     "battle_sprite_facing": "right",
-    "art_notes": "The red tail and yellow eyes are the key identifiers. Should look like it's about to scream. The raptor stare is intense and iconic."
+    "art_notes": "The red tail and yellow eyes are the key identifiers. Should look like it's about to scream. The raptor stare is intense and iconic.",
+    "rig_type": "flying"
   },
   {
     "id": "owlette",
@@ -863,7 +884,8 @@
     ],
     "overworld_description": "Tiny round grey fluffball with two huge yellow circles, bobs along. 16x16: grey circle with two large yellow circles (eyes).",
     "battle_sprite_facing": "right",
-    "art_notes": "This should be the CUTEST bird Pokemon possible. It's basically a perfect circle of fluff with two massive golden dinner-plate eyes. The tiny beak and barely-visible ear tufts add detail. Think real baby owl photos they're almost all eyes."
+    "art_notes": "This should be the CUTEST bird Pokemon possible. It's basically a perfect circle of fluff with two massive golden dinner-plate eyes. The tiny beak and barely-visible ear tufts add detail. Think real baby owl photos they're almost all eyes.",
+    "rig_type": "biped"
   },
   {
     "id": "hornowl",
@@ -905,7 +927,8 @@
     ],
     "overworld_description": "Medium dark brown owl with pointed ear tufts, smooth glide. 16x16: dark brown shape with two pointed ear triangles and orange eye dots.",
     "battle_sprite_facing": "right",
-    "art_notes": "Transitional design. Not as cute as Owlette, not yet as terrifying as Dusktalon. The purple tinge hints at the Dark type developing. The ear tufts are growing but not yet at full dramatic size."
+    "art_notes": "Transitional design. Not as cute as Owlette, not yet as terrifying as Dusktalon. The purple tinge hints at the Dark type developing. The ear tufts are growing but not yet at full dramatic size.",
+    "rig_type": "biped"
   },
   {
     "id": "dusktalon",
@@ -948,7 +971,8 @@
     ],
     "overworld_description": "Large dark bird with prominent ear tufts, silent gliding movement. 16x16: dark shape with tall ear points and glowing orange eye dots.",
     "battle_sprite_facing": "right",
-    "art_notes": "Stark contrast with adorable baby Owlette. This is a nocturnal apex predator. The talons should be the most prominent weapon feature. The ghostly chest markings add eerie detail. Despite being terrifying, there's wisdom in those eyes."
+    "art_notes": "Stark contrast with adorable baby Owlette. This is a nocturnal apex predator. The talons should be the most prominent weapon feature. The ghostly chest markings add eerie detail. Despite being terrifying, there's wisdom in those eyes.",
+    "rig_type": "flying"
   },
   {
     "id": "melodark",
@@ -983,7 +1007,8 @@
     ],
     "overworld_description": "Small yellow-chested bird, hops along cheerfully. 16x16: brown/yellow small bird shape with open beak, tiny note pixel.",
     "battle_sprite_facing": "right",
-    "art_notes": "The yellow chest is the signature identifier. The singing pose with floating musical notes conveys the species' famous song. Should radiate joy and cheerfulness."
+    "art_notes": "The yellow chest is the signature identifier. The singing pose with floating musical notes conveys the species' famous song. Should radiate joy and cheerfulness.",
+    "rig_type": "biped"
   },
   {
     "id": "hummbuzz",
@@ -1019,7 +1044,8 @@
     ],
     "overworld_description": "Tiny green speck that zips around erratically, very fast. 16x16: tiny green dot with red throat pixel, motion blur.",
     "battle_sprite_facing": "right",
-    "art_notes": "The motion is everything wings should be blurred/transparent. The electric type is represented by sparks around the wings. The ruby throat is the key color accent. Should feel impossibly fast and energetic."
+    "art_notes": "The motion is everything wings should be blurred/transparent. The electric type is represented by sparks around the wings. The ruby throat is the key color accent. Should feel impossibly fast and energetic.",
+    "rig_type": "flying"
   },
   {
     "id": "liberion",
@@ -1054,7 +1080,8 @@
     ],
     "overworld_description": "Large dark bird with distinctive white head, stately slow walk. 16x16: large brown body with white head section, yellow beak pixel.",
     "battle_sprite_facing": "right",
-    "art_notes": "Biggest bird sprite. Should look majestic and slightly arrogant (it steals fish from others, after all). The white head and yellow beak are instantly recognizable. Think national symbol energy."
+    "art_notes": "Biggest bird sprite. Should look majestic and slightly arrogant (it steals fish from others, after all). The white head and yellow beak are instantly recognizable. Think national symbol energy.",
+    "rig_type": "flying"
   },
   {
     "id": "obsidiwing",
@@ -1088,7 +1115,8 @@
     ],
     "overworld_description": "Small black bird with white wing flashes, dramatic hopping walk. 16x16: black bird with white wing pixels.",
     "battle_sprite_facing": "right",
-    "art_notes": "Colorado's state bird. The sky-dance courtship display is the key pose launching upward then fluttering down. The black and white contrast should be stark and dramatic."
+    "art_notes": "Colorado's state bird. The sky-dance courtship display is the key pose launching upward then fluttering down. The black and white contrast should be stark and dramatic.",
+    "rig_type": "flying"
   },
   {
     "id": "dipplet",
@@ -1123,7 +1151,8 @@
     ],
     "overworld_description": "Small grey bird with blue eye band, bobs up and down near water. 16x16: grey round bird with blue eye stripe, near blue water pixels.",
     "battle_sprite_facing": "right",
-    "art_notes": "The swim goggles (nictitating membrane) are the unique and quirky feature that sets this apart. The water context is important. Should look like a little adventurer about to dive into a stream."
+    "art_notes": "The swim goggles (nictitating membrane) are the unique and quirky feature that sets this apart. The water context is important. Should look like a little adventurer about to dive into a stream.",
+    "rig_type": "biped"
   },
   {
     "id": "bullcoil",
@@ -1157,7 +1186,8 @@
     ],
     "overworld_description": "Tan coiled snake shape, slithers along with a bouncy rhythm. 16x16: tan spiral shape with one brown dot eye.",
     "battle_sprite_facing": "right",
-    "art_notes": "The WINK is essential it tells you this snake is bluffing. The lack of a rattle (vs Venomrattle who HAS one) is an important visual distinction. The grin should be charming, not menacing."
+    "art_notes": "The WINK is essential it tells you this snake is bluffing. The lack of a rattle (vs Venomrattle who HAS one) is an important visual distinction. The grin should be charming, not menacing.",
+    "rig_type": "serpentine"
   },
   {
     "id": "venomrattle",
@@ -1192,7 +1222,8 @@
     ],
     "overworld_description": "Olive-brown coiled snake with visible rattle segment, careful slithering movement. 16x16: green-brown spiral with tan rattle pixel at end.",
     "battle_sprite_facing": "right",
-    "art_notes": "Contrast with Bullcoil this is the REAL dangerous one. The rattle is the key distinguishing feature. The diamond pattern and triangular head should be clear. Dignified and dangerous, not cartoonishly evil."
+    "art_notes": "Contrast with Bullcoil this is the REAL dangerous one. The rattle is the key distinguishing feature. The diamond pattern and triangular head should be clear. Dignified and dangerous, not cartoonishly evil.",
+    "rig_type": "serpentine"
   },
   {
     "id": "tortaura",
@@ -1226,7 +1257,8 @@
     ],
     "overworld_description": "Small green shell with red/yellow edges, slow steady walk. 16x16: green dome shape with red/yellow edge pixels, head dot poking out.",
     "battle_sprite_facing": "right",
-    "art_notes": "The shell painting is the key feature it should look genuinely artistic, like nature's canvas. The red and yellow edge markings against the green shell create a beautiful pattern. Gentle and sweet personality."
+    "art_notes": "The shell painting is the key feature it should look genuinely artistic, like nature's canvas. The red and yellow edge markings against the green shell create a beautiful pattern. Gentle and sweet personality.",
+    "rig_type": "quadruped"
   },
   {
     "id": "tigermander",
@@ -1261,7 +1293,8 @@
     ],
     "overworld_description": "Black shape with yellow spots, wiggly walk. 16x16: black elongated shape with yellow dot pixels, pink gill tufts.",
     "battle_sprite_facing": "right",
-    "art_notes": "The external gills (feathery tufts near the head) are the signature feature representing the 'eternal youth' neoteny. The black-and-yellow contrast should be vivid. Should look perpetually young and playful."
+    "art_notes": "The external gills (feathery tufts near the head) are the signature feature representing the 'eternal youth' neoteny. The black-and-yellow contrast should be vivid. Should look perpetually young and playful.",
+    "rig_type": "quadruped"
   },
   {
     "id": "croakini",
@@ -1296,7 +1329,8 @@
     ],
     "overworld_description": "Barely visible tiny green dot that hops along. 16x16: tiny 4x4 green circle with two golden eye dots on a leaf pixel.",
     "battle_sprite_facing": "right",
-    "art_notes": "MAXIMUM CUTE, MINIMUM SIZE. This is only 1 inch in real life and that should show it should look tiny even compared to other small sprites. The huge golden eyes and inflated throat are key. A tiny frog with a huge voice."
+    "art_notes": "MAXIMUM CUTE, MINIMUM SIZE. This is only 1 inch in real life and that should show it should look tiny even compared to other small sprites. The huge golden eyes and inflated throat are key. A tiny frog with a huge voice.",
+    "rig_type": "quadruped"
   },
   {
     "id": "monarchling",
@@ -1337,7 +1371,8 @@
     ],
     "overworld_description": "Small striped caterpillar, inchworm-style movement. 16x16: alternating black/yellow pixel segments in a C-curve.",
     "battle_sprite_facing": "right",
-    "art_notes": "Classic monarch caterpillar colors. The munching-a-leaf detail is charming. Should be chubby and cute the humble beginning of a magnificent butterfly. The stripes must be black/yellow/white to match real monarch caterpillars."
+    "art_notes": "Classic monarch caterpillar colors. The munching-a-leaf detail is charming. Should be chubby and cute the humble beginning of a magnificent butterfly. The stripes must be black/yellow/white to match real monarch caterpillars.",
+    "rig_type": "amorphous"
   },
   {
     "id": "chrysalord",
@@ -1379,7 +1414,8 @@
     ],
     "overworld_description": "Hanging green teardrop shape that sways gently. 16x16: green teardrop shape with gold pixel dots, hanging from line.",
     "battle_sprite_facing": "right",
-    "art_notes": "The real monarch chrysalis is genuinely beautiful jade green with a line of gold dots. The sleeping face should be subtle and ethereal. The magic is in the transformation happening inside. Elegant and mysterious."
+    "art_notes": "The real monarch chrysalis is genuinely beautiful jade green with a line of gold dots. The sleeping face should be subtle and ethereal. The magic is in the transformation happening inside. Elegant and mysterious.",
+    "rig_type": "amorphous"
   },
   {
     "id": "emperorfly",
@@ -1421,7 +1457,8 @@
     ],
     "overworld_description": "Large orange butterfly with black borders, graceful fluttering flight. 16x16: orange wings with black edges spread symmetrically.",
     "battle_sprite_facing": "right",
-    "art_notes": "This is royalty. The crown-like antennae elevate it beyond a regular butterfly. The orange-black-white color scheme must match real monarchs. The contrast with humble caterpillar Monarchling should be dramatic. Wings should be the biggest feature."
+    "art_notes": "This is royalty. The crown-like antennae elevate it beyond a regular butterfly. The orange-black-white color scheme must match real monarchs. The contrast with humble caterpillar Monarchling should be dramatic. Wings should be the biggest feature.",
+    "rig_type": "flying"
   },
   {
     "id": "purplewing",
@@ -1455,7 +1492,8 @@
     ],
     "overworld_description": "Small purple butterfly with orange spots, elegant fluttering. 16x16: purple wing pair with orange dot accent.",
     "battle_sprite_facing": "right",
-    "art_notes": "The comedy is in the contrast this beautiful, snobbish creature actually eats tree sap and dung. The haughty expression should be funny and endearing, not mean. Think of a fashion model who's secretly eating fast food."
+    "art_notes": "The comedy is in the contrast this beautiful, snobbish creature actually eats tree sap and dung. The haughty expression should be funny and endearing, not mean. Think of a fashion model who's secretly eating fast food.",
+    "rig_type": "flying"
   },
   {
     "id": "millerva",
@@ -1490,6 +1528,7 @@
     ],
     "overworld_description": "Small grey fuzzy moth, fluttery nervous movement. 16x16: grey tent-wing shape with two big worried eye dots.",
     "battle_sprite_facing": "right",
-    "art_notes": "The comedy is the nervous expression this moth KNOWS bears eat 40,000 of its kind per day. The sympathy factor is key. The muted colors contrast with the flashy butterflies. Should make you feel sorry for it while also finding it adorable."
+    "art_notes": "The comedy is the nervous expression this moth KNOWS bears eat 40,000 of its kind per day. The sympathy factor is key. The muted colors contrast with the flashy butterflies. Should make you feel sorry for it while also finding it adorable.",
+    "rig_type": "flying"
   }
 ]

@@ -230,7 +230,7 @@
     "overworld_description": "A dark brown newt that walks with slow deliberation, its orange belly casting a warm glow on the path beneath it. Other wild Pokemon visibly avoid its path. In rain, it moves toward water with purpose. 16x16: dark brown salamander shape with bright orange-red glow beneath, amber eye pixel, tiny flame pixels above.",
     "battle_sprite_facing": "right",
     "art_notes": "Pyromander is the MATURE FORM — it has gone from curious baby to quiet apex. The key design shift from Eftorch: the fire is now ACTIVE (flames, not just embers), the toxin is now VISIBLE (oozing glands, not just a sheen), and the expression has shifted from innocent curiosity to calm lethality. The flat head and parotoid glands are real Taricha anatomy — these glands are where the tetrodotoxin concentrates. The flattened tail signals the adult's return to a semi-aquatic lifestyle. The belly glow has intensified from 'faint ember' to 'actual molten light source' — Pyromander's belly is bright enough to read by. The fire mythology is fully realized: this IS the salamander of medieval legend, the creature that lives in fire. It doesn't breathe fire traditionally — instead, its signature move 'Inferno Skin' is a contact-based Fire/Poison combo that poisons and burns anything that touches it. Its ability 'Lethal Skin' damages any Pokemon that makes contact. Pokédex lore: 'A single Pyromander contains enough tetrodotoxin in its skin to fell forty grown humans. It has no natural predators. When threatened, it does not flee — it simply waits, knowing that anything foolish enough to bite it will not make that mistake twice. The molten glow of its belly has been used as a lantern by night-traveling trainers for centuries.'",
-    "rig_type": "quadruped"
+    "rig_type": "biped"
   },
   {
     "id": "dawnfawn",
@@ -435,7 +435,7 @@
     "overworld_description": "Stands motionless near any body of water the trainer passes. Does not follow — it will be found already waiting at the next pond or stream. How it gets there is unclear. 16x16: tall thin grey silhouette with long yellow beak pixel, standing in water pixel.",
     "battle_sprite_facing": "right",
     "art_notes": "Heronstill is the PATIENCE PREDATOR — the anti-Hummbuzz. Where Hummbuzz is constant motion and electricity, Heronstill is absolute stillness and inevitability. The S-curved neck is a loaded weapon — herons strike with their necks, and the folded position is literally a coiled spring. The dagger beak should look SHARP — this is the primary weapon, a spear that strikes at 40mph. The black head plumes give it a dramatic, almost samurai-like silhouette. The bright yellow eyes are hypnotic in their focus. The design communicates one thing: this creature will outwait anything. Heronstill's signature ability 'Patient Strike' powers up its first attack proportionally to how many turns it has waited without attacking — rewarding the player for not attacking, which is a unique mechanic. Its signature move 'Dagger Strike' is a high-crit-ratio Water/Flying move that always goes last (it waits, then strikes). Its Speed stat is very low, but its Special Attack is very high — when it finally moves, it's devastating. The overworld behavior — always already at the next body of water — is based on the uncanny real experience of hiking and finding a heron at EVERY pond you pass. Pokédex lore: 'Heronstill has been observed standing in the same position for over six hours without moving a single muscle. Its strike, when it comes, takes one-fifteenth of a second. Fishermen consider a Heronstill at their fishing spot to be both a good omen and an insult to their technique.'",
-    "rig_type": "biped"
+    "rig_type": "flying"
   },
   {
     "id": "barkbay",
@@ -602,6 +602,6 @@
     "overworld_description": "A majestic and formidable fox that exudes both heat and cold. Its fiery mane glows brightly, and a frosty mist can be seen around its tail. It moves with deliberate, powerful steps. 16x16: Large grey-white fox, red/orange fire mane, blue mist/ice around tail.",
     "battle_sprite_facing": "right",
     "art_notes": "Ignifrost is the apex predator of its harsh environment, a true master of fire and ice. Its design should be awe-inspiring and slightly intimidating, a perfect blend of destructive and protective elements. The volcanic ash fur contrasts dramatically with the glacial white, emphasizing its dual nature. The mane of fire and plume-like tail should be dynamic and flowing, while the ice armor should look robust and unyielding. The pulsing lava cracks are crucial to showing its internal, barely contained power. This Pokemon represents the ultimate adaptation to a brutal, beautiful landscape. Its rarity is reflected in its status as a solitary, powerful creature at the top of its food chain.",
-    "rig_type": "quadruped"
+    "rig_type": "biped"
   }
 ]

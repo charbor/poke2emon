@@ -40,19 +40,27 @@ export async function generateVideo(
     });
   }
 
-  const video = operation.response?.generatedVideos?.[0]?.video;
+  const generatedVideo = operation.response?.generatedVideos?.[0];
+  const video = generatedVideo?.video;
+  console.log("[veo] operation response keys:", Object.keys(operation.response ?? {}));
+  console.log("[veo] generatedVideo keys:", Object.keys(generatedVideo ?? {}));
+  console.log("[veo] video object:", JSON.stringify(video, null, 2)?.slice(0, 500));
+
   const uri = video?.uri;
   if (!uri) {
+    console.log("[veo] no video URI found, returning empty result");
     return { done: true };
   }
 
-  // Fetch the video from the URI
+  console.log("[veo] fetching video from URI:", uri.slice(0, 100));
   const resp = await fetch(uri);
+  console.log("[veo] fetch status:", resp.status, "content-type:", resp.headers.get("content-type"));
   const arrayBuf = await resp.arrayBuffer();
+  console.log("[veo] video size:", arrayBuf.byteLength, "bytes");
   const base64 = Buffer.from(arrayBuf).toString("base64");
 
   return {
     done: true,
-    video: { base64, mimeType: "video/mp4" },
+    video: { base64, mimeType: resp.headers.get("content-type") || "video/mp4" },
   };
 }

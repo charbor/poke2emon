@@ -239,10 +239,14 @@ for mon in pokemon_list:
         f"Generate a sprite sheet of a Pokemon in the style of Gen 4 (Diamond/Pearl/Platinum) pixel art. "
         f"The image should contain exactly 3 sprites of the SAME Pokemon side by side in a single row, "
         f"on a plain solid bright magenta (#FF00FF) background. "
-        f"Left: front-facing battle sprite (3/4 view, idle combat stance). "
-        f"Center: back-facing battle sprite (seen from behind, same pose). "
-        f"Right: rigging reference pose (limbs extended outward where applicable — for creatures without arms, just show the body fully spread/extended in a neutral pose suitable for rigging). "
-        f"All three sprites must be the same Pokemon with the same design, colors, and features. "
+        f"CRITICAL: All three sprites must depict the EXACT same creature with identical colors, patterns, markings, and proportions — "
+        f"they are three views of ONE design, not three different interpretations. "
+        f"Left: front-facing battle sprite (3/4 view from the front, idle combat stance). "
+        f"Center: back-facing battle sprite (3/4 view from behind, same combat stance as the front sprite). "
+        f"Right: front-facing T-pose for rigging — the creature seen from the FRONT (stomach-facing the viewer) "
+        f"with arms/limbs extended straight out to the sides horizontally. "
+        f"If the creature has no arms or limbs, show it front-facing in a neutral upright pose with its body fully visible. "
+        f"The T-pose must NOT be a top-down or back view — it must face the viewer. "
         f"The Pokemon is called {name}, a {types}-type inspired by {species}. "
         f"{evo_context}"
         f"Description: {sprite_desc} "
@@ -296,7 +300,5 @@ for mon in pokemon_list:
             print(f"  No image returned for {name}")
     except Exception as e:
         print(f"  Error generating {name}: {e}")
-
-    time.sleep(2)
 
 print("Done!")

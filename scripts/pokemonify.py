@@ -82,7 +82,11 @@ def main():
     result_image_bytes = None
     for part in response.candidates[0].content.parts:
         if part.inline_data is not None:
-            result_image_bytes = base64.b64decode(part.inline_data.data)
+            raw = part.inline_data.data
+            if isinstance(raw, bytes):
+                result_image_bytes = raw
+            else:
+                result_image_bytes = base64.b64decode(raw)
             break
 
     if result_image_bytes is None:

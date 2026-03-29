@@ -28,7 +28,6 @@ export async function startVideoGeneration(
   const config: Record<string, unknown> = {
     numberOfVideos: 1,
     durationSeconds: 4,
-    fps: 24,
     personGeneration: "allow_all" as const,
   };
 

@@ -15,4 +15,4 @@ torchvision = "*"
 cpuonly = "*"
 
 [pypi-dependencies]
-hy3dgen = { git = "https://github.com/Tencent-Hunyuan3D-2/Hunyuan3D-2.git" }
+hy3dgen = { git = "https://github.com/Tencent-Hunyuan/Hunyuan3D-2.git" }

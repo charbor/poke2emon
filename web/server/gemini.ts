@@ -68,21 +68,38 @@ export async function generateTextStream(
 
 export async function generateImage(
   prompt: string,
+  maxRetries = 3,
 ): Promise<{ base64: string; mimeType: string } | null> {
   const client = getClient();
-  const response: GenerateImagesResponse = await client.models.generateImages({
-    model: "imagen-4.0-generate-001",
-    prompt,
-    config: {
-      numberOfImages: 1,
-    },
-  });
 
-  const image = response.generatedImages?.[0];
-  if (!image?.image?.imageBytes) return null;
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const response: GenerateImagesResponse = await client.models.generateImages({
+        model: "imagen-4.0-generate-001",
+        prompt,
+        config: {
+          numberOfImages: 1,
+        },
+      });
 
-  return {
-    base64: image.image.imageBytes,
-    mimeType: "image/png",
-  };
+      const image = response.generatedImages?.[0];
+      if (!image?.image?.imageBytes) return null;
+
+      return {
+        base64: image.image.imageBytes,
+        mimeType: "image/png",
+      };
+    } catch (err) {
+      const isRetryable =
+        err instanceof Error &&
+        (err.message.includes("503") ||
+          err.message.includes("UNAVAILABLE") ||
+          err.message.includes("timeout"));
+      if (!isRetryable || attempt === maxRetries - 1) throw err;
+      const delay = (attempt + 1) * 5000;
+      console.log(`[imagen] attempt ${attempt + 1} failed, retrying in ${delay / 1000}s...`);
+      await new Promise((r) => setTimeout(r, delay));
+    }
+  }
+  return null;
 }
